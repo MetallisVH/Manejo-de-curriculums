@@ -50,9 +50,13 @@
                     <option value="masculino">Masculino</option>
                     <option value="femenino">Femenino</option>
                     <option value="noContestar">Prefiero no contestar</option>
-                    <option value="otro">Otro:</option>
+                    <option value="otro">Otro</option>
                 </select>
-                <input type="text" class="form-control mt-2" id="otroGeneroEmpleador" name="otroGeneroEmpleador">
+            </div>
+
+            <div class="mb-3" id="otroGeneroField" style="display: none;">
+                <label for="otroGeneroEmpleador" class="form-label">Otro:</label>
+                <input type="text" class="form-control" id="otroGeneroEmpleador" name="otroGeneroEmpleador">
             </div>
 
             <!-- Datos de la empresa -->
@@ -76,5 +80,18 @@
             <button type="submit" class="btn btn-primary">Registrar</button>
         </form>
     </div>
+
+    <script>
+        const generoSelect = document.getElementById('generoEmpleador');
+        const otroGeneroField = document.getElementById('otroGeneroField');
+
+        generoSelect.addEventListener('change', function() {
+            if (generoSelect.value === 'otro') {
+                otroGeneroField.style.display = 'block';
+            } else {
+                otroGeneroField.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
