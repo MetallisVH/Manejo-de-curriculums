@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Empleadores</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/Registro_empleadores.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Registro de Empleadores</h1>
+        <form action="/registrar_empleador" method="post">
+            <!-- Datos del empleador -->
+            <h2 class="mt-4">Datos del Empleador</h2>
+
+            <div class="mb-3">
+                <label for="nombreUsuarioEmpleador" class="form-label">Nombre de usuario:</label>
+                <input type="text" class="form-control" id="nombreUsuarioEmpleador" name="nombreUsuarioEmpleador" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="correoEmpleador" class="form-label">Correo:</label>
+                <input type="email" class="form-control" id="correoEmpleador" name="correoEmpleador" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="contrasenaEmpleador" class="form-label">Contraseña:</label>
+                <input type="password" class="form-control" id="contrasenaEmpleador" name="contrasenaEmpleador" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="repetirContrasenaEmpleador" class="form-label">Repetir contraseña:</label>
+                <input type="password" class="form-control" id="repetirContrasenaEmpleador" name="repetirContrasenaEmpleador" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="telefonoEmpleador" class="form-label">Número de teléfono:</label>
+                <input type="tel" class="form-control" id="telefonoEmpleador" name="telefonoEmpleador">
+            </div>
+
+            <div class="mb-3">
+                <label for="fechaNacimientoEmpleador" class="form-label">Fecha de nacimiento:</label>
+                <input type="date" class="form-control" id="fechaNacimientoEmpleador" name="fechaNacimientoEmpleador">
+            </div>
+
+            <div class="mb-3">
+                <label for="generoEmpleador" class="form-label">Género:</label>
+                <select class="form-select" id="generoEmpleador" name="generoEmpleador">
+                    <option value="masculino">Masculino</option>
+                    <option value="femenino">Femenino</option>
+                    <option value="noContestar">Prefiero no contestar</option>
+                    <option value="otro">Otro:</option>
+                </select>
+                <input type="text" class="form-control mt-2" id="otroGeneroEmpleador" name="otroGeneroEmpleador">
+            </div>
+
+            <!-- Datos de la empresa -->
+            <h2 class="mt-4">Datos de la Empresa</h2>
+
+            <div class="mb-3">
+                <label for="razonSocial" class="form-label">Razón social:</label>
+                <input type="text" class="form-control" id="razonSocial" name="razonSocial" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="rutEmpresa" class="form-label">RUT de la empresa:</label>
+                <input type="text" class="form-control" id="rutEmpresa" name="rutEmpresa" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="direccionEmpresa" class="form-label">Dirección:</label>
+                <input type="text" class="form-control" id="direccionEmpresa" name="direccionEmpresa" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Registrar</button>
+        </form>
+    </div>
+</body>
+</html>
