@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Candidatos</title>
+</head>
+<body>
+    <h1>Lista de Candidatos</h1>
+    <ul>
+        {% for candidato in candidatos %}
+            <li>
+                <h2>{{ candidato.nombre }}</h2>
+                <p>Experiencia: {{ candidato.experiencia }}</p>
+                <p>Habilidades: {{ candidato.habilidades }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
