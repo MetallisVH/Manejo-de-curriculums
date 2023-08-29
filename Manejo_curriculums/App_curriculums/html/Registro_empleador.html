@@ -50,27 +50,11 @@
                     <option value="masculino">Masculino</option>
                     <option value="femenino">Femenino</option>
                     <option value="noContestar">Prefiero no contestar</option>
-                    <option value="otro">Otro</option>
+                    <optgroup label="Otro">
+                        <input type="text" class="form-control" id="otroGenero" name="otroGenero" placeholder="Especificar otro género">
+                    </optgroup>
                 </select>
             </div>
-            
-            <div class="mb-3" id="otroContainer" style="display: none;">
-                <label for="otroGenero" class="form-label">Otro:</label>
-                <input type="text" class="form-control" id="otroGenero" name="otroGenero">
-            </div>
-            
-            <script>
-                const generoSelect = document.getElementById("generoEmpleador");
-                const otroContainer = document.getElementById("otroContainer");
-            
-                generoSelect.addEventListener("change", function() {
-                    if (generoSelect.value === "otro") {
-                        otroContainer.style.display = "block";
-                    } else {
-                        otroContainer.style.display = "none";
-                    }
-                });
-            </script>
 
             <div class="mb-3" id="otroGeneroField" style="display: none;">
                 <label for="otroGeneroEmpleador" class="form-label">Otro:</label>
