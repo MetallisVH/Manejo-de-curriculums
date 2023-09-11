@@ -4,74 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Actualización de Currículum</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        
-        .container {
-            background-color: #ffffff;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            width: 80%;
-            max-width: 600px;
-        }
-        
-        h1 {
-            text-align: center;
-        }
-        
-        label, input, textarea {
-            display: block;
-            margin-bottom: 10px;
-        }
-        
-        input[type="submit"] {
-            background-color: #007BFF;
-            color: #ffffff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Actualización de Currículum</h1>
+    <div class="container mt-5">
+        <h1 class="text-center">Actualización de Currículum</h1>
         <form action="/guardar_actualizacion" method="post">
-            <label for="nombre">Nombre completo:</label>
-            <input type="text" id="nombre" name="nombre" required>
+            <div class="form-group">
+                <label for="nombre">Nombre completo:</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" required>
+            </div>
 
-            <label for="correo">Correo electrónico:</label>
-            <input type="email" id="correo" name="correo" required>
+            <div class="form-group">
+                <label for="correo">Correo electrónico:</label>
+                <input type="email" class="form-control" id="correo" name="correo" required>
+            </div>
 
-            <label for="telefono">Teléfono:</label>
-            <input type="tel" id="telefono" name="telefono">
+            <div class="form-group">
+                <label for="telefono">Teléfono:</label>
+                <input type="tel" class="form-control" id="telefono" name="telefono">
+            </div>
 
-            <label for="experiencia">Experiencia laboral actualizada:</label>
-            <textarea id="experiencia" name="experiencia" rows="4"></textarea>
+            <div class="form-group">
+                <label for="experiencia">Experiencia laboral actualizada:</label>
+                <textarea class="form-control" id="experiencia" name="experiencia" rows="4"></textarea>
+            </div>
 
-            <label for="educacion">Educación actualizada:</label>
-            <textarea id="educacion" name="educacion" rows="4"></textarea>
+            <div class="form-group">
+                <label for="educacion">Educación actualizada:</label>
+                <textarea class="form-control" id="educacion" name="educacion" rows="4"></textarea>
+            </div>
 
-            <label for="habilidades">Habilidades actualizadas:</label>
-            <input type="text" id="habilidades" name="habilidades">
+            <div class="form-group">
+                <label for="habilidades">Habilidades actualizadas:</label>
+                <input type="text" class="form-control" id="habilidades" name="habilidades">
+            </div>
 
-            <input type="submit" value="Actualizar Currículum">
+            <button type="submit" class="btn btn-primary">Actualizar Currículum</button>
         </form>
     </div>
+
+    <!-- Agregar los scripts de Bootstrap al final del documento antes de cerrar el cuerpo -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
