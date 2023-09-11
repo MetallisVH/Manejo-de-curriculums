@@ -4,65 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solicitud de Reemplazo</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        
-        .container {
-            background-color: #ffffff;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            width: 80%;
-            max-width: 600px;
-        }
-        
-        h1 {
-            text-align: center;
-        }
-        
-        label, input, textarea {
-            display: block;
-            margin-bottom: 10px;
-        }
-        
-        input[type="submit"] {
-            background-color: #007BFF;
-            color: #ffffff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Solicitud de Reemplazo</h1>
+    <div class="container mt-5">
+        <h1 class="text-center">Solicitud de Reemplazo</h1>
         <form action="/procesar_solicitud" method="post">
-            <label for="nombre">Nombre completo:</label>
-            <input type="text" id="nombre" name="nombre" required>
+            <div class="form-group">
+                <label for="nombre">Nombre completo:</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" required>
+            </div>
 
-            <label for="razon">Razón del reemplazo:</label>
-            <textarea id="razon" name="razon" rows="4" required></textarea>
+            <div class="form-group">
+                <label for="razon">Razón del reemplazo:</label>
+                <textarea class="form-control" id="razon" name="razon" rows="4" required></textarea>
+            </div>
 
-            <label for="fecha">Fecha de reemplazo:</label>
-            <input type="date" id="fecha" name="fecha" required>
+            <div class="form-group">
+                <label for="fecha">Fecha de reemplazo:</label>
+                <input type="date" class="form-control" id="fecha" name="fecha" required>
+            </div>
 
-            <input type="submit" value="Enviar Solicitud">
+            <button type="submit" class="btn btn-primary">Enviar Solicitud</button>
         </form>
     </div>
+
+    <!-- Agregar los scripts de Bootstrap al final del documento antes de cerrar el cuerpo -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
