@@ -1,70 +1,36 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>Inicio de Sesión</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-        }
-
-        h2 {
-            color: #333;
-        }
-
-        .login-container {
-            width: 300px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        label {
-            display: block;
-            text-align: left;
-            margin-bottom: 10px;
-        }
-
-        input[type="text"],
-        input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-        }
-
-        input[type="submit"] {
-            background-color: #333;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #555;
-        }
-    </style>
+    <!-- Enlazar al archivo CSS de Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Enlazar al archivo CSS personalizado -->
+    <link rel="stylesheet" type="text/css" href="{% static 'App_curriculums/css/inicio_empleado.css' %}">
 </head>
 <body>
-    <h2>Inicio de Sesión</h2>
-    <div class="login-container">
-        <form action="procesar_login.php" method="POST">
-            <label for="usuario">Usuario:</label>
-            <input type="text" id="usuario" name="usuario" required>
+    <div class="container">
+        <h2>Inicio de Sesión</h2>
+        <div class="login-container">
+            <form action="procesar_login.php" method="POST">
+                <div class="mb-3">
+                    <label for="usuario" class="form-label">Usuario:</label>
+                    <input type="text" id="usuario" name="usuario" class="form-control" required>
+                </div>
 
-            <label for="contrasena">Contraseña:</label>
-            <input type="password" id="contrasena" name="contrasena" required>
+                <div class="mb-3">
+                    <label for="contrasena" class="form-label">Contraseña:</label>
+                    <input type="password" id="contrasena" name="contrasena" class="form-control" required>
+                </div>
 
-            <input type="submit" value="Iniciar Sesión">
-        </form>
+                <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+            </form>
+        </div>
     </div>
+
+    <!-- Enlazar al archivo JS de Bootstrap y jQuery (asegúrate de colocarlo antes del cierre del </body>) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
