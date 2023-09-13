@@ -55,7 +55,7 @@ ROOT_URLCONF = 'Manejo_curriculums.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['App_curriculums/html'],
+        'DIRS': [''],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
