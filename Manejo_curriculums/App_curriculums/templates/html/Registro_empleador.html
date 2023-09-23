@@ -69,10 +69,16 @@
                 <input type="text" class="form-control" id="razonSocial" name="razonSocial" required>
             </div>
 
-            <div class="mb-3">
-                <label for="rutEmpresa" class="form-label">RUT de la empresa:</label>
-                <input type="text" class="form-control" id="rutEmpresa" name="rutEmpresa" required>
-            </div>
+            <div class="form-group">
+                <label for="rut">RUT de la empresa:</label>
+                <div class="d-inline">
+                    <div class="d-flex align-items-center">
+                        <input type="text" class="form-control" id="rut" name="rut" maxlength="8" required>
+                        <span> - </span>
+                        <input type="text" class="form-control" id="dv" name="dv" maxlength="1" style="width: 80px;" required>
+                    </div>
+                </div>
+            </div> 
 
             <div class="mb-3">
                 <label for="direccionEmpresa" class="form-label">Dirección:</label>
