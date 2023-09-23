@@ -12,9 +12,36 @@
 <body>
     <div class="container mt-5">
         <h1 class="text-center">Registro de Empleadores</h1>
-        <form action="/registrar_empleador" method="post">
+        <form action="ereg" method="post">
+            {% csrf_token %}
             <!-- Datos del empleador -->
             <h2 class="mt-4">Datos del Empleador</h2>
+
+            <div class="form-group">
+                <label for="rut">RUT:</label>
+                <div class="d-inline">
+                    <div class="d-flex align-items-center">
+                        <input type="text" class="form-control" id="rut" name="rut" maxlength="8" required>
+                        <span> - </span>
+                        <input type="text" class="form-control" id="dv" name="dv" maxlength="1" style="width: 80px;" required>
+                    </div>
+                </div>
+            </div>   
+
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" class="form-control" id="nombre" name="nombre">
+            </div>
+
+            <div class="form-group">
+                <label for="apellidoPaterno">Apellido Paterno:</label>
+                <input type="text" class="form-control" id="apellidoPaterno" name="apellidoPaterno">
+            </div>
+
+            <div class="form-group">
+                <label for="apellidoMaterno">Apellido Materno:</label>
+                <input type="text" class="form-control" id="apellidoMaterno" name="apellidoMaterno">
+            </div>
 
             <div class="mb-3">
                 <label for="nombreUsuarioEmpleador" class="form-label">Nombre de usuario:</label>
@@ -46,6 +73,11 @@
                 <input type="date" class="form-control" id="fechaNacimientoEmpleador" name="fechaNacimientoEmpleador">
             </div>
 
+            <div class="form-group">
+                <label for="direccion">Dirección:</label>
+                <input type="text" class="form-control" id="direccion" name="direccion">
+            </div>
+
             <div class="mb-3">
                 <label for="generoEmpleador" class="form-label">Género:</label>
                 <select class="form-select" id="generoEmpleador" name="generoEmpleador">
@@ -73,15 +105,15 @@
                 <label for="rut">RUT de la empresa:</label>
                 <div class="d-inline">
                     <div class="d-flex align-items-center">
-                        <input type="text" class="form-control" id="rut" name="rut" maxlength="8" required>
+                        <input type="text" class="form-control" id="rut_emp" name="rut_emp" maxlength="8" required>
                         <span> - </span>
-                        <input type="text" class="form-control" id="dv" name="dv" maxlength="1" style="width: 80px;" required>
+                        <input type="text" class="form-control" id="dv_emp" name="dv_emp" maxlength="1" style="width: 80px;" required>
                     </div>
                 </div>
             </div> 
 
             <div class="mb-3">
-                <label for="direccionEmpresa" class="form-label">Dirección:</label>
+                <label for="direccionEmpresa" class="form-label">Dirección de la empresa:</label>
                 <input type="text" class="form-control" id="direccionEmpresa" name="direccionEmpresa" required>
             </div>
 

@@ -23,6 +23,7 @@ class RegistroEmpleadoForm(forms.Form):
     nombre = forms.CharField(max_length=54, label='Nombre', required=True)
     apellidoPaterno = forms.CharField(max_length=54, label='Apellido Paterno', required=True)
     apellidoMaterno = forms.CharField(max_length=54, label='Apellido Materno', required=True)
+    direccion = forms.CharField(max_length=54,label='Dirección',required=True)
 
     def clean(self):
         cleaned_data = super().clean()
@@ -34,3 +35,42 @@ class RegistroEmpleadoForm(forms.Form):
 
         return cleaned_data
 
+class RegistroEmpleadorForm(forms.Form):
+    nombreUsuarioEmpleador = forms.CharField(max_length=50, label='Nombre de usuario')
+    correoEmpleador = forms.EmailField(label='Correo')
+    contrasenaEmpleador = forms.CharField(widget=forms.PasswordInput, label='Contraseña')
+    repetirContrasenaEmpleador = forms.CharField(widget=forms.PasswordInput, label='Repetir contraseña')
+    telefonoEmpleador = forms.CharField(max_length=20, required=False, label='Número de teléfono')
+    fechaNacimientoEmpleador = forms.DateField(required=False, label='Fecha de nacimiento')
+    generoEmpleador = forms.ChoiceField(
+        choices=[
+            ('masculino', 'Masculino'),
+            ('femenino', 'Femenino'),
+            ('noContestar', 'Prefiero no contestar'),
+            ('otro', 'Otro'),
+        ],
+        label='Género'
+    )
+    otroGeneroEmpleador = forms.CharField(max_length=50, required=False, label='Otro', widget=forms.TextInput(attrs={'style': 'display:none;'}))
+    
+    rut = forms.CharField(max_length=8, label='Rut', required=False)
+    dv = forms.CharField(max_length=1, label='DV', required=False)  # Campo para el dígito verificador
+    nombre = forms.CharField(max_length=54, label='Nombre', required=True)
+    apellidoPaterno = forms.CharField(max_length=54, label='Apellido Paterno', required=True)
+    apellidoMaterno = forms.CharField(max_length=54, label='Apellido Materno', required=True)
+    direccion = forms.CharField(max_length=54,label='Dirección',required=True)
+
+    razonSocial = forms.CharField(max_length=54, label='Razón social')
+    rut_emp = forms.CharField(max_length=8, label='RUT de la empresa')
+    dv_emp = forms.CharField(max_length=1, label='DV_emp', required=False)
+    direccionEmpresa = forms.CharField(max_length=54, label='Dirección de la empresa')
+
+    def clean(self):
+        cleaned_data = super().clean()
+        contrasenaEmpleador = cleaned_data.get('contrasenaEmpleador')
+        repetir_contrasenaEmpleador = cleaned_data.get('repetirContrasenaEmpleador')
+
+        if contrasenaEmpleador and repetir_contrasenaEmpleador and contrasenaEmpleador != repetir_contrasenaEmpleador:
+            raise forms.ValidationError('Las contraseñas no coinciden.')
+
+        return cleaned_data
