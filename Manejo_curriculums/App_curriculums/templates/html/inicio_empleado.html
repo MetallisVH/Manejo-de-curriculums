@@ -13,7 +13,8 @@
     <div class="container">
         <h2>Inicio de Sesión</h2>
         <div class="login-container">
-            <form action="procesar_login.php" method="POST">
+            <form action="dauth" method="POST">
+                {% csrf_token %}
                 <div class="mb-3">
                     <label for="usuario" class="form-label">Usuario:</label>
                     <input type="text" id="usuario" name="usuario" class="form-control" required>

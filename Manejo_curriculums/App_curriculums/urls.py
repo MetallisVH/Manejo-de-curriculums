@@ -7,5 +7,6 @@ urlpatterns = [
     path('/Home/emplogin/', views.Login_empleado, name= 'Login_empleado'),
     path('/Home/contrlogin/', views.Login_empleador, name = 'Login_empleador'),
     path('/Home/regemp/', views.Register_empelado, name = 'Register_empleado'),
-    path('/Home/regcontr/', views.Register_empleador, name = 'Register_empleador')
+    path('/Home/regcontr/', views.Register_empleador, name = 'Register_empleador'),
+    path('/Home/regemp/dreg', views.registro_empleado, name = 'registro_empleado'),
 ]

@@ -12,7 +12,8 @@
 <body>
     <div class="container mt-5">
         <h1 class="text-center">Registro de Empleados</h1>
-        <form action="/registrar_empleado" method="post">
+        <form action="dreg" method="post">
+            {% csrf_token %}
             <div class="form-group">
                 <label for="nombreUsuario">Nombre de usuario:</label>
                 <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario" required>
