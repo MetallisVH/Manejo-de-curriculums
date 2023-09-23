@@ -50,7 +50,12 @@ def registro_empleado(request):
                 fecha_nac=form.cleaned_data['fechaNacimiento'],
                 genero=genero,
                 edad=edad,  # Asigna la edad calculada
-                nivel_cuenta = 0
+                nivel_cuenta = 0,
+                nombre = form.cleaned_data['nombre'],
+                apellido_p = form.cleaned_data['apellidoPaterno'],
+                apellido_m = form.cleaned_data['apellidoMaterno'],
+                rut = form.cleaned_data['rut'],
+                dv = form.cleaned_data['dv']
                 # Asigna otros campos del modelo Usuarios según sea necesario
             )
             usuario.save()  # Guarda el usuario en la base de datos

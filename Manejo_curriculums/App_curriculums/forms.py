@@ -16,7 +16,13 @@ class RegistroEmpleadoForm(forms.Form):
         ],
         label='Género'
     )
-    otroGenero = forms.CharField(max_length=50, required=False, label='Otro', widget=forms.TextInput(attrs={'style': 'display:none;'}))
+    otroGenero = forms.CharField(max_length=54, required=False, label='Otro', widget=forms.TextInput(attrs={'style': 'display:none;'}))
+
+    rut = forms.CharField(max_length=8, label='Rut', required=False)
+    dv = forms.CharField(max_length=1, label='DV', required=False)  # Campo para el dígito verificador
+    nombre = forms.CharField(max_length=54, label='Nombre', required=True)
+    apellidoPaterno = forms.CharField(max_length=54, label='Apellido Paterno', required=True)
+    apellidoMaterno = forms.CharField(max_length=54, label='Apellido Materno', required=True)
 
     def clean(self):
         cleaned_data = super().clean()
@@ -27,3 +33,4 @@ class RegistroEmpleadoForm(forms.Form):
             raise forms.ValidationError('Las contraseñas no coinciden.')
 
         return cleaned_data
+
