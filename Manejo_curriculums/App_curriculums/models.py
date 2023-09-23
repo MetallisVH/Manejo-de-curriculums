@@ -16,7 +16,7 @@ class Usuarios(models.Model):
     telefono = models.CharField(max_length=14, null=True, blank=True, unique=True)
     genero = models.CharField(max_length=54, null=True, blank=True)
     nombre_usu = models.CharField(max_length=54, null=True, blank=True, unique=True)
-    razon_social = models.CharField(max_length=54,null=True,blank=True)
+    razon_social = models.CharField(max_length=54,null=True,blank=True,default='N/A')
     rut_empr = models.IntegerField(null=False,blank=False,default=0)
     dv_empr = models.CharField(max_length=1,null=False,blank=False,default='N/A')
     direccion_empr = models.CharField(max_length=54,null=False,blank=False,default='N/A')

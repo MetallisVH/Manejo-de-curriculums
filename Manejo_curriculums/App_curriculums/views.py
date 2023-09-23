@@ -65,7 +65,7 @@ def registro_empleado(request):
     else:
         form = RegistroEmpleadoForm()  # Crea una instancia del formulario vacío
 
-    return render(request, 'Registro_empleado.html', {'form': form})
+    return render(request, 'html/Registro_empleado.html', {'form': form})
 
 def registro_empleador(request):
     if request.method == 'POST':
