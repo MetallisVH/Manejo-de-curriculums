@@ -11,4 +11,5 @@ urlpatterns = [
     path('/Home/regemp/dreg', views.registro_empleado, name = 'registro_empleado'),
     path('/Home/regcontr/ereg', views.registro_empleador, name = 'registro_empleador'),
     path('/Home/emplogin/dauth', views.autenticar_empleado, name = 'autenticar_empleado'),
+    path('logout/', views.user_logout, name='user_logout'),
 ]

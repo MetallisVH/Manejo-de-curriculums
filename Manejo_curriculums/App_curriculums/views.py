@@ -6,6 +6,7 @@ from .models import Usuarios
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 from datetime import date
+from django.contrib.auth import logout
 from django.contrib.auth.hashers import check_password
 
 def Index_page(request):
@@ -25,6 +26,11 @@ def Register_empelado(request):
 
 def Register_empleador(request):
     return render(request, 'html/Registro_empleador.html')
+
+def user_logout(request):
+    logout(request)
+    # Redirect to the desired page after logout (e.g., home page)
+    return redirect('Home_page')
 
 
 def registro_empleado(request):
@@ -124,8 +130,9 @@ def autenticar_empleado(request):
             # Verifica si la contraseña proporcionada coincide con la contraseña almacenada
             if check_password(contrasena, usuario.contrasena):
                 # Autenticación exitosa, inicia sesión al usuario
-                login(request, usuario)
-                return render(request, 'html/Registro_curriculums.html')  # Redirige a la página de inicio después del inicio de sesión
+                request.session['rol_usu'] = usuario.nivel_cuenta
+                
+                return redirect('Home_page')  # Redirige a la página de inicio después del inicio de sesión
             else:
                 # Contraseña incorrecta
                 messages.error(request, 'Contraseña incorrecta')

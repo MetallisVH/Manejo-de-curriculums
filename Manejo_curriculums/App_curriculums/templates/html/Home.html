@@ -28,6 +28,7 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
@@ -37,15 +38,45 @@
                             <a class="nav-link" href="#">Opcion B</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="registroDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Registro
-                            </a>
-                            <div class="dropdown-menu" id="registroDropdownMenu" aria-labelledby="registroDropdown">
-                                <a class="dropdown-item" href="regemp">Registro Empleado</a>
-                                <a class="dropdown-item" href="regcontr">Registro Empleador</a>
-                            </div>
+                            <!-- Verifica si el usuario está autenticado -->
+                            {% if request.session.rol_usu == 0 %}
+                            <a class="nav-link" href="#">Registro de Currículum</a>
+
+                            {% elif request.session.rol_usu == 1 %}
+                            <!-- Mostrar menú específico para el rol 1 (si corresponde) -->
+                            <a class="nav-link" href="#">Menú para Rol 1</a>
+
+                            {% else %}
+                                <!-- Mostrar menú de registro de currículums cuando el usuario esté autenticado -->
+                                <a class="nav-link dropdown-toggle" href="#" id="registroDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Registro
+                                </a>
+                                <div class="dropdown-menu" id="registroDropdownMenu" aria-labelledby="registroDropdown">
+                                    <a class="dropdown-item" href="regemp">Registro Empleado</a>
+                                    <a class="dropdown-item" href="regcontr">Registro Empleador</a>
+                                </div>
+                            {% endif %}
                         </li>
                         <li class="nav-item dropdown">
+                            <!-- Verifica si el usuario está autenticado -->
+                            {% if request.session.rol_usu == 0 %}
+                            <a class="nav-link dropdown-toggle" href="#" id="perfilDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Mi Perfil
+                            </a>
+                            <div class="dropdown-menu" id="perfilDropdownMenu" aria-labelledby="perfilDropdown">
+                                <a class="dropdown-item" href="#">Ver Perfil</a>
+                                <a class="dropdown-item" href="#">Editar Perfil</a>
+                                <form method="post" action="{% url 'user_logout' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-link">Cerrar Sesión</button>
+                                </form>
+                            </div>
+
+                            {% elif request.session.rol_usu == 1 %}
+                            <!-- Mostrar menú específico para el rol 1 (si corresponde) -->
+                            <a class="nav-link" href="#">Menú para Rol 1</a>
+
+                            {% else %}
                             <a class="nav-link dropdown-toggle" href="#" id="inicioSesionDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Iniciar Sesión
                             </a>
@@ -53,6 +84,7 @@
                                 <a class="dropdown-item" href="emplogin">Iniciar Sesión Empleado</a>
                                 <a class="dropdown-item" href="contrlogin">Iniciar Sesión Empleador</a>
                             </div>
+                            {% endif %}
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Contacto</a>
