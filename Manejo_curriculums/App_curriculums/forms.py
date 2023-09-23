@@ -23,7 +23,7 @@ class RegistroEmpleadoForm(forms.Form):
     nombre = forms.CharField(max_length=54, label='Nombre', required=True)
     apellidoPaterno = forms.CharField(max_length=54, label='Apellido Paterno', required=True)
     apellidoMaterno = forms.CharField(max_length=54, label='Apellido Materno', required=True)
-    direccion = forms.CharField(max_length=54,label='Dirección',required=True)
+    direccion = forms.CharField(max_length=54,label='Dirección de su domicilio',required=True)
 
     def clean(self):
         cleaned_data = super().clean()
@@ -58,7 +58,7 @@ class RegistroEmpleadorForm(forms.Form):
     nombre = forms.CharField(max_length=54, label='Nombre', required=True)
     apellidoPaterno = forms.CharField(max_length=54, label='Apellido Paterno', required=True)
     apellidoMaterno = forms.CharField(max_length=54, label='Apellido Materno', required=True)
-    direccion = forms.CharField(max_length=54,label='Dirección',required=True)
+    direccion = forms.CharField(max_length=54,label='Dirección de su oficina',required=True)
 
     razonSocial = forms.CharField(max_length=54, label='Razón social')
     rut_emp = forms.CharField(max_length=8, label='RUT de la empresa')
