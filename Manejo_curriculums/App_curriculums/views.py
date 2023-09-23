@@ -6,6 +6,7 @@ from .models import Usuarios
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 from datetime import date
+from django.contrib.auth.hashers import check_password
 
 def Index_page(request):
     return render(request, 'html/index.html')
@@ -110,3 +111,27 @@ def registro_empleador(request):
         form = RegistroEmpleadorForm()
 
     return render(request, 'Registro_empleador.html', {'form': form})
+
+def autenticar_empleado(request):
+    if request.method == 'POST':
+        nombre_usuario = request.POST['usuario']
+        contrasena = request.POST['contrasena']
+
+        try:
+            # Busca un usuario con el nombre de usuario proporcionado
+            usuario = Usuarios.objects.get(nombre_usu=nombre_usuario)
+
+            # Verifica si la contraseña proporcionada coincide con la contraseña almacenada
+            if check_password(contrasena, usuario.contrasena):
+                # Autenticación exitosa, inicia sesión al usuario
+                login(request, usuario)
+                return render(request, 'html/Registro_curriculums.html')  # Redirige a la página de inicio después del inicio de sesión
+            else:
+                # Contraseña incorrecta
+                messages.error(request, 'Contraseña incorrecta')
+        except Usuarios.DoesNotExist:
+            # Usuario no encontrado
+            messages.error(request, 'Usuario no encontrado')
+
+    return render(request, 'html/inicio_empleado.html')
+    

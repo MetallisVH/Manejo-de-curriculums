@@ -20,4 +20,5 @@ class Usuarios(models.Model):
     rut_empr = models.IntegerField(null=False,blank=False,default=0)
     dv_empr = models.CharField(max_length=1,null=False,blank=False,default='N/A')
     direccion_empr = models.CharField(max_length=54,null=False,blank=False,default='N/A')
+    last_login = models.DateTimeField(verbose_name='last login', blank=True, null=True,default=None)
     deleted_at = models.DateTimeField(null=True, blank=True)
