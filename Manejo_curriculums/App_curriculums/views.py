@@ -141,4 +141,28 @@ def autenticar_empleado(request):
             messages.error(request, 'Usuario no encontrado')
 
     return render(request, 'html/inicio_empleado.html')
+
+def autenticar_empleador(request):
+    if request.method == 'POST':
+        nombre_usuario = request.POST['usuario']
+        contrasena = request.POST['contrasena']
+
+        try:
+            # Busca un empleador con el nombre de usuario proporcionado
+            empleador = Usuarios.objects.get(nombre_usu=nombre_usuario)
+
+            # Verifica si la contraseña proporcionada coincide con la contraseña almacenada
+            if check_password(contrasena, empleador.contrasena):
+                # Autenticación exitosa, inicia sesión al usuario
+                request.session['rol_usu'] = empleador.nivel_cuenta
+                
+                return redirect('Home_page')  # Redirige a la página de inicio después del inicio de sesión
+            else:
+                # Contraseña incorrecta
+                messages.error(request, 'Contraseña incorrecta')
+        except Usuarios.DoesNotExist:
+            # Empleador no encontrado
+            messages.error(request, 'Empleador no encontrado')
+
+    return render(request, 'html/inicio_empleador.html')
     
