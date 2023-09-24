@@ -33,11 +33,14 @@ def Register_empleador(request):
 
 def user_logout(request):
     logout(request)
-    # Redirect to the desired page after logout (e.g., home page)
+    
     return redirect('Home_page')
 
 def Email_confirm(request):
     return render(request, 'html/Confirmacion.html')
+
+def Error_403(request):
+    return render(request, 'html/Error_403.html')
 
 def registro_empleado(request):
     if request.method == 'POST':
@@ -149,11 +152,15 @@ def autenticar_empleado(request):
             usuario = Usuarios.objects.get(nombre_usu=nombre_usuario)
 
             # Verifica si la contraseña proporcionada coincide con la contraseña almacenada
-            if check_password(contrasena, usuario.contrasena):
+            if check_password(contrasena, usuario.contrasena) and usuario.oauth == 1:
                 # Autenticación exitosa, inicia sesión al usuario
                 request.session['rol_usu'] = usuario.nivel_cuenta
                 
                 return redirect('Home_page')  # Redirige a la página de inicio después del inicio de sesión
+            elif usuario.oauth == 0:
+                
+                return redirect('Error_403')
+                
             else:
                 # Contraseña incorrecta
                 messages.error(request, 'Contraseña incorrecta')

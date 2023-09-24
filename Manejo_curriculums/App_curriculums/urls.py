@@ -15,4 +15,5 @@ urlpatterns = [
     path('logout/', views.user_logout, name='user_logout'),
     path('Email_confirm/',views.Email_confirm,name='Email_confirm'),
     path('confirmar_email/<str:token>/', views.confirmar_email, name='confirmar_email'),
+    path('Error_403/',views.Error_403,name='Error_403'),
 ]
