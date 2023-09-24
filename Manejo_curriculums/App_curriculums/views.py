@@ -11,7 +11,7 @@ from django.contrib.auth.hashers import check_password
 from django.core.mail import send_mail
 from django.urls import reverse
 from django.http import HttpResponseRedirect
-from ..config import EMAIL_HOST_Usuario #Direccion de correo de config.py
+from .config import EMAIL_HOST_Usuario #Direccion de correo de config.py
 from django.contrib.auth.tokens import default_token_generator
 
 def Index_page(request):

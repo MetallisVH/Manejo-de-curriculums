@@ -16,6 +16,8 @@ urlpatterns = [
     path('Email_confirm/',views.Email_confirm,name='Email_confirm'),
     path('confirmar_email/<str:token>/', views.confirmar_email, name='confirmar_email'),
     path('resetear-contrasena/<str:email>/<str:token>/',views.recuperacion_contrasena, name='resetear_contrasena'),
-    path('Recuperar/',),
+    path('Recuperar/',views.recuperar,name='Recuperar'),
+    path('Recuperar_contrasena',views.rec_contrasena,name='rec_contrasena'),
+    path('Recuperar_nombre_usuario',views.rec_usu,name='rec_usu'),
     path('Error_403/',views.Error_403,name='Error_403'),
 ]
