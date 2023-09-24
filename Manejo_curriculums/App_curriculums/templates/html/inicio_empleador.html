@@ -13,7 +13,7 @@
     <div class="container">
         <h2>Inicio de Sesión</h2>
         <div class="login-container">
-            <form action="eauth" method="POST">
+            <form action="dauth" method="POST">
                 {% csrf_token %}
                 <div class="mb-3">
                     <label for="usuario" class="form-label">Usuario:</label>
@@ -26,6 +26,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                <p><a href="#">¿Olvidaste tu nombre de usuario o contraseña?</a></p> <!-- Aquí añadimos el enlace -->
             </form>
         </div>
     </div>

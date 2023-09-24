@@ -11,6 +11,7 @@ from django.contrib.auth.hashers import check_password
 from django.core.mail import send_mail
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from ..config import EMAIL_HOST_Usuario
 import uuid
 
 def Index_page(request):
@@ -41,6 +42,9 @@ def Email_confirm(request):
 
 def Error_403(request):
     return render(request, 'html/Error_403.html')
+
+def recuperar(request):
+    return render(request, 'html/Recuperacion.html')
 
 def registro_empleado(request):
     if request.method == 'POST':
@@ -85,7 +89,7 @@ def registro_empleado(request):
             # Enviar correo electrónico de confirmación
             subject = 'Confirma tu dirección de correo electrónico'
             message = f'Haz clic en el siguiente enlace para confirmar tu correo electrónico: {request.build_absolute_uri(reverse("confirmar_email", args=[token]))}'
-            from_email = 'trabajosdelaunap@gmail.com'
+            from_email = EMAIL_HOST_Usuario
             recipient_list = [form.cleaned_data['correo']]
 
             send_mail(subject, message, from_email, recipient_list, fail_silently=False)
@@ -143,7 +147,7 @@ def registro_empleador(request):
             # Enviar correo electrónico de confirmación
             subject = 'Confirma tu dirección de correo electrónico'
             message = f'Haz clic en el siguiente enlace para confirmar tu correo electrónico: {request.build_absolute_uri(reverse("confirmar_email", args=[token]))}'
-            from_email = 'trabajosdelaunap@gmail.com'
+            from_email = EMAIL_HOST_Usuario
             recipient_list = [form.cleaned_data['correoEmpleador']]
 
             send_mail(subject, message, from_email, recipient_list, fail_silently=False)
@@ -217,6 +221,7 @@ def confirmar_email(request, token):
 
         # Marcar la dirección de correo electrónico como confirmada
         usuario.oauth = 1
+        usuario.auth_token = None
         usuario.save()
 
         # Redirigir al usuario a una página de confirmación exitosa o cualquier otra página que desees
@@ -224,3 +229,34 @@ def confirmar_email(request, token):
     except Usuarios.DoesNotExist:
         # Si el token no es válido o el usuario no existe, redirige a una página de error o muestra un mensaje de error
         return render(request, 'html/Error_confirmacion.html')
+
+def recuperacion_usuario(request):
+    if request.method == 'POST':
+        # Obtener la dirección de correo electrónico proporcionada por el usuario
+        email = request.POST.get('email')
+
+        try:
+            # Buscar al usuario por su dirección de correo electrónico
+            usuario = Usuarios.objects.get(email=email)
+
+            # Generar un token o código único para la recuperación
+            # (En una implementación real, debes manejar tokens de manera segura)
+            token = str(uuid.uuid4())
+
+            # Enviar un correo electrónico al usuario con el enlace de recuperación
+            subject = 'Recuperación de Nombre de Usuario'
+            message = f'Haz clic en el siguiente enlace para restablecer tu contraseña: {request.build_absolute_uri(reverse("resetear_contrasena", args=[token]))}'
+            from_email = EMAIL_HOST_Usuario
+            recipient_list = [usuario.email]
+
+            send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+
+            # Redirigir a una página de éxito de recuperación
+            return render(request, 'recuperacion_exito.html')
+
+        except usuario.DoesNotExist:
+            # Si no se encuentra el usuario, mostrar un mensaje de error
+            error_message = 'No se encontró ningún usuario con esta dirección de correo electrónico.'
+            return render(request, 'recuperacion_usuario.html', {'error_message': error_message})
+
+    return render(request, 'recuperacion_usuario.html')

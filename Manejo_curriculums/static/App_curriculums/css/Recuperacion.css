@@ -1,0 +1,33 @@
+/* styles.css */
+
+/* Estilos para el contenedor */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Estilos para el título */
+h2 {
+    color: #333;
+}
+
+/* Estilos para la lista de opciones */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    margin-bottom: 10px;
+}
+
+/* Estilos para los enlaces */
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
