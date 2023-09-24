@@ -11,8 +11,8 @@ from django.contrib.auth.hashers import check_password
 from django.core.mail import send_mail
 from django.urls import reverse
 from django.http import HttpResponseRedirect
-from ..config import EMAIL_HOST_Usuario
-import uuid
+from ..config import EMAIL_HOST_Usuario #Direccion de correo de config.py
+from django.contrib.auth.tokens import default_token_generator
 
 def Index_page(request):
     return render(request, 'html/index.html')
@@ -62,7 +62,7 @@ def registro_empleado(request):
                 genero = form.cleaned_data['otroGenero']
                 
             # Generar un token único
-            token = str(uuid.uuid4())
+            token = default_token_generator.make_token(usuario)
 
             # Crea una instancia del modelo Usuarios y asigna los valores del formulario
             usuario = Usuarios(
@@ -113,7 +113,7 @@ def registro_empleador(request):
             
             genero = form.cleaned_data['generoEmpleador']
             
-            token = str(uuid.uuid4())
+            token = default_token_generator.make_token(usuario)
             
             if genero == 'otro':
                 # Toma el valor ingresado en el campo 'otroGeneroEmpleador'
@@ -230,7 +230,7 @@ def confirmar_email(request, token):
         # Si el token no es válido o el usuario no existe, redirige a una página de error o muestra un mensaje de error
         return render(request, 'html/Error_confirmacion.html')
 
-def recuperacion_usuario(request):
+def recuperacion_contrasena(request):
     if request.method == 'POST':
         # Obtener la dirección de correo electrónico proporcionada por el usuario
         email = request.POST.get('email')
@@ -240,12 +240,12 @@ def recuperacion_usuario(request):
             usuario = Usuarios.objects.get(email=email)
 
             # Generar un token o código único para la recuperación
-            # (En una implementación real, debes manejar tokens de manera segura)
-            token = str(uuid.uuid4())
+            
+            token = default_token_generator.make_token(usuario)
 
             # Enviar un correo electrónico al usuario con el enlace de recuperación
-            subject = 'Recuperación de Nombre de Usuario'
-            message = f'Haz clic en el siguiente enlace para restablecer tu contraseña: {request.build_absolute_uri(reverse("resetear_contrasena", args=[token]))}'
+            subject = 'Reestablecimiento de contraseña'
+            message = f'Haz clic en el siguiente enlace para restablecer tu contraseña: {request.build_absolute_uri(reverse("resetear_contrasena", args=[email, token]))}'
             from_email = EMAIL_HOST_Usuario
             recipient_list = [usuario.email]
 
