@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-from config import EMAIL_HOST_Usuario, EMAIL_HOST_App_password
+from .config import EMAIL_HOST_Usuario, EMAIL_HOST_App_password #Crear un archivo config.py con sus propias credenciales con estas 2 variables para que funcione
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
