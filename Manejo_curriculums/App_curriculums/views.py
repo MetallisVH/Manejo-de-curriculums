@@ -109,6 +109,8 @@ def registro_empleador(request):
             
             genero = form.cleaned_data['generoEmpleador']
             
+            token = str(uuid.uuid4())
+            
             if genero == 'otro':
                 # Toma el valor ingresado en el campo 'otroGeneroEmpleador'
                 genero = form.cleaned_data['otroGeneroEmpleador']
@@ -133,10 +135,20 @@ def registro_empleador(request):
                 razon_social=form.cleaned_data['razonSocial'],
                 rut_empr=form.cleaned_data['rut_emp'],
                 dv_empr=form.cleaned_data['dv_emp'],
+                oauth = 0,
+                auth_token = token,
             )
             usuario.save()
-            messages.success(request, '¡Registro exitoso! Ahora puedes iniciar sesión.')
-            return render(request, 'html/Registro_exitoso.html')
+            
+            # Enviar correo electrónico de confirmación
+            subject = 'Confirma tu dirección de correo electrónico'
+            message = f'Haz clic en el siguiente enlace para confirmar tu correo electrónico: {request.build_absolute_uri(reverse("confirmar_email", args=[token]))}'
+            from_email = 'trabajosdelaunap@gmail.com'
+            recipient_list = [form.cleaned_data['correoEmpleador']]
+
+            send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+            
+            return redirect('Email_confirm')
     else:
         form = RegistroEmpleadorForm()
 
@@ -180,11 +192,15 @@ def autenticar_empleador(request):
             empleador = Usuarios.objects.get(nombre_usu=nombre_usuario)
 
             # Verifica si la contraseña proporcionada coincide con la contraseña almacenada
-            if check_password(contrasena, empleador.contrasena):
+            if check_password(contrasena, empleador.contrasena) and empleador.oauth == 1:
                 # Autenticación exitosa, inicia sesión al usuario
                 request.session['rol_usu'] = empleador.nivel_cuenta
                 
                 return redirect('Home_page')  # Redirige a la página de inicio después del inicio de sesión
+            elif empleador.oauth == 0:
+                
+                return redirect('Error_403')
+            
             else:
                 # Contraseña incorrecta
                 messages.error(request, 'Contraseña incorrecta')
@@ -201,7 +217,6 @@ def confirmar_email(request, token):
 
         # Marcar la dirección de correo electrónico como confirmada
         usuario.oauth = 1
-        usuario.auth_token = None
         usuario.save()
 
         # Redirigir al usuario a una página de confirmación exitosa o cualquier otra página que desees

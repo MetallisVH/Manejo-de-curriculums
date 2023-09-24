@@ -1,8 +1,8 @@
 from django.db import models
 
 class Usuarios(models.Model):
-    id = models.AutoField(primary_key=True, null=False)
-    rut = models.IntegerField(null=True, blank=True)
+    id = models.AutoField(primary_key=True, null=False,unique=True)
+    rut = models.IntegerField(null=True, blank=True,unique=True)
     dv = models.CharField(max_length=1, null=True, blank=True)
     direccion = models.CharField(max_length=54,null=True, blank=True)
     contrasena = models.TextField(null=False, blank=False)
@@ -17,7 +17,7 @@ class Usuarios(models.Model):
     genero = models.CharField(max_length=54, null=True, blank=True)
     nombre_usu = models.CharField(max_length=54, null=True, blank=True, unique=True)
     razon_social = models.CharField(max_length=54,null=True,blank=True,default='N/A')
-    rut_empr = models.IntegerField(null=False,blank=False,default=0)
+    rut_empr = models.IntegerField(null=False,blank=False,default=0,unique=True)
     dv_empr = models.CharField(max_length=1,null=False,blank=False,default='N/A')
     direccion_empr = models.CharField(max_length=54,null=False,blank=False,default='N/A')
     last_login = models.DateTimeField(verbose_name='last login', blank=True, null=True,default=None)
