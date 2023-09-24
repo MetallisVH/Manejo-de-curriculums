@@ -8,6 +8,10 @@ from django.contrib.auth.hashers import make_password
 from datetime import date
 from django.contrib.auth import logout
 from django.contrib.auth.hashers import check_password
+from django.core.mail import send_mail
+from django.urls import reverse
+from django.http import HttpResponseRedirect
+import uuid
 
 def Index_page(request):
     return render(request, 'html/index.html')
@@ -32,6 +36,8 @@ def user_logout(request):
     # Redirect to the desired page after logout (e.g., home page)
     return redirect('Home_page')
 
+def Email_confirm(request):
+    return render(request, 'html/Confirmacion.html')
 
 def registro_empleado(request):
     if request.method == 'POST':
@@ -47,6 +53,9 @@ def registro_empleado(request):
             if genero == 'otro':
                 # Toma el valor ingresado en el campo 'otroGenero'
                 genero = form.cleaned_data['otroGenero']
+                
+            # Generar un token único
+            token = str(uuid.uuid4())
 
             # Crea una instancia del modelo Usuarios y asigna los valores del formulario
             usuario = Usuarios(
@@ -63,12 +72,24 @@ def registro_empleado(request):
                 apellido_m = form.cleaned_data['apellidoMaterno'],
                 rut = form.cleaned_data['rut'],
                 dv = form.cleaned_data['dv'],
-                direccion = form.cleaned_data['direccion']
+                direccion = form.cleaned_data['direccion'],
+                oauth = 0,
+                auth_token = token
                 # Asigna otros campos del modelo Usuarios según sea necesario
             )
             usuario.save()  # Guarda el usuario en la base de datos
-            messages.success(request, '¡Registro exitoso! Ahora puedes iniciar sesión.')
-            return render(request, 'html/Registro_exitoso.html')
+            
+            # Enviar correo electrónico de confirmación
+            subject = 'Confirma tu dirección de correo electrónico'
+            message = f'Haz clic en el siguiente enlace para confirmar tu correo electrónico: {request.build_absolute_uri(reverse("confirmar_email", args=[token]))}'
+            from_email = 'trabajosdelaunap@gmail.com'
+            recipient_list = [form.cleaned_data['correo']]
+
+            send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+
+            messages.success(request, '¡Registro exitoso! Se ha enviado un correo electrónico de confirmación a tu dirección de correo.')
+            
+            return redirect('Email_confirm')
     else:
         form = RegistroEmpleadoForm()  # Crea una instancia del formulario vacío
 
@@ -165,4 +186,19 @@ def autenticar_empleador(request):
             messages.error(request, 'Empleador no encontrado')
 
     return render(request, 'html/inicio_empleador.html')
-    
+
+def confirmar_email(request, token):
+    try:
+        # Buscar un usuario con el token de confirmación proporcionado
+        usuario = Usuarios.objects.get(auth_token=token)
+
+        # Marcar la dirección de correo electrónico como confirmada
+        usuario.oauth = 1
+        usuario.auth_token = None
+        usuario.save()
+
+        # Redirigir al usuario a una página de confirmación exitosa o cualquier otra página que desees
+        return render(request, 'html/Registro_exitoso.html')
+    except Usuarios.DoesNotExist:
+        # Si el token no es válido o el usuario no existe, redirige a una página de error o muestra un mensaje de error
+        return render(request, 'html/Error_confirmacion.html')

@@ -13,4 +13,6 @@ urlpatterns = [
     path('/Home/emplogin/dauth', views.autenticar_empleado, name = 'autenticar_empleado'),
     path('/Home/contrlogin/eauth', views.autenticar_empleador, name = 'autenticar_empleador'),
     path('logout/', views.user_logout, name='user_logout'),
+    path('Email_confirm/',views.Email_confirm,name='Email_confirm'),
+    path('confirmar_email/<str:token>/', views.confirmar_email, name='confirmar_email'),
 ]
