@@ -40,11 +40,22 @@
                         <li class="nav-item dropdown">
                             <!-- Verifica si el usuario está autenticado -->
                             {% if request.session.rol_usu == 0 %}
-                            <a class="nav-link" href="#">Registro de Currículum</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="menuEmpleadoDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Tu CV
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="menuEmpleadoDropdown">
+                                    <!-- Agrega opciones dentro del menú desplegable -->
+                                    <a class="dropdown-item" href="#">Administrar CV</a>
+                                    <a class="dropdown-item" href="#"></a>
+                                    <a class="dropdown-item" href="#">Opción 3</a>
+                                    <!-- Puedes agregar más opciones según tus necesidades -->
+                                </div>
+                            </li>
 
                             {% elif request.session.rol_usu == 1 %}
                             <!-- Mostrar menú específico para el rol 1 (si corresponde) -->
-                            <a class="nav-link" href="#">Menú para Rol 1</a>
+                            <a class="nav-link" href="#">Menú empleador</a> 
 
                             {% else %}
                                 <!-- Mostrar menú de registro de currículums cuando el usuario esté autenticado -->
@@ -104,10 +115,24 @@
             </div>
         </nav>
     </header>
+
+    {% if request.session.rol_usu == 0 %}
+    <!-- Contenido específico para usuarios con sesión igual a 0 (por ejemplo, rol de empleado) -->
+    <p>Empleos Recomendados</p>
+    <!-- Puedes agregar más contenido específico aquí -->
+        
+    {% elif request.session.rol_usu == 1 %}
+        <!-- Contenido específico para usuarios con sesión igual a 1 (por ejemplo, rol de empleador) -->
+        <p>Contenido para empleadores</p>
+        <!-- Puedes agregar más contenido específico aquí -->
+    
+    {%else %}
     <div class="container">
         <h1>Bienvenido a la Página de Empleos</h1>
         <p class="description">Encuentra tu próximo trabajo o publica una oferta laboral. ¡Comienza tu búsqueda hoy!</p>
-    </div>
+    </div>    
+        
+    {% endif %}
 
     <!-- Include Bootstrap JS and jQuery from CDN -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
