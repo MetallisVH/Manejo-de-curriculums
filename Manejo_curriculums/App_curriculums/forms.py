@@ -74,3 +74,23 @@ class RegistroEmpleadorForm(forms.Form):
             raise forms.ValidationError('Las contraseñas no coinciden.')
 
         return cleaned_data
+    
+class RecuperacionContrasenaForm(forms.Form):
+    email = forms.EmailField(label='Correo Electrónico', max_length=100, required=True)
+    
+class RecuperacionUsuarioForm(forms.Form):
+    email = forms.EmailField(label='Correo Electrónico', max_length=100, required=True)
+    
+class RestablecerContrasenaForm(forms.Form):
+    nueva_contrasena = forms.CharField(widget=forms.PasswordInput, label='Nueva Contraseña', max_length=100, required=True)
+    confirmar_contrasena = forms.CharField(widget=forms.PasswordInput, label='Confirmar Contraseña', max_length=100, required=True)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        nueva_contrasena = cleaned_data.get('nueva_contrasena')
+        confirmar_contrasena = cleaned_data.get('confirmar_contrasena')
+
+        if nueva_contrasena and confirmar_contrasena and nueva_contrasena != confirmar_contrasena:
+            raise forms.ValidationError("Las contraseñas no coinciden. Por favor, inténtalo de nuevo.")
+
+        return cleaned_data

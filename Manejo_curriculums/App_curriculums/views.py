@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.decorators import login_required
-from .forms import RegistroEmpleadoForm, RegistroEmpleadorForm
+from .forms import *
 from django.shortcuts import render, redirect
 from .models import Usuarios
 from django.contrib import messages
@@ -12,7 +12,7 @@ from django.core.mail import send_mail
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from .config import EMAIL_HOST_Usuario #Direccion de correo de config.py
-from django.contrib.auth.tokens import default_token_generator
+import uuid
 
 def Index_page(request):
     return render(request, 'html/index.html')
@@ -46,6 +46,12 @@ def Error_403(request):
 def recuperar(request):
     return render(request, 'html/Recuperacion.html')
 
+def Recuperar_nombre_usuario(request):
+    return render(request, 'html/Rec_usuario.html')
+
+def Recuperar_contrasena(request):
+    return render(request, 'html/Rec_contrasena.html')
+
 def registro_empleado(request):
     if request.method == 'POST':
         form = RegistroEmpleadoForm(request.POST)
@@ -62,7 +68,7 @@ def registro_empleado(request):
                 genero = form.cleaned_data['otroGenero']
                 
             # Generar un token único
-            token = default_token_generator.make_token(usuario)
+            token = str(uuid.uuid4())
 
             # Crea una instancia del modelo Usuarios y asigna los valores del formulario
             usuario = Usuarios(
@@ -113,7 +119,8 @@ def registro_empleador(request):
             
             genero = form.cleaned_data['generoEmpleador']
             
-            token = default_token_generator.make_token(usuario)
+            token = str(uuid.uuid4())
+
             
             if genero == 'otro':
                 # Toma el valor ingresado en el campo 'otroGeneroEmpleador'
@@ -233,7 +240,12 @@ def confirmar_email(request, token):
 def recuperacion_contrasena(request):
     if request.method == 'POST':
         # Obtener la dirección de correo electrónico proporcionada por el usuario
-        email = request.POST.get('email')
+        form = RecuperacionContrasenaForm(request.POST)
+        if form.is_valid():
+            # El formulario es válido, puedes acceder a la dirección de correo electrónico ingresada
+            email = form.cleaned_data['email']
+        else:
+            return print('Error')
 
         try:
             # Buscar al usuario por su dirección de correo electrónico
@@ -241,7 +253,9 @@ def recuperacion_contrasena(request):
 
             # Generar un token o código único para la recuperación
             
-            token = default_token_generator.make_token(usuario)
+            token = str(uuid.uuid4())
+            usuario.auth_token = token
+            usuario.save()
 
             # Enviar un correo electrónico al usuario con el enlace de recuperación
             subject = 'Reestablecimiento de contraseña'
@@ -252,11 +266,151 @@ def recuperacion_contrasena(request):
             send_mail(subject, message, from_email, recipient_list, fail_silently=False)
 
             # Redirigir a una página de éxito de recuperación
-            return render(request, 'recuperacion_exito.html')
+            return redirect('Email_confirm')
 
-        except usuario.DoesNotExist:
+        except Usuarios.DoesNotExist:
             # Si no se encuentra el usuario, mostrar un mensaje de error
             error_message = 'No se encontró ningún usuario con esta dirección de correo electrónico.'
+            return render(request, 'html/Rec_contrasena.html', {'error_message': error_message})
+
+    return render(request, 'html/Rec_contrasena.html')
+
+def recuperacion_usuario(request):
+    if request.method == 'POST':
+        form = RecuperacionUsuarioForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+
+            try:
+                
+                usuario = Usuarios.objects.get(email=email)
+
+                # Generar un token para la recuperación de nombre de usuario
+                token = str(uuid.uuid4())
+                    
+                usuario.auth_token = token
+                usuario.save()
+
+                # Enviar un correo electrónico al usuario con el enlace de recuperación
+                subject = 'Recuperación de Nombre de Usuario'
+                message = f'Haz clic en el siguiente enlace para restablecer tu contraseña: {request.build_absolute_uri(reverse("enviar_usuario", args=[email, token]))}'
+                from_email = EMAIL_HOST_Usuario
+                recipient_list = [usuario.email]
+
+                send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+
+                    # Redirigir a una página de éxito de recuperación
+                return redirect('Email_confirm')
+            except Usuarios.DoesNotExist:
+                error_message = 'No se encontró ningún usuario con esta dirección de correo electrónico.'
+                return render(request, 'html/Rec_usuario.html', {'error_message': error_message})
+        else:
+            # El formulario no es válido, mostrar un mensaje de error en el mismo formulario
+            error_message = 'Por favor, ingresa una dirección de correo electrónico válida.'
             return render(request, 'recuperacion_usuario.html', {'error_message': error_message})
 
-    return render(request, 'recuperacion_usuario.html')
+    form = RecuperacionUsuarioForm()
+    return render(request, 'recuperacion_usuario.html', {'form': form})
+
+def resetear_contrasena(request, email, token):
+    print(type(email))
+    print(type(token))
+
+    try:
+        # Buscar al usuario por su dirección de correo electrónico
+        usuario = Usuarios.objects.get(email=email)
+
+        # Verificar si el token es válido para el usuario
+
+        if usuario.auth_token == token:
+            return render(request, 'html/resetear_contrasena.html', {'email_v': email, 'token_v': token})
+        else:
+            # Si el token no es válido, mostrar un mensaje de error y redirigir a una página de error
+            messages.error(request, 'El enlace de restablecimiento de contraseña no es válido. Por favor, solicita un nuevo enlace.')
+            return redirect('pagina_de_error')  # Cambia 'pagina_de_error' al nombre de tu página de error
+    except Usuarios.DoesNotExist:
+        # Si no se encuentra el usuario, mostrar un mensaje de error y redirigir a una página de error
+        messages.error(request, 'No se encontró ningún usuario con esta dirección de correo electrónico.')
+        return redirect('pagina_de_error')  # Cambia 'pagina_de_error' al nombre de tu página de error
+    
+def reset_contrasena(request, email, token):
+    print(email)
+    print(token)
+    try:
+        # Buscar al usuario por su dirección de correo electrónico
+        usuario = Usuarios.objects.get(email=email)
+
+        # Verificar si el token es válido para el usuario
+
+        if usuario.auth_token == token:
+            if request.method == 'POST':
+                form = RestablecerContrasenaForm(request.POST)
+
+                if form.is_valid():
+                    # Si el formulario es válido, establecer la nueva contraseña para el usuario
+                    nueva_contrasena = form.cleaned_data['nueva_contrasena']
+                    usuario.contrasena = nueva_contrasena
+                    usuario.auth_token = None
+                    usuario.save()
+
+                    # Autenticar al usuario con la nueva contraseña
+                    
+                    if check_password(nueva_contrasena, usuario.contrasena):                      
+                            
+                        request.session['rol_usu'] = usuario.nivel_cuenta
+                            
+                        return redirect('Home_page')  # Cambia 'pagina_de_exito' a la URL que desees
+                    
+                    else:
+                        # Si no se pudo autenticar al usuario, mostrar un mensaje de error
+                        messages.error(request, 'Hubo un error al establecer la contraseña. Inténtalo nuevamente.')
+                        return redirect('pagina_de_error')  # Cambia 'pagina_de_error' al nombre de tu página de error
+                else:
+                    form = RestablecerContrasenaForm()
+                    # Si el formulario no es válido, mostrar el formulario con errores
+                    return render(request, 'html/resetear_contrasena.html', {'form': form})
+            else:
+                # Si el método de solicitud no es POST, mostrar el formulario de restablecimiento de contraseña
+                form = RestablecerContrasenaForm()
+            
+                return render(request,'html/resetear_contrasena.html', {'form': form})
+        else:
+            # Si el token no es válido, mostrar un mensaje de error y redirigir a una página de error
+            messages.error(request, 'El enlace de restablecimiento de contraseña no es válido. Por favor, solicita un nuevo enlace.')
+            return redirect('pagina_de_error')  # Cambia 'pagina_de_error' al nombre de tu página de error
+    except Usuarios.DoesNotExist:
+        # Si no se encuentra el usuario, mostrar un mensaje de error y redirigir a una página de error
+        messages.error(request, 'No se encontró ningún usuario con esta dirección de correo electrónico.')
+        return redirect('pagina_de_error')  # Cambia 'pagina_de_error' al nombre de tu página de error
+
+def enviar_usuario(request, email, token):
+
+    try:
+        # Buscar al usuario por su dirección de correo electrónico
+        usuario = Usuarios.objects.get(email=email)
+
+        # Verificar si el token es válido para el usuario
+
+        if usuario.auth_token == token:
+            # Generar un mensaje de correo electrónico con el nombre de usuario
+            usuario.auth_token = None
+            usuario.save()
+            
+            subject = 'Recuperación de Nombre de Usuario'
+            message = f'Tu nombre de usuario es: {usuario.nombre_usu}'
+            from_email = EMAIL_HOST_Usuario  # Cambia esto a tu dirección de correo electrónico
+            recipient_list = [usuario.email]
+
+            # Enviar el correo electrónico
+            send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+
+            # Redirigir al usuario a una página de éxito o a su perfil, por ejemplo
+            return redirect('pagina_de_exito')  # Cambia 'pagina_de_exito' a la URL que desees
+        else:
+            # Si el token no es válido, mostrar un mensaje de error y redirigir a una página de error
+            messages.error(request, 'El enlace de recuperación de nombre de usuario no es válido. Por favor, solicita un nuevo enlace.')
+            return redirect('pagina_de_error')  # Cambia 'pagina_de_error' al nombre de tu página de error
+    except Usuarios.DoesNotExist:
+        # Si no se encuentra el usuario, mostrar un mensaje de error y redirigir a una página de error
+        messages.error(request, 'No se encontró ningún usuario con esta dirección de correo electrónico.')
+        return redirect('pagina_de_error')  # Cambia 'pagina_de_error' al nombre de tu página de error
