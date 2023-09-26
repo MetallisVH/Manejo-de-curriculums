@@ -9,7 +9,7 @@
         <h2>Restablecimiento de Contraseña</h2>
         <p>Por favor, elige una nueva contraseña para tu cuenta.</p>
         
-        <form action="{% url 'reset_contrasena' email=email_v token=token_v %}" method="post">
+        <form action="{% url 'reset_contrasena' email token %}" method="post">
             {% csrf_token %}
             
             <!-- Campo para la nueva contraseña -->
@@ -24,8 +24,8 @@
                 <input type="password" name="confirm_password" id="id_confirm_password" class="form-control" required>
             </div>
 
-            <input type="hidden" name="email" value="{{ email_v }}">
-            <input type="hidden" name="token" value="{{ token_v }}">
+            <input type="hidden" name="email" value="{{ email }}">
+            <input type="hidden" name="token" value="{{ token }}">
             
             <button type="submit" class="btn btn-primary">Restablecer Contraseña</button>
         </form>

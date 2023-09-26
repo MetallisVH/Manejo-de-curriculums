@@ -52,6 +52,9 @@ def Recuperar_nombre_usuario(request):
 def Recuperar_contrasena(request):
     return render(request, 'html/Rec_contrasena.html')
 
+def Info_curriculum(request):
+    return render(request,'html/info_cvp.html')
+
 def registro_empleado(request):
     if request.method == 'POST':
         form = RegistroEmpleadoForm(request.POST)
@@ -313,8 +316,6 @@ def recuperacion_usuario(request):
     return render(request, 'recuperacion_usuario.html', {'form': form})
 
 def resetear_contrasena(request, email, token):
-    print(type(email))
-    print(type(token))
 
     try:
         # Buscar al usuario por su dirección de correo electrónico
@@ -323,7 +324,7 @@ def resetear_contrasena(request, email, token):
         # Verificar si el token es válido para el usuario
 
         if usuario.auth_token == token:
-            return render(request, 'html/resetear_contrasena.html', {'email_v': email, 'token_v': token})
+            return render(request, 'html/resetear_contrasena.html', {'email': email, 'token': token})
         else:
             # Si el token no es válido, mostrar un mensaje de error y redirigir a una página de error
             messages.error(request, 'El enlace de restablecimiento de contraseña no es válido. Por favor, solicita un nuevo enlace.')

@@ -24,3 +24,7 @@ class Usuarios(models.Model):
     oauth = models.IntegerField(null=True,blank=True)
     auth_token = models.TextField(null=True,blank=True,unique=True)
     deleted_at = models.DateTimeField(null=True, blank=True)
+    
+class Curriculums(models.Model):
+    id = models.AutoField(primary_key=True, null=False,unique=True)
+    nombre_completo = models.CharField(max_length=162, null=True, blank= True)
