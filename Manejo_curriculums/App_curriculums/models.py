@@ -6,7 +6,7 @@ class Usuarios(models.Model):
     dv = models.CharField(max_length=1, null=True, blank=True)
     direccion = models.CharField(max_length=54,null=True, blank=True)
     contrasena = models.TextField(null=False, blank=False)
-    email = models.EmailField(max_length=10, null=False, blank=False, unique=True)
+    email = models.EmailField(max_length=254, null=False, blank=False, unique=True)
     nivel_cuenta = models.IntegerField(null=True, blank=True)
     fecha_nac = models.DateField(null=False, blank=False)
     edad = models.IntegerField(null=False, blank=False)
@@ -28,3 +28,5 @@ class Usuarios(models.Model):
 class Curriculums(models.Model):
     id = models.AutoField(primary_key=True, null=False,unique=True)
     nombre_completo = models.CharField(max_length=162, null=True, blank= True)
+    email = models.EmailField(max_length=254, null=False, blank=False, unique=True)
+    puntaje = models.IntegerField(null=True, blank=True)
