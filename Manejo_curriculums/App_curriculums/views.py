@@ -55,6 +55,9 @@ def Recuperar_contrasena(request):
 def Info_curriculum(request):
     return render(request,'html/info_cvp.html')
 
+def Registro_curriculum(request):
+    return render(request,'html/Registro_curriculums.html')
+
 def registro_empleado(request):
     if request.method == 'POST':
         form = RegistroEmpleadoForm(request.POST)

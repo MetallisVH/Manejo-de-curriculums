@@ -24,6 +24,7 @@ urlpatterns = [
     path('Recuperar_nombre_usuario/',views.Recuperar_nombre_usuario,name='Recuperar_nombre_usuario'),
     path('recuperar_usu/',views.recuperacion_usuario,name='recuperacion_usuario'),
     path('/Home/cvdm',views.Info_curriculum,name='Info_curriculum'),
+    path('/Home/regc',views.Registro_curriculum,name='Registro_curriculum'),
     path('guardar_curriculum/',views.registrar_curriculum,name='guardar_curriculum'),
     path('Error_403/',views.Error_403,name='Error_403'),
 ]
