@@ -29,6 +29,7 @@ class Curriculums(models.Model):
     id = models.AutoField(primary_key=True, null=False,unique=True)
     nombre_completo = models.CharField(max_length=162, null=True, blank= True)
     email = models.EmailField(max_length=254, null=False, blank=False, unique=True)
+    nombre_usu = models.ForeignKey(Usuarios, on_delete=models.CASCADE, to_field='nombre_usu')
     puntaje = models.IntegerField(null=True, blank=True)
     
 class Experiencias(models.Model):
@@ -38,6 +39,11 @@ class Experiencias(models.Model):
 
 class Educaciones(models.Model):
     id= models.AutoField(primary_key=True, null=False, unique=True)
+    nombre_usu = models.ForeignKey(Usuarios, on_delete=models.CASCADE, to_field='nombre_usu')
+    puntos = models.IntegerField(null=True,blank=True)
+    
+class Habilidades(models.Model):
+    id = id= models.AutoField(primary_key=True, null=False, unique=True)
     nombre_usu = models.ForeignKey(Usuarios, on_delete=models.CASCADE, to_field='nombre_usu')
     puntos = models.IntegerField(null=True,blank=True)
     
