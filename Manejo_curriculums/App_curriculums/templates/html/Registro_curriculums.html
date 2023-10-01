@@ -12,7 +12,7 @@
 <body>
     <div class="container mt-5">
         <h1 class="text-center">Registro de Currículum</h1>
-        <form action="/guardar_curriculum" method="post">
+        <form action="{% url 'guardar_curriculum' %}" method="post">
             {% csrf_token %}
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre completo:</label>

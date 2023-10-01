@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.decorators import login_required
 from .forms import *
 from django.shortcuts import render, redirect
-from .models import Usuarios
+from .models import Usuarios, Curriculums, Experiencias, Educaciones
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 from datetime import date
@@ -415,3 +415,20 @@ def enviar_usuario(request, email, token):
         # Si no se encuentra el usuario, mostrar un mensaje de error y redirigir a una página de error
         messages.error(request, 'No se encontró ningún usuario con esta dirección de correo electrónico.')
         return redirect('pagina_de_error')  # Cambia 'pagina_de_error' al nombre de tu página de error
+
+def registrar_curriculum(request):
+    if request.method == 'POST':
+        # Obtener datos del formulario
+        nombre_completo = request.POST.get('nombre_completo')
+        email = request.POST.get('email')
+        puntaje = request.POST.get('puntaje')
+
+        # Crear instancia del modelo y guardar en la base de datos
+        curriculum = Curriculums(nombre_completo=nombre_completo, email=email, puntaje=puntaje)
+        curriculum.save()
+
+        return render(request, 'html/Registro_exitoso.html')
+    else:
+        # Renderizar el formulario para el método GET
+        return render(request, 'tu_template.html')  # Reemplaza 'tu_template.html' con el nombre de tu plantilla
+    
