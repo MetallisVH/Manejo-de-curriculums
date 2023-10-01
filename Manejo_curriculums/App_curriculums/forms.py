@@ -1,4 +1,5 @@
 from django import forms
+from .models import Curriculums, Experiencias, Educaciones, Habilidades
 
 class RegistroEmpleadoForm(forms.Form):
     nombreUsuario = forms.CharField(max_length=50, label='Nombre de usuario')
@@ -94,3 +95,23 @@ class RestablecerContrasenaForm(forms.Form):
             raise forms.ValidationError("Las contraseñas no coinciden. Por favor, inténtalo de nuevo.")
 
         return cleaned_data
+    
+class CurriculumForm(forms.ModelForm):
+    class Meta:
+        model = Curriculums
+        fields = ['nombre_completo', 'email', 'telefono']
+
+class ExperienciaForm(forms.ModelForm):
+    class Meta:
+        model = Experiencias
+        fields = ['puntos']
+
+class EducacionForm(forms.ModelForm):
+    class Meta:
+        model = Educaciones
+        fields = ['puntos']
+
+class HabilidadForm(forms.ModelForm):
+    class Meta:
+        model = Habilidades
+        fields = ['puntos']

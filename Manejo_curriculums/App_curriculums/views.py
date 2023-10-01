@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.decorators import login_required
 from .forms import *
 from django.shortcuts import render, redirect
-from .models import Usuarios, Curriculums, Experiencias, Educaciones
+from .models import models ,Usuarios, Curriculums, Experiencias, Educaciones, Habilidades
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 from datetime import date
@@ -418,17 +418,50 @@ def enviar_usuario(request, email, token):
 
 def registrar_curriculum(request):
     if request.method == 'POST':
-        # Obtener datos del formulario
-        nombre_completo = request.POST.get('nombre_completo')
-        email = request.POST.get('email')
-        puntaje = request.POST.get('puntaje')
+        formulario_curriculum = CurriculumForm(request.POST)
+        if formulario_curriculum.is_valid():
+            # Suponiendo que tienes autenticación en marcha, puedes obtener el usuario actual
+            usuario_actual = Usuarios.objects.get(nombre_usu='xd1')
 
-        # Crear instancia del modelo y guardar en la base de datos
-        curriculum = Curriculums(nombre_completo=nombre_completo, email=email, puntaje=puntaje)
-        curriculum.save()
+            # Establecer el usuario actual como nombre_usu para la instancia de FormularioCurriculum
+            formulario_curriculum.instance.nombre_usu = usuario_actual.nombre_usu
 
-        return render(request, 'html/Registro_exitoso.html')
+            curriculum = formulario_curriculum.save()
+
+            # Ahora, calcular el puntaje basado en la suma de puntos relacionados con este usuario
+            puntaje = calcular_puntaje(usuario_actual.nombre_usu)
+            curriculum.puntaje = puntaje
+            curriculum.save()
+
+            # Ajustes similares para otros formularios
+
+            return redirect('ruta_exitosa')  # Cambia 'ruta_exitosa' con tu URL de registro exitoso
+
     else:
-        # Renderizar el formulario para el método GET
-        return render(request, 'tu_template.html')  # Reemplaza 'tu_template.html' con el nombre de tu plantilla
+        formulario_curriculum = CurriculumForm()
+        formulario_experiencia = ExperienciaForm()
+        formulario_educacion = EducacionForm()
+        formulario_habilidad = HabilidadForm()
+
+    return render(request, 'tu_template.html', {
+        'formulario_curriculum': formulario_curriculum,
+        'formulario_experiencia': formulario_experiencia,
+        'formulario_educacion': formulario_educacion,
+        'formulario_habilidad': formulario_habilidad,
+    })
+
+def calcular_puntaje(nombre_usu):
+    try:
+        usuario = Usuarios.objects.get(nombre_usu=nombre_usu)
+    except Usuarios.DoesNotExist:
+        return 0  # o manejar el caso en el que el usuario no existe
     
+    # Calcular el puntaje basado en la suma de puntos de Experiencias, Educaciones y Habilidades relacionadas
+    puntaje_experiencias = Experiencias.objects.filter(nombre_usu=usuario).aggregate(total_puntos=models.Sum('puntos'))['total_puntos'] or 0
+    puntaje_educaciones = Educaciones.objects.filter(nombre_usu=usuario).aggregate(total_puntos=models.Sum('puntos'))['total_puntos'] or 0
+    puntaje_habilidades = Habilidades.objects.filter(nombre_usu=usuario).aggregate(total_puntos=models.Sum('puntos'))['total_puntos'] or 0
+
+    # Sumar los puntos
+    total_puntaje = puntaje_experiencias + puntaje_educaciones + puntaje_habilidades
+
+    return total_puntaje
