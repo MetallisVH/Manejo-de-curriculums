@@ -29,5 +29,6 @@ urlpatterns = [
     path('guardar_curriculum/',views.registrar_curriculum,name='guardar_curriculum'),
     path('svex',views.guardar_experiencia,name='guardar_experiencia'),
     path('sved',views.guardar_educacion,name='guardar_educacion'),
+    path('svhb',views.guardar_habilidad,name='guardar_habilidad'),
     path('Error_403/',views.Error_403,name='Error_403'),
 ]

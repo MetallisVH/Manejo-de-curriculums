@@ -563,3 +563,40 @@ def guardar_experiencia(request):
         return redirect('Registro_exitoso')
     else:
         return redirect('Registro_curriculum')
+    
+def guardar_habilidad(request):
+    if request.method == 'POST':
+        habilidad = request.POST.get('habilidad')
+        nivel = request.POST.get('nivel')
+
+        # Puedes acceder al archivo de la siguiente manera:
+        archivo_habilidad = request.FILES.get('archivoHabilidad')
+
+        # Verifica si se cargó un archivo
+        if archivo_habilidad:
+            archivo_subido = 'si'
+            puntos = 20
+        else:
+            archivo_subido = 'no'
+            puntos = 10
+
+        # Obtén la instancia de Usuarios correspondiente al nombre de usuario (ajusta según tu lógica)
+        nombre_usuario = 'xd1'
+        usuario = Usuarios.objects.get(nombre_usu=nombre_usuario)
+
+        # Crea una instancia de Habilidades y guarda los datos
+        habilidad = Habilidades(
+            nombre_usu=usuario,
+            habilidad=habilidad,
+            nivel=nivel,
+            archivo_habilidad=archivo_subido,
+            puntos=puntos
+        )
+        habilidad.save()
+
+        # Aquí puedes hacer algo con los puntos, como almacenarlos en otro modelo o realizar alguna lógica adicional
+
+        # Redirige o responde según tu lógica
+        return redirect('Registro_exitoso')
+    else:
+        return redirect('Registro_curriculum') 

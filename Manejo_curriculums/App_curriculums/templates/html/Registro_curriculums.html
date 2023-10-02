@@ -151,24 +151,29 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form action="{% url 'guardar_habilidad' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
                         <div class="mb-3">
                             <label for="habilidad" class="form-label">Habilidad:</label>
                             <input type="text" class="form-control" id="habilidad" name="habilidad" required>
                         </div>
                         <div class="mb-3">
                             <label for="nivel" class="form-label">Nivel:</label>
-                            <input type="text" class="form-control" id="nivel" name="nivel" required>
+                            <select class="form-control" id="nivel" name="nivel" required>
+                                <option value="basico">Básico</option>
+                                <option value="intermedio">Intermedio</option>
+                                <option value="avanzado">Avanzado</option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="archivoHabilidad" class="form-label">Subir certificado:</label>
                             <input type="file" class="form-control" id="archivoHabilidad" name="archivoHabilidad">
                         </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary">Guardar</button>
                 </div>
             </div>
         </div>

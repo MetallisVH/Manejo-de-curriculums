@@ -18,7 +18,7 @@ class Usuarios(models.Model):
     nombre_usu = models.CharField(max_length=54, null=True, blank=True, unique=True)
     razon_social = models.CharField(max_length=54,null=True,blank=True,default='N/A')
     rut_empr = models.IntegerField(null=False,blank=False,default=0,unique=True)
-    dv_empr = models.CharField(max_length=1,null=False,blank=False,default='N/A')
+    dv_empr = models.CharField(max_length=1,null=False,blank=False,default=-1)
     direccion_empr = models.CharField(max_length=54,null=False,blank=False,default='N/A')
     last_login = models.DateTimeField(verbose_name='last login', blank=True, null=True,default=None)
     oauth = models.IntegerField(null=True,blank=True)
@@ -58,5 +58,8 @@ class Educaciones(models.Model):
 class Habilidades(models.Model):
     id = id= models.AutoField(primary_key=True, null=False, unique=True)
     nombre_usu = models.ForeignKey(Usuarios, on_delete=models.CASCADE, to_field='nombre_usu')
+    habilidad = models.CharField(max_length=254,null=False,blank=True)
+    nivel = models.CharField(max_length=14,null=False,blank=False,default='No seleccionado')
+    archivo_habilidad = models.CharField(max_length=2,null=True,blank=True)
     puntos = models.IntegerField(null=True,blank=True)
     
