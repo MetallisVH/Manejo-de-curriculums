@@ -30,5 +30,6 @@ urlpatterns = [
     path('svex',views.guardar_experiencia,name='guardar_experiencia'),
     path('sved',views.guardar_educacion,name='guardar_educacion'),
     path('svhb',views.guardar_habilidad,name='guardar_habilidad'),
+    path('svid',views.guardar_idioma,name='guardar_idioma'),
     path('Error_403/',views.Error_403,name='Error_403'),
 ]

@@ -31,7 +31,7 @@ class Curriculums(models.Model):
     email = models.EmailField(max_length=254, null=False, blank=False, unique=True)
     nombre_usu = models.ForeignKey(Usuarios, on_delete=models.CASCADE, to_field='nombre_usu')
     telefono = models.IntegerField(null=True,blank=True,unique=True)
-    puntaje = models.IntegerField(null=True, blank=True)
+    puntaje = models.IntegerField(null=True, blank=True) 
     
 class Experiencias(models.Model):
     id = models.AutoField(primary_key= True, null=False, unique=True)
@@ -41,10 +41,10 @@ class Experiencias(models.Model):
     desde = models.DateTimeField(null=False,blank=False)
     hasta = models.DateTimeField(null=False,blank=False)
     archivo_experiencia = models.CharField(max_length=2,null=False,blank=False)
-    puntos = models.IntegerField(null=True,blank=True)
+    puntos = models.IntegerField(null=False,blank=False,default=10)
 
 class Educaciones(models.Model):
-    id= models.AutoField(primary_key=True, null=False, unique=True)
+    id = models.AutoField(primary_key=True, null=False, unique=True)
     nombre_usu = models.ForeignKey(Usuarios, on_delete=models.CASCADE, to_field='nombre_usu')
     nivel_educacion = models.CharField(max_length=54,blank=False,null=False)
     nombre_instituto = models.CharField(max_length=254,blank=True,null=False)
@@ -53,13 +53,20 @@ class Educaciones(models.Model):
     desde = models.DateTimeField(null=False,blank=False)
     hasta = models.DateTimeField(null=False,blank=False)
     archivo_educacion = models.CharField(max_length=2,null=True,blank=True)
-    puntos = models.IntegerField(null=True,blank=True)
+    puntos = models.IntegerField(null=False,blank=False,default=10)
     
 class Habilidades(models.Model):
-    id = id= models.AutoField(primary_key=True, null=False, unique=True)
+    id = models.AutoField(primary_key=True, null=False, unique=True)
     nombre_usu = models.ForeignKey(Usuarios, on_delete=models.CASCADE, to_field='nombre_usu')
     habilidad = models.CharField(max_length=254,null=False,blank=True)
     nivel = models.CharField(max_length=14,null=False,blank=False,default='No seleccionado')
     archivo_habilidad = models.CharField(max_length=2,null=True,blank=True)
-    puntos = models.IntegerField(null=True,blank=True)
+    puntos = models.IntegerField(null=False,blank=False,default=10)
     
+class Idiomas(models.Model):
+    id = models.AutoField(primary_key=True, null=False, unique=True)
+    nombre_usu = models.ForeignKey(Usuarios, on_delete=models.CASCADE, to_field='nombre_usu')
+    idioma = models.CharField(max_length=254,blank=True,null=False)
+    nivel_idioma = models.CharField(max_length=54,blank=False,null=False,default='No seleccionado')
+    archivo_idioma = models.CharField(max_length=2,null=True,blank=True)
+    puntos = models.IntegerField(null=False,blank=False,default=10)

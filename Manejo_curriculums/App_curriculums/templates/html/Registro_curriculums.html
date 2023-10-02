@@ -44,6 +44,11 @@
                 <button type="button" class="btn btn-secondary mt-2" data-bs-toggle="modal" data-bs-target="#habilidadesModal">Agregar habilidad +</button>
             </div>
 
+            <div class="mb-3">
+                <label class="form-label">Idiomas:</label>
+                <button type="button" class="btn btn-secondary mt-2" data-bs-toggle="modal" data-bs-target="#idiomasModal">Agregar idioma +</button>
+            </div>
+
             <button type="submit" class="btn btn-primary">Registrar</button>
         </form>
     </div>
@@ -179,13 +184,45 @@
         </div>
     </div>
 
-    <script>
-        $(document).ready(function () {
-            var myModal = new bootstrap.Modal(document.getElementById('experienciaModal'));
-            var myModal2 = new bootstrap.Modal(document.getElementById('educacionModal'));
-            var myModal3 = new bootstrap.Modal(document.getElementById('habilidadesModal'));
-        });
-    </script>
+    <!-- Ventana modal de idiomas -->
+    <div class="modal fade" id="idiomasModal" tabindex="-1" aria-labelledby="idiomasModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="idiomasModalLabel">Agregar Idioma</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'guardar_idioma' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="idioma" class="form-label">Idioma:</label>
+                            <input type="text" class="form-control" id="idioma" name="idioma" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nivelIdioma" class="form-label">Nivel de Idioma:</label>
+                            <select class="form-control" id="nivelIdioma" name="nivelIdioma" required>
+                                <option value="A1">A1: Básico</option>
+                                <option value="A2">A2: Básico Intermedio</option>
+                                <option value="B1">B1: Intermedio</option>
+                                <option value="B2">B2: Intermedio Alto</option>
+                                <option value="C1">C1: Avanzado</option>
+                                <option value="C2">C2: Maestría</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="archivoIdioma" class="form-label">Subir certificado:</label>
+                            <input type="file" class="form-control" id="archivoIdioma" name="archivoIdioma">
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>

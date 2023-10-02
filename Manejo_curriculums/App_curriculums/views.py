@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import *
 from django.utils import timezone
 from django.shortcuts import render, redirect
-from .models import models ,Usuarios, Curriculums, Experiencias, Educaciones, Habilidades
+from .models import models ,Usuarios, Curriculums, Experiencias, Educaciones, Habilidades, Idiomas
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 from datetime import date
@@ -599,4 +599,39 @@ def guardar_habilidad(request):
         # Redirige o responde según tu lógica
         return redirect('Registro_exitoso')
     else:
-        return redirect('Registro_curriculum') 
+        return redirect('Registro_curriculum')
+    
+def guardar_idioma(request):
+    if request.method == 'POST':
+        idioma = request.POST.get('idioma')
+        nivel_idioma = request.POST.get('nivelIdioma')
+
+        # Puedes acceder al archivo de la siguiente manera:
+        archivo_idioma = request.FILES.get('archivoIdioma')
+
+        # Verifica si se cargó un archivo
+        if archivo_idioma:
+            archivo_subido = 'si'
+            puntos = 20
+        else:
+            archivo_subido = 'no'
+            puntos = 10
+
+        # Obtén la instancia de Usuarios correspondiente al nombre de usuario
+        nombre_usuario = 'xd1'  # Reemplaza esto con la lógica para obtener el nombre de usuario actual
+        usuario = Usuarios.objects.get(nombre_usu=nombre_usuario)
+
+        # Crea una instancia de Idiomas y guarda los datos
+        idioma_instancia = Idiomas(
+            nombre_usu=usuario,  
+            idioma=idioma,
+            nivel_idioma=nivel_idioma,
+            archivo_idioma=archivo_subido,
+            puntos = puntos
+        )
+        idioma_instancia.save()
+
+        # Redirige o responde según tu lógica
+        return redirect('Registro_exitoso')  # Reemplaza con la URL correcta
+    else:
+        return redirect('Registro_curriculum')  # Reemplaza con la URL correcta
