@@ -36,8 +36,11 @@ class Curriculums(models.Model):
 class Experiencias(models.Model):
     id = models.AutoField(primary_key= True, null=False, unique=True)
     nombre_usu = models.ForeignKey(Usuarios, on_delete=models.CASCADE, to_field='nombre_usu')
+    empresa = models.CharField(max_length=254,null=False,blank=True)
+    puesto = models.CharField(max_length=254,null=False,blank=True)
     desde = models.DateTimeField(null=False,blank=False)
     hasta = models.DateTimeField(null=False,blank=False)
+    archivo_experiencia = models.CharField(max_length=2,null=False,blank=False)
     puntos = models.IntegerField(null=True,blank=True)
 
 class Educaciones(models.Model):

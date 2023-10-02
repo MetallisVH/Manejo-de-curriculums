@@ -523,3 +523,43 @@ def guardar_educacion(request):
         return redirect('Registro_exitoso')
     else:
         return redirect('Registro_curriculum')
+    
+
+def guardar_experiencia(request):
+    if request.method == 'POST':
+        empresa = request.POST.get('empresa')
+        puesto = request.POST.get('puesto')
+        
+        # Utiliza timezone.make_aware para asegurar que la zona horaria esté presente
+        fecha_inicio = timezone.make_aware(datetime.strptime(request.POST.get('fechaInicio'), '%Y-%m-%d'))
+
+        # Asegúrate de que fecha_termino también sea un objeto datetime
+        fecha_termino_str = request.POST.get('fechaTermino')
+        fecha_termino = timezone.make_aware(datetime.strptime(fecha_termino_str, '%Y-%m-%d')) if fecha_termino_str else None
+
+        archivo_experiencia = request.FILES.get('archivoExperiencia')
+
+        if archivo_experiencia:
+            archivo_subido = 'si'
+            puntos = 20
+        else:
+            archivo_subido = 'no'
+            puntos = 10
+
+        nombre_usuario = 'xd1'
+        usuario = Usuarios.objects.get(nombre_usu=nombre_usuario)
+
+        experiencia = Experiencias(
+            nombre_usu=usuario,
+            empresa=empresa,
+            puesto=puesto,
+            desde=fecha_inicio,
+            hasta=fecha_termino,
+            archivo_experiencia=archivo_subido,
+            puntos=puntos
+        )
+        experiencia.save()
+
+        return redirect('Registro_exitoso')
+    else:
+        return redirect('Registro_curriculum')
