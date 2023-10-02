@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.decorators import login_required
 from .forms import *
+from django.utils import timezone
 from django.shortcuts import render, redirect
 from .models import models ,Usuarios, Curriculums, Experiencias, Educaciones, Habilidades
 from django.contrib import messages
@@ -12,6 +13,7 @@ from django.core.mail import send_mail
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from .config import EMAIL_HOST_Usuario #Direccion de correo de config.py
+from datetime import datetime
 import uuid
 
 def Index_page(request):
@@ -57,6 +59,9 @@ def Info_curriculum(request):
 
 def Registro_curriculum(request):
     return render(request,'html/Registro_curriculums.html')
+
+def Registro_exitoso(request):
+    return render(request, 'html/Registro_exitoso.html')
 
 def registro_empleado(request):
     if request.method == 'POST':
@@ -468,3 +473,53 @@ def calcular_puntaje(nombre_usu):
     total_puntaje = puntaje_experiencias + puntaje_educaciones + puntaje_habilidades
 
     return total_puntaje
+
+def guardar_educacion(request):
+    if request.method == 'POST':
+        nivel_educacion = request.POST.get('nivelEducacion')
+        nombre_instituto = request.POST.get('instituto')
+        cursos = request.POST.get('cursos')
+        curso_termino = request.POST.get('cursoTermino')  # Nuevo campo
+
+        # Utiliza timezone.make_aware para asegurar que la zona horaria esté presente
+        fecha_inicio = timezone.make_aware(datetime.strptime(request.POST.get('fechaInicio'), '%Y-%m-%d'))
+
+        # Asegúrate de que fecha_termino también sea un objeto datetime
+        fecha_termino = timezone.make_aware(datetime.strptime(request.POST.get('fechaTermino'), '%Y-%m-%d'))
+
+        # Puedes acceder al archivo de la siguiente manera:
+        archivo_educacion = request.FILES.get('archivoEducacion')
+
+        # Verifica si se cargó un archivo
+        if archivo_educacion:
+            archivo_subido = 'si'
+            puntos = 20
+        else:
+            archivo_subido = 'no'
+            puntos = 10
+
+        # Obtén la instancia de Usuarios correspondiente al nombre de usuario
+        nombre_usuario = 'xd1'
+        usuario = Usuarios.objects.get(nombre_usu=nombre_usuario)
+
+        # Crea una instancia de Educacion y guarda los datos
+        educacion = Educaciones(
+            nombre_usu=usuario,
+            nivel_educacion=nivel_educacion,
+            nombre_instituto=nombre_instituto,
+            curso=cursos,
+            curso_termino=curso_termino,  # Nuevo campo
+            desde=fecha_inicio,
+            hasta=fecha_termino,
+            archivo_educacion=archivo_subido,
+            puntos=puntos
+        )
+        educacion.save()
+        print(f"Datos guardados correctamente: {educacion}")
+
+        # Aquí puedes hacer algo con los puntos, como almacenarlos en otro modelo o realizar alguna lógica adicional
+
+        # Redirige o responde según tu lógica
+        return redirect('Registro_exitoso')
+    else:
+        return redirect('Registro_curriculum')

@@ -93,7 +93,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form action="{% url 'guardar_educacion' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
                         <div class="mb-3">
                             <label for="nivelEducacion" class="form-label">Nivel de Educación:</label>
                             <select class="form-control" id="nivelEducacion" name="nivelEducacion">
@@ -107,22 +108,30 @@
                             <input type="text" class="form-control" id="instituto" name="instituto" required>
                         </div>
                         <div class="mb-3">
-                            <label for="cursos" class="form-label">Cursos:</label>
+                            <label for="cursos" class="form-label">Curso de inicio:</label>
                             <input type="text" class="form-control" id="cursos" name="cursos" required>
                         </div>
                         <div class="mb-3">
-                            <label for="tiempo" class="form-label">Tiempo:</label>
-                            <input type="text" class="form-control" id="tiempo" name="tiempo" required>
+                            <label for="fechaInicio" class="form-label">Fecha de Inicio:</label>
+                            <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cursoTermino" class="form-label">Curso de Término:</label>
+                            <input type="text" class="form-control" id="cursoTermino" name="cursoTermino" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="fechaTermino" class="form-label">Fecha de Término:</label>
+                            <input type="date" class="form-control" id="fechaTermino" name="fechaTermino" required>
                         </div>
                         <div class="mb-3">
                             <label for="archivoEducacion" class="form-label">Subir certificado:</label>
                             <input type="file" class="form-control" id="archivoEducacion" name="archivoEducacion">
                         </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary">Guardar</button>
                 </div>
             </div>
         </div>

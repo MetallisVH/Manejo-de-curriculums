@@ -12,6 +12,7 @@ urlpatterns = [
     path('/Home/regcontr/ereg', views.registro_empleador, name = 'registro_empleador'),
     path('/Home/emplogin/dauth', views.autenticar_empleado, name = 'autenticar_empleado'),
     path('/Home/contrlogin/eauth', views.autenticar_empleador, name = 'autenticar_empleador'),
+    path('reget/',views.Registro_exitoso,name='Registro_exitoso'),
     path('logout/', views.user_logout, name='user_logout'),
     path('Email_confirm/',views.Email_confirm,name='Email_confirm'),
     path('confirmar_email/<str:token>/', views.confirmar_email, name='confirmar_email'),
@@ -26,5 +27,6 @@ urlpatterns = [
     path('/Home/cvdm',views.Info_curriculum,name='Info_curriculum'),
     path('/Home/regc',views.Registro_curriculum,name='Registro_curriculum'),
     path('guardar_curriculum/',views.registrar_curriculum,name='guardar_curriculum'),
+    path('sved',views.guardar_educacion,name='guardar_educacion'),
     path('Error_403/',views.Error_403,name='Error_403'),
 ]

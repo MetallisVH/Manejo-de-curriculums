@@ -36,11 +36,20 @@ class Curriculums(models.Model):
 class Experiencias(models.Model):
     id = models.AutoField(primary_key= True, null=False, unique=True)
     nombre_usu = models.ForeignKey(Usuarios, on_delete=models.CASCADE, to_field='nombre_usu')
+    desde = models.DateTimeField(null=False,blank=False)
+    hasta = models.DateTimeField(null=False,blank=False)
     puntos = models.IntegerField(null=True,blank=True)
 
 class Educaciones(models.Model):
     id= models.AutoField(primary_key=True, null=False, unique=True)
     nombre_usu = models.ForeignKey(Usuarios, on_delete=models.CASCADE, to_field='nombre_usu')
+    nivel_educacion = models.CharField(max_length=54,blank=False,null=False)
+    nombre_instituto = models.CharField(max_length=254,blank=True,null=False)
+    curso = models.CharField(max_length=254,blank=True,null=False)
+    curso_termino = models.CharField(max_length=254,blank=True,null=False)
+    desde = models.DateTimeField(null=False,blank=False)
+    hasta = models.DateTimeField(null=False,blank=False)
+    archivo_educacion = models.CharField(max_length=2,null=True,blank=True)
     puntos = models.IntegerField(null=True,blank=True)
     
 class Habilidades(models.Model):
