@@ -520,7 +520,7 @@ def guardar_educacion(request):
         # Aquí puedes hacer algo con los puntos, como almacenarlos en otro modelo o realizar alguna lógica adicional
 
         # Redirige o responde según tu lógica
-        return redirect('Registro_exitoso')
+        return redirect('Registro_curriculum')
     else:
         return redirect('Registro_curriculum')
     
@@ -560,7 +560,7 @@ def guardar_experiencia(request):
         )
         experiencia.save()
 
-        return redirect('Registro_exitoso')
+        return redirect('Registro_curriculum')
     else:
         return redirect('Registro_curriculum')
     
@@ -597,7 +597,7 @@ def guardar_habilidad(request):
         # Aquí puedes hacer algo con los puntos, como almacenarlos en otro modelo o realizar alguna lógica adicional
 
         # Redirige o responde según tu lógica
-        return redirect('Registro_exitoso')
+        return redirect('Registro_curriculum')
     else:
         return redirect('Registro_curriculum')
     
@@ -632,6 +632,6 @@ def guardar_idioma(request):
         idioma_instancia.save()
 
         # Redirige o responde según tu lógica
-        return redirect('Registro_exitoso')  # Reemplaza con la URL correcta
+        return redirect('Registro_curriculum')  # Reemplaza con la URL correcta
     else:
         return redirect('Registro_curriculum')  # Reemplaza con la URL correcta
