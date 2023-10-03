@@ -4,6 +4,7 @@ from .forms import *
 from django.utils import timezone
 from django.shortcuts import render, redirect
 from .models import models ,Usuarios, Curriculums, Experiencias, Educaciones, Habilidades, Idiomas
+from django.db.models import Sum
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 from datetime import date
@@ -426,53 +427,38 @@ def enviar_usuario(request, email, token):
 
 def registrar_curriculum(request):
     if request.method == 'POST':
-        formulario_curriculum = CurriculumForm(request.POST)
-        if formulario_curriculum.is_valid():
-            # Suponiendo que tienes autenticación en marcha, puedes obtener el usuario actual
-            usuario_actual = Usuarios.objects.get(nombre_usu='xd1')
+        nombre_completo = request.POST['nombre']
+        email = request.POST['correo']
+        telefono = request.POST.get('telefono', None)
 
-            # Establecer el usuario actual como nombre_usu para la instancia de FormularioCurriculum
-            formulario_curriculum.instance.nombre_usu = usuario_actual.nombre_usu
-
-            curriculum = formulario_curriculum.save()
-
-            # Ahora, calcular el puntaje basado en la suma de puntos relacionados con este usuario
-            puntaje = calcular_puntaje(usuario_actual.nombre_usu)
-            curriculum.puntaje = puntaje
-            curriculum.save()
-
-            # Ajustes similares para otros formularios
-
-            return redirect('ruta_exitosa')  # Cambia 'ruta_exitosa' con tu URL de registro exitoso
-
-    else:
-        formulario_curriculum = CurriculumForm()
-        formulario_experiencia = ExperienciaForm()
-        formulario_educacion = EducacionForm()
-        formulario_habilidad = HabilidadForm()
-
-    return render(request, 'tu_template.html', {
-        'formulario_curriculum': formulario_curriculum,
-        'formulario_experiencia': formulario_experiencia,
-        'formulario_educacion': formulario_educacion,
-        'formulario_habilidad': formulario_habilidad,
-    })
-
-def calcular_puntaje(nombre_usu):
-    try:
+        # Utiliza el nombre de usuario almacenado en la variable de sesión
+        nombre_usu = 'xd1'
         usuario = Usuarios.objects.get(nombre_usu=nombre_usu)
-    except Usuarios.DoesNotExist:
-        return 0  # o manejar el caso en el que el usuario no existe
-    
-    # Calcular el puntaje basado en la suma de puntos de Experiencias, Educaciones y Habilidades relacionadas
-    puntaje_experiencias = Experiencias.objects.filter(nombre_usu=usuario).aggregate(total_puntos=models.Sum('puntos'))['total_puntos'] or 0
-    puntaje_educaciones = Educaciones.objects.filter(nombre_usu=usuario).aggregate(total_puntos=models.Sum('puntos'))['total_puntos'] or 0
-    puntaje_habilidades = Habilidades.objects.filter(nombre_usu=usuario).aggregate(total_puntos=models.Sum('puntos'))['total_puntos'] or 0
 
-    # Sumar los puntos
-    total_puntaje = puntaje_experiencias + puntaje_educaciones + puntaje_habilidades
+        curriculum = Curriculums(nombre_completo=nombre_completo, email=email, telefono=telefono, nombre_usu=usuario)
+        curriculum.save()
 
-    return total_puntaje
+        # Si también necesitas procesar y guardar otros datos relacionados, como experiencia laboral, educación, habilidades, idiomas, etc.,
+        # deberías hacerlo aquí siguiendo un patrón similar.
+
+        # Calcula el puntaje total y actualiza el campo 'puntaje' en el modelo Curriculums
+        puntaje_total = calcular_puntaje(usuario=nombre_usu)
+        curriculum.puntaje = puntaje_total
+        curriculum.save()
+
+        return redirect('Registro_exitoso')  # Redirige a la página de confirmación o a donde quieras
+
+    return render(request, 'tu_template.html')
+
+def calcular_puntaje(usuario):
+    # Calcula el puntaje total para un usuario sumando los puntos de experiencias, educaciones, habilidades e idiomas
+    puntaje_experiencias = Experiencias.objects.filter(nombre_usu=usuario).aggregate(Sum('puntos'))['puntos__sum'] or 0
+    puntaje_educaciones = Educaciones.objects.filter(nombre_usu=usuario).aggregate(Sum('puntos'))['puntos__sum'] or 0
+    puntaje_habilidades = Habilidades.objects.filter(nombre_usu=usuario).aggregate(Sum('puntos'))['puntos__sum'] or 0
+    puntaje_idiomas = Idiomas.objects.filter(nombre_usu=usuario).aggregate(Sum('puntos'))['puntos__sum'] or 0
+
+    puntaje_total = puntaje_experiencias + puntaje_educaciones + puntaje_habilidades + puntaje_idiomas
+    return puntaje_total
 
 def guardar_educacion(request):
     if request.method == 'POST':
