@@ -55,7 +55,18 @@
 
                             {% elif request.session.rol_usu == 1 %}
                             <!-- Mostrar menú específico para el rol 1 (si corresponde) -->
-                            <a class="nav-link" href="#">Menú empleador</a> 
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="menuEmpleadorDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Tus solicitudes
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="menuEmpleadorDropdown">
+                                    <!-- Agrega opciones dentro del menú desplegable -->
+                                    <a class="dropdown-item" href="#">Publicar trabajo</a>
+                                    <a class="dropdown-item" href="#">Solicitudes de empleo</a>
+                                    <a class="dropdown-item" href="#"></a>
+                                    <!-- Puedes agregar más opciones según tus necesidades -->
+                                </div>
+                            </li>
 
                             {% else %}
                                 <!-- Mostrar menú de registro de currículums cuando el usuario esté autenticado -->
