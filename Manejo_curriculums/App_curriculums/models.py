@@ -31,7 +31,8 @@ class Curriculums(models.Model):
     email = models.EmailField(max_length=254, null=False, blank=False, unique=True)
     nombre_usu = models.ForeignKey(Usuarios, on_delete=models.CASCADE, to_field='nombre_usu')
     telefono = models.IntegerField(null=True,blank=True,unique=True)
-    puntaje = models.IntegerField(null=True, blank=True) 
+    area = models.CharField(max_length=254,blank=True,null=False,default='Area no especificada')
+    puntaje = models.IntegerField(null=True, blank=True)
     
 class Experiencias(models.Model):
     id = models.AutoField(primary_key= True, null=False, unique=True)

@@ -56,7 +56,26 @@ def Recuperar_contrasena(request):
     return render(request, 'html/Rec_contrasena.html')
 
 def Info_curriculum(request):
-    return render(request,'html/info_cvp.html')
+    # Recuperar datos del usuario desde la tabla Curriculums
+    nombre_usu = 'xd1'
+    usuario = Curriculums.objects.get(nombre_usu=nombre_usu)
+
+    # Recuperar experiencias laborales, educación, habilidades e idiomas asociadas al usuario
+    experiencias_laborales = Experiencias.objects.filter(nombre_usu=nombre_usu)
+    educacion = Educaciones.objects.filter(nombre_usu=nombre_usu)
+    habilidades = Habilidades.objects.filter(nombre_usu=nombre_usu)
+    idiomas = Idiomas.objects.filter(nombre_usu=nombre_usu)
+    curriculum = Curriculums.objects.get(nombre_usu=nombre_usu)
+    curr_area = curriculum.area
+
+    return render(request, 'html/info_cvp.html', {
+        'usuario': usuario,
+        'experiencias_laborales': experiencias_laborales,
+        'educacion': educacion,
+        'habilidades': habilidades,
+        'idiomas': idiomas,
+        'area':curr_area
+    })
 
 def Registro_curriculum(request):
     return render(request,'html/Registro_curriculums.html')
@@ -430,12 +449,14 @@ def registrar_curriculum(request):
         nombre_completo = request.POST['nombre']
         email = request.POST['correo']
         telefono = request.POST.get('telefono', None)
+        area = request.POST.get('area', None)  # Asegúrate de que 'area' sea el nombre correcto en tu formulario
 
         # Utiliza el nombre de usuario almacenado en la variable de sesión
         nombre_usu = 'xd1'
         usuario = Usuarios.objects.get(nombre_usu=nombre_usu)
 
-        curriculum = Curriculums(nombre_completo=nombre_completo, email=email, telefono=telefono, nombre_usu=usuario)
+        # Guarda el nuevo curriculum con el área
+        curriculum = Curriculums(nombre_completo=nombre_completo, email=email, telefono=telefono, area=area, nombre_usu=usuario)
         curriculum.save()
 
         # Si también necesitas procesar y guardar otros datos relacionados, como experiencia laboral, educación, habilidades, idiomas, etc.,
