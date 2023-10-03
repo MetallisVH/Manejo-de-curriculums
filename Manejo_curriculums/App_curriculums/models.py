@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 class Usuarios(models.Model):
     id = models.AutoField(primary_key=True, null=False,unique=True)
@@ -71,3 +72,22 @@ class Idiomas(models.Model):
     nivel_idioma = models.CharField(max_length=54,blank=False,null=False,default='No seleccionado')
     archivo_idioma = models.CharField(max_length=2,null=True,blank=True)
     puntos = models.IntegerField(null=False,blank=False,default=10)
+    
+class Trabajos(models.Model):
+    id = models.AutoField(primary_key=True, null=False, unique=True)
+    publicador = models.ForeignKey(Usuarios, on_delete=models.CASCADE, to_field='nombre_usu')
+    area = models.CharField(max_length=254,blank=True,null=False,default='Area no especificada')
+    titulo = models.CharField(max_length=54,blank=True,null=False,default='No especificado')
+    descripcion = models.TextField(null=False,blank=True,default='Sin descripcion')
+    requisitos = models.CharField(max_length=254,null=False,blank=True,default='Sin requisitos')
+    ubicacion = models.CharField(max_length=254,null=False,blank=False,default='Falta espesificar ubicacion')
+    fecha_publicacion = models.DateTimeField(null=False,blank=False,default=timezone.now())
+    fecha_limite = models.DateTimeField(null=True,blank=True)
+    remoto = models.CharField(max_length=2,blank=False,null=False,default='NA')
+    sueldo = models.IntegerField(null=True,blank=True)
+    
+
+class Aplicaciones(models.Model):
+    id = models.AutoField(primary_key=True, null=False, unique=True)
+    aplicante = models.ForeignKey(Usuarios, on_delete=models.CASCADE, to_field='nombre_usu')
+    trabajo = models.ForeignKey(Trabajos, on_delete=models.CASCADE, to_field='id')

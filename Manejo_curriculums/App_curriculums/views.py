@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import *
 from django.utils import timezone
 from django.shortcuts import render, redirect
-from .models import models ,Usuarios, Curriculums, Experiencias, Educaciones, Habilidades, Idiomas
+from .models import models ,Usuarios, Curriculums, Experiencias, Educaciones, Habilidades, Idiomas, Trabajos
 from django.db.models import Sum
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
@@ -56,32 +56,38 @@ def Recuperar_contrasena(request):
     return render(request, 'html/Rec_contrasena.html')
 
 def Info_curriculum(request):
-    # Recuperar datos del usuario desde la tabla Curriculums
-    nombre_usu = 'xd1'
-    usuario = Curriculums.objects.get(nombre_usu=nombre_usu)
+    try:
+        # Recuperar datos del usuario desde la tabla Curriculums
+        nombre_usu = 'xd1'
+        usuario = Curriculums.objects.get(nombre_usu=nombre_usu)
 
-    # Recuperar experiencias laborales, educación, habilidades e idiomas asociadas al usuario
-    experiencias_laborales = Experiencias.objects.filter(nombre_usu=nombre_usu)
-    educacion = Educaciones.objects.filter(nombre_usu=nombre_usu)
-    habilidades = Habilidades.objects.filter(nombre_usu=nombre_usu)
-    idiomas = Idiomas.objects.filter(nombre_usu=nombre_usu)
-    curriculum = Curriculums.objects.get(nombre_usu=nombre_usu)
-    curr_area = curriculum.area
+        # Recuperar experiencias laborales, educación, habilidades e idiomas asociadas al usuario
+        experiencias_laborales = Experiencias.objects.filter(nombre_usu=nombre_usu)
+        educacion = Educaciones.objects.filter(nombre_usu=nombre_usu)
+        habilidades = Habilidades.objects.filter(nombre_usu=nombre_usu)
+        idiomas = Idiomas.objects.filter(nombre_usu=nombre_usu)
+        curriculum = Curriculums.objects.get(nombre_usu=nombre_usu)
+        curr_area = curriculum.area
 
-    return render(request, 'html/info_cvp.html', {
-        'usuario': usuario,
-        'experiencias_laborales': experiencias_laborales,
-        'educacion': educacion,
-        'habilidades': habilidades,
-        'idiomas': idiomas,
-        'area':curr_area
-    })
+        return render(request, 'html/info_cvp.html', {
+            'usuario': usuario,
+            'experiencias_laborales': experiencias_laborales,
+            'educacion': educacion,
+            'habilidades': habilidades,
+            'idiomas': idiomas,
+            'area':curr_area
+        })
+    except:
+        render(request,'html/Error_403.html')
 
 def Registro_curriculum(request):
     return render(request,'html/Registro_curriculums.html')
 
 def Registro_exitoso(request):
     return render(request, 'html/Registro_exitoso.html')
+
+def publicar_trabajo(request):
+    return render(request,'html/Publicar_trabajo.html')
 
 def registro_empleado(request):
     if request.method == 'POST':
@@ -642,3 +648,40 @@ def guardar_idioma(request):
         return redirect('Registro_curriculum')  # Reemplaza con la URL correcta
     else:
         return redirect('Registro_curriculum')  # Reemplaza con la URL correcta
+    
+def guardar_trabajo(request):
+    if request.method == 'POST':
+        titulo = request.POST['titulo']
+        descripcion = request.POST['descripcion']
+        requisitos = request.POST['requisitos']
+        ubicacion = request.POST['ubicacion']
+        sueldo = request.POST['sueldo']
+        area = request.POST['area']
+        fecha_publicacion = request.POST['fecha_publicacion']
+        trabajo_remoto = request.POST.get('trabajo_remoto', False)
+        fecha_limite = request.POST['fecha_limite']
+        
+        if fecha_limite == '':
+            fecha_limite = None
+        
+        usuario = Usuarios.objects.get(nombre_usu='xd2')
+
+        # Crear una instancia del modelo Trabajo y guardar los datos
+        trabajo = Trabajos(
+            publicador = usuario,
+            titulo=titulo,
+            descripcion=descripcion,
+            requisitos=requisitos,
+            ubicacion=ubicacion,
+            sueldo=sueldo,
+            area=area,
+            fecha_publicacion=fecha_publicacion,
+            remoto=trabajo_remoto,
+            fecha_limite=fecha_limite,
+        )
+        trabajo.save()
+
+        # Puedes redirigir a una página de confirmación o a donde desees
+        return redirect('pagina_confirmacion')
+
+    return render(request, 'tu_template.html')

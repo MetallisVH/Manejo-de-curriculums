@@ -1,0 +1,110 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publicar Trabajo</title>
+    <!-- Agrega aquí tus enlaces a hojas de estilo o scripts adicionales si es necesario -->
+    <link rel="stylesheet" type="text/css" href="{% static 'App_curriculums/css/publicar_trabajo.css' %}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <header>
+        <h1>Publicar Trabajo</h1>
+    </header>
+
+    <section>
+        <h2>Detalles del Trabajo</h2>
+        <form action="{% url 'guardar_trabajo' %}" method="post">
+            {% csrf_token %}
+            <div>
+                <label for="titulo">Título del Trabajo:</label>
+                <input type="text" id="titulo" name="titulo" required>
+            </div>
+
+            <div>
+                <label for="descripcion">Descripción del Trabajo:</label>
+                <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
+            </div>
+
+            <div>
+                <label for="requisitos">Requisitos del Trabajo:</label>
+                <textarea id="requisitos" name="requisitos" rows="4" required></textarea>
+            </div>
+
+            <div>
+                <label for="ubicacion">Ubicación del Trabajo:</label>
+                <input type="text" id="ubicacion" name="ubicacion" required>
+            </div>
+
+            <div>
+                <label for="sueldo">Sueldo:</label>
+                <input type="number" id="sueldo" name="sueldo" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="area" class="form-label">Área del Trabajo:</label>
+                <select class="form-select" id="area" name="area" required>
+                    <option value="" selected disabled>Selecciona un área</option>
+                    <option value="tecnologia">Tecnología</option>
+                    <option value="salud">Salud</option>
+                    <option value="finanzas">Finanzas</option>
+                    <option value="educacion">Educación</option>
+                    <option value="ventas">Ventas</option>
+                    <option value="marketing">Marketing</option>
+                    <option value="ingenieria">Ingeniería</option>
+                    <option value="recursoshumanos">Recursos Humanos</option>
+                    <option value="diseño">Diseño</option>
+                    <option value="medioambiente">Medio Ambiente</option>
+                    <option value="serviciosocial">Servicio Social</option>
+                    <option value="construccion">Construcción</option>
+                    <option value="consultoria">Consultoría</option>
+                    <option value="logistica">Logística</option>
+                    <option value="investigacion">Investigación</option>
+                    <option value="arte">Arte</option>
+                    <option value="derecho">Derecho</option>
+                    <option value="comunicacion">Comunicación</option>
+                    <option value="turismo">Turismo</option>
+                    <option value="manufactura">Manufactura</option>
+                    <option value="energiasrenovables">Energías Renovables</option>
+                    <option value="agricultura">Agricultura</option>
+                    <option value="cienciadatos">Ciencia de Datos</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="fecha_publicacion">Fecha de Publicación:</label>
+                <input type="date" id="fecha_publicacion" name="fecha_publicacion" value="{% now 'Y-m-d' %}" required readonly>
+            </div>
+
+            <div class="mb-3">
+                <label for="trabajo_remoto" class="form-label">Trabajo Remoto:</label>
+                <select class="form-select" id="trabajo_remoto" name="trabajo_remoto" required>
+                    <option value="" disabled selected>Selecciona una opción</option>
+                    <option value="si">Sí</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="fecha_limite">Fecha Límite de Aplicación:</label>
+                <input type="date" id="fecha_limite" name="fecha_limite">
+            </div>
+
+            <button type="submit">Publicar Trabajo</button>
+        </form>
+    </section>
+
+    <!-- Agrega aquí cualquier otra sección o elemento necesario -->
+
+    <footer>
+        <!-- Agrega aquí el contenido del pie de página si es necesario -->
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
