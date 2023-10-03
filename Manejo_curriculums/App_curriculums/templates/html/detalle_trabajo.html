@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Trabajo</title>
+    <!-- Agrega aquí tus enlaces a hojas de estilo o scripts adicionales si es necesario -->
+</head>
+<body>
+    <header>
+        <h1>Detalles del Trabajo</h1>
+    </header>
+
+    <section>
+        <h2>{{ trabajo.titulo }}</h2>
+        <p>Descripcion del trabajo:</br></br>{{ trabajo.descripcion }}</p>
+        <p>Requisitos:</br></br>{{ trabajo.requisitos }}</p>
+        <p>Ubicación: {{ trabajo.ubicacion }}</p>
+        <p>Sueldo: {{ trabajo.sueldo }} pesos</p>
+        <p>Área: {{ trabajo.area }}</p>
+        <p>Fecha de Publicación: {{ trabajo.fecha_publicacion }}</p>
+        <p>Trabajo Remoto: {% if trabajo.remoto %} Sí {% else %} No {% endif %}</p>
+        {% if trabajo.fecha_limite %}
+            <p>Fecha Límite de Aplicación: {{ trabajo.fecha_limite }}</p>
+        {% endif %}
+    </section>
+
+    <!-- Agrega aquí cualquier otra sección o elemento necesario -->
+
+    <footer>
+        <!-- Agrega aquí el contenido del pie de página si es necesario -->
+    </footer>
+</body>
+</html>

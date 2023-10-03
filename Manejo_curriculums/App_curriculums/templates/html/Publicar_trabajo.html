@@ -45,6 +45,27 @@
             </div>
 
             <div class="mb-3">
+                <label for="tipo_trabajo" class="form-label">Tipo de Trabajo:</label>
+                <select class="form-select" id="tipo_trabajo" name="tipo_trabajo" required>
+                    <option value="" selected disabled>Selecciona un tipo de trabajo</option>
+                    <option value="tiempo_completo">Tiempo Completo</option>
+                    <option value="tiempo_parcial">Tiempo Parcial</option>
+                    <option value="reemplazo">Reemplazo</option>
+                    <option value="freelance">Freelance</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="tipo_contrato" class="form-label">Tipo de Contrato:</label>
+                <select class="form-select" id="tipo_contrato" name="tipo_contrato" required>
+                    <option value="" selected disabled>Selecciona un tipo de contrato</option>
+                    <option value="indefinido">Indefinido</option>
+                    <option value="plazo_fijo">Plazo Fijo</option>
+                    <option value="practica">Práctica</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
                 <label for="area" class="form-label">Área del Trabajo:</label>
                 <select class="form-select" id="area" name="area" required>
                     <option value="" selected disabled>Selecciona un área</option>
@@ -76,7 +97,7 @@
 
             <div class="mb-3">
                 <label for="fecha_publicacion">Fecha de Publicación:</label>
-                <input type="date" id="fecha_publicacion" name="fecha_publicacion" value="{% now 'Y-m-d' %}" required readonly>
+                <input type="datetime-local" id="fecha_publicacion" name="fecha_publicacion" value="{% now 'Y-m-d\TH:i:s' %}" required readonly>
             </div>
 
             <div class="mb-3">

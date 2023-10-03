@@ -12,6 +12,7 @@ urlpatterns = [
     path('/Home/regcontr/ereg', views.registro_empleador, name = 'registro_empleador'),
     path('/Home/emplogin/dauth', views.autenticar_empleado, name = 'autenticar_empleado'),
     path('/Home/contrlogin/eauth', views.autenticar_empleador, name = 'autenticar_empleador'),
+    path('/Home/srchjb',views.listado_empleos,name='Listado_trabajos'),
     path('/Home/pubjob',views.publicar_trabajo,name='publicar_trabajo'),
     path('reget/',views.Registro_exitoso,name='Registro_exitoso'),
     path('logout/', views.user_logout, name='user_logout'),
@@ -33,5 +34,6 @@ urlpatterns = [
     path('svhb',views.guardar_habilidad,name='guardar_habilidad'),
     path('svid',views.guardar_idioma,name='guardar_idioma'),
     path('svjb',views.guardar_trabajo,name='guardar_trabajo'),
+    path('jbdetail/<int:trabajo_id>/',views.detalle_trabajo,name='detalle_trabajo'),
     path('Error_403/',views.Error_403,name='Error_403'),
 ]

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabajos Disponibles</title>
+    <!-- Agrega aquí tus enlaces a hojas de estilo o scripts adicionales si es necesario -->
+</head>
+<body>
+    <header>
+        <h1>Trabajos Disponibles</h1>
+    </header>
+
+    <section>
+        {% if trabajos %}
+            <ul>
+                {% for trabajo in trabajos %}
+                    <li>
+                        <h2>{{ trabajo.titulo }}</h2>
+                        <p>Ubicación: {{ trabajo.ubicacion }}</p>
+                        <p>Área: {{ trabajo.area }}</p>
+                        <p>Fecha de Publicación: {{ trabajo.fecha_publicacion }}</p>
+                        <p>Trabajo Remoto: {{ trabajo.remoto }}</p>
+                        <!-- Agrega más detalles según tus necesidades -->
+                        <a href="{% url 'detalle_trabajo' trabajo.id %}">Ver detalles</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No hay trabajos disponibles en este momento.</p>
+        {% endif %}
+    </section>
+
+    <!-- Agrega aquí cualquier otra sección o elemento necesario -->
+
+    <footer>
+        <!-- Agrega aquí el contenido del pie de página si es necesario -->
+    </footer>
+</body>
+</html>

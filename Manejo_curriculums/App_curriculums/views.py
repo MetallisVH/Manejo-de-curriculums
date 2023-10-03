@@ -89,6 +89,16 @@ def Registro_exitoso(request):
 def publicar_trabajo(request):
     return render(request,'html/Publicar_trabajo.html')
 
+def listado_empleos(request):
+    # Obtener todos los trabajos disponibles
+    trabajos = Trabajos.objects.all()
+
+    # Pasa la lista de trabajos al contexto de la plantilla
+    context = {'trabajos': trabajos}
+
+    # Renderiza la plantilla
+    return render(request, 'html/lista_empleos.html', context)
+   
 def registro_empleado(request):
     if request.method == 'POST':
         form = RegistroEmpleadoForm(request.POST)
@@ -660,6 +670,8 @@ def guardar_trabajo(request):
         fecha_publicacion = request.POST['fecha_publicacion']
         trabajo_remoto = request.POST.get('trabajo_remoto', False)
         fecha_limite = request.POST['fecha_limite']
+        tipo_trabajo = request.POST['tipo_trabajo']
+        tipo_contrato = request.POST['tipo_contrato']
         
         if fecha_limite == '':
             fecha_limite = None
@@ -678,10 +690,22 @@ def guardar_trabajo(request):
             fecha_publicacion=fecha_publicacion,
             remoto=trabajo_remoto,
             fecha_limite=fecha_limite,
+            tipo_trabajo=tipo_trabajo,
+            tipo_contrato=tipo_contrato,
         )
         trabajo.save()
 
         # Puedes redirigir a una página de confirmación o a donde desees
-        return redirect('pagina_confirmacion')
+        return redirect('Registro_exitoso')
 
     return render(request, 'tu_template.html')
+
+def detalle_trabajo(request, trabajo_id):
+    # Obtén el trabajo específico o muestra un error 404 si no existe
+    trabajo = Trabajos.objects.get(id=trabajo_id)
+
+    # Pasa el trabajo al contexto de la plantilla
+    context = {'trabajo': trabajo}
+
+    # Renderiza la plantilla de detalle
+    return render(request, 'html/detalle_trabajo.html', context)
