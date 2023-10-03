@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import *
 from django.utils import timezone
 from django.shortcuts import render, redirect
-from .models import models ,Usuarios, Curriculums, Experiencias, Educaciones, Habilidades, Idiomas, Trabajos
+from .models import models ,Usuarios, Curriculums, Experiencias, Educaciones, Habilidades, Idiomas, Trabajos, Aplicaciones
 from django.db.models import Sum
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
@@ -75,10 +75,10 @@ def Info_curriculum(request):
             'educacion': educacion,
             'habilidades': habilidades,
             'idiomas': idiomas,
-            'area':curr_area
+            'area': curr_area
         })
-    except:
-        render(request,'html/Error_403.html')
+    except Curriculums.DoesNotExist:
+        return render(request, 'html/info_cvp.html', {'crear_curriculum': True})
 
 def Registro_curriculum(request):
     return render(request,'html/Registro_curriculums.html')
@@ -709,3 +709,33 @@ def detalle_trabajo(request, trabajo_id):
 
     # Renderiza la plantilla de detalle
     return render(request, 'html/detalle_trabajo.html', context)
+
+def aplicar_trabajo(request, trabajo_id):
+    trabajo = Trabajos.objects.get(id=trabajo_id)
+
+    if request.method == 'POST':
+        # Acceder a la variable de sesión 'nombre_usu'
+        nombre_usu = 'xd1'
+
+        if nombre_usu:
+            usuario = Usuarios.objects.get(nombre_usu=nombre_usu)
+            curriculum = Curriculums.objects.get(nombre_usu=usuario)
+            puntos = curriculum.puntaje
+
+            # Crear una instancia de Aplicaciones y guardar los datos
+            aplicacion = Aplicaciones(
+                aplicante=usuario,
+                trabajo=trabajo,
+                puntos_aplicante=puntos  # Puedes ajustar esto según tus necesidades
+            )
+            aplicacion.save()
+
+            # Puedes agregar un mensaje de éxito si lo deseas
+            messages.success(request, 'Aplicación enviada con éxito.')
+
+            return redirect('Aplicacion_exitosa')
+        else:
+            # Puedes manejar el caso en que 'nombre_usu' no esté en la sesión
+            messages.error(request, 'Error al enviar la aplicación.')
+
+    return render(request, 'tu_template.html', {'trabajo': trabajo})

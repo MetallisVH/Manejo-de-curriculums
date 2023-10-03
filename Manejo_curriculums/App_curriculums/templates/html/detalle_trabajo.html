@@ -23,6 +23,12 @@
         {% if trabajo.fecha_limite %}
             <p>Fecha Límite de Aplicación: {{ trabajo.fecha_limite }}</p>
         {% endif %}
+
+        <!-- Botón para aplicar -->
+        <form action="{% url 'aplicar_trabajo' trabajo.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Aplicar</button>
+        </form>
     </section>
 
     <!-- Agrega aquí cualquier otra sección o elemento necesario -->

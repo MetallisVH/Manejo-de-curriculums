@@ -13,7 +13,7 @@
     <header class="bg-dark text-white text-center py-3">
         <h1>Mi Currículum</h1>
     </header>
-    
+    {% if usuario %}
     <section id="resume" class="container my-4">
         <h2>Información Personal</h2>
         <p class="mb-2"><strong>Nombre:</strong> {{ usuario.nombre_completo }}</p>
@@ -44,18 +44,25 @@
     
         <h2>Idiomas</h2>
         <ul class="list-group mb-4">
+            {% if idiomas %}
             {% for idioma in idiomas %}
                 <li class="list-group-item">{{ idioma.idioma }} - Nivel: {{ idioma.nivel_idioma }}</li>
             {% endfor %}
+            {% else %}
+                <p>Sin datos disponibles</p>
+            {% endif %}
         </ul>
     </section>
+    {% endif %}
 
+    {% if crear_curriculum %}
     <section id="create-resume" class="container text-center">
         <!-- Opción para crear un currículum -->
         <h2>Crear Currículum</h2>
         <p>¡Aún no tienes un currículum! Puedes crear uno a continuación:</p>
         <button class="btn btn-primary"><a href="{% url 'Registro_curriculum' %}" class="text-white">Crear Currículum</a></button>
     </section>
+    {% endif %}
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
