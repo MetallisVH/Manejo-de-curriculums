@@ -138,7 +138,15 @@
     {% if request.session.rol_usu == 0 %}
     <!-- Contenido específico para usuarios con sesión igual a 0 (por ejemplo, rol de empleado) -->
     <p>Empleos Recomendados</p>
-    <!-- Puedes agregar más contenido específico aquí -->
+
+    <!-- Obtén el área del curriculum del empleado -->
+    {% for trabajo in trabajos_recomendados %}
+    <div>
+        <h3>{{ trabajo.titulo }}</h3>
+        <p>{{ trabajo.descripcion }}</p>
+        <!-- Agrega más detalles del trabajo aquí -->
+    </div>
+    {% endfor %}
         
     {% elif request.session.rol_usu == 1 %}
         <!-- Contenido específico para usuarios con sesión igual a 1 (por ejemplo, rol de empleador) -->

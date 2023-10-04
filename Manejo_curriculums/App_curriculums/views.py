@@ -22,7 +22,21 @@ def Index_page(request):
     return render(request, 'html/index.html')
 
 def Home_page(request):
-    return render(request, 'html/Home.html')
+    try:
+        nombre_usu = request.session.get('nombre_usu')
+        
+        usuario = Usuarios.objects.get(nombre_usu=nombre_usu)
+        
+        curriculum = Curriculums.objects.get(nombre_usu=usuario)
+        
+        empleado_area = curriculum.area
+
+        # Filtra los trabajos basados en el área del empleado
+        trabajos_recomendados = Trabajos.objects.filter(area=empleado_area)
+    except:
+        trabajos_recomendados = 0
+
+    return render(request, 'html/Home.html', {'trabajos_recomendados': trabajos_recomendados})
 
 def Login_empleado(request):
     return render(request, 'html/inicio_empleado.html')
