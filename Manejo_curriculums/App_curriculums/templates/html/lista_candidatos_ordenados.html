@@ -32,21 +32,23 @@
             <tbody>
                 {% for aplicante in aplicantes %}
                     {% for curriculum in curriculums %}
-                        {% for trabajo in trabajos %}
-                            {% if curriculum.nombre_usu == aplicante.aplicante and aplicante.trabajo == trabajo %}
-                                <tr>
-                                    <td>{{ forloop.counter }}</td>
-                                    <td>{{ curriculum.nombre_completo }}</td>
-                                    <td>{{ curriculum.email }}</td>
-                                    <td>{{ curriculum.telefono }}</td>
-                                    <td>{{ trabajo.titulo }}</td>
-                                    <td><a href="{% url 'ver_detalles' aplicante.id %}">Ver Detalles</a></td>
-                                    <td><a href="{% url 'aceptar_aplicacion' aplicante.id %}">Aceptar</a></td>
-                                    <td><a href="{% url 'rechazar_aplicacion' aplicante.id %}">Rechazar</a></td>
-                                    <!-- Agrega más celdas según sea necesario -->
-                                </tr>
-                            {% endif %}
-                        {% endfor %}
+                        {% if aplicante.aplicante == curriculum.nombre_usu %}
+                            {% for trabajo in trabajos %}
+                                {% if aplicante.trabajo == trabajo %}
+                                    <tr>
+                                        <td>{{ forloop.parentloop.parentloop.counter }}</td>
+                                        <td>{{ curriculum.nombre_completo }}</td>
+                                        <td>{{ curriculum.email }}</td>
+                                        <td>{{ curriculum.telefono }}</td>
+                                        <td>{{ trabajo.titulo }}</td>
+                                        <td><a href="#">Ver Detalles</a></td>
+                                        <td><a href="#">Aceptar</a></td>
+                                        <td><a href="#">Rechazar</a></td>
+                                        <!-- Agrega más celdas según sea necesario -->
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
                     {% endfor %}
                 {% endfor %}
             </tbody>

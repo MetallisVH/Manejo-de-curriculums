@@ -16,6 +16,7 @@ from django.http import HttpResponseRedirect
 from .config import EMAIL_HOST_Usuario #Direccion de correo de config.py
 from datetime import datetime
 import uuid
+from django.db.models import Q
 
 def Index_page(request):
     return render(request, 'html/index.html')
@@ -58,7 +59,7 @@ def Recuperar_contrasena(request):
 def Info_curriculum(request):
     try:
         # Recuperar datos del usuario desde la tabla Curriculums
-        nombre_usu = 'xd1'
+        nombre_usu = request.session.get('nombre_usu')
         usuario = Curriculums.objects.get(nombre_usu=nombre_usu)
 
         # Recuperar experiencias laborales, educación, habilidades e idiomas asociadas al usuario
@@ -145,6 +146,8 @@ def registro_empleado(request):
                 apellido_p = form.cleaned_data['apellidoPaterno'],
                 apellido_m = form.cleaned_data['apellidoMaterno'],
                 rut = form.cleaned_data['rut'],
+                rut_empr=form.cleaned_data['rut'],
+                dv_empr=form.cleaned_data['dv'],
                 dv = form.cleaned_data['dv'],
                 direccion = form.cleaned_data['direccion'],
                 oauth = 0,
@@ -236,9 +239,10 @@ def autenticar_empleado(request):
             usuario = Usuarios.objects.get(nombre_usu=nombre_usuario)
 
             # Verifica si la contraseña proporcionada coincide con la contraseña almacenada
-            if check_password(contrasena, usuario.contrasena) and usuario.oauth == 1:
+            if check_password(contrasena, usuario.contrasena) and usuario.oauth == 1 and usuario.nivel_cuenta == 0:
                 # Autenticación exitosa, inicia sesión al usuario
                 request.session['rol_usu'] = usuario.nivel_cuenta
+                request.session['nombre_usu'] = usuario.nombre_usu
                 
                 return redirect('Home_page')  # Redirige a la página de inicio después del inicio de sesión
             elif usuario.oauth == 0:
@@ -264,9 +268,10 @@ def autenticar_empleador(request):
             empleador = Usuarios.objects.get(nombre_usu=nombre_usuario)
 
             # Verifica si la contraseña proporcionada coincide con la contraseña almacenada
-            if check_password(contrasena, empleador.contrasena) and empleador.oauth == 1:
+            if check_password(contrasena, empleador.contrasena) and empleador.oauth == 1 and empleador.nivel_cuenta == 1:
                 # Autenticación exitosa, inicia sesión al usuario
                 request.session['rol_usu'] = empleador.nivel_cuenta
+                request.session['nombre_usu'] = empleador.nombre_usu
                 
                 return redirect('Home_page')  # Redirige a la página de inicio después del inicio de sesión
             elif empleador.oauth == 0:
@@ -482,7 +487,7 @@ def registrar_curriculum(request):
         area = request.POST.get('area', None)  # Asegúrate de que 'area' sea el nombre correcto en tu formulario
 
         # Utiliza el nombre de usuario almacenado en la variable de sesión
-        nombre_usu = 'xd1'
+        nombre_usu = request.session.get('nombre_usu')
         usuario = Usuarios.objects.get(nombre_usu=nombre_usu)
 
         # Guarda el nuevo curriculum con el área
@@ -516,8 +521,12 @@ def guardar_educacion(request):
         nivel_educacion = request.POST.get('nivelEducacion')
         nombre_instituto = request.POST.get('instituto')
         cursos = request.POST.get('cursos')
-        curso_termino = request.POST.get('cursoTermino')  # Nuevo campo
-
+        curso_termino = request.POST.get('cursoTermino') # Nuevo campo
+        area = request.POST.get('area')
+        
+        if area == None or area == '' or area == 'No seleccionada':
+            area = 'Conocimiento escolar base (general/generalista)'
+        
         # Utiliza timezone.make_aware para asegurar que la zona horaria esté presente
         fecha_inicio = timezone.make_aware(datetime.strptime(request.POST.get('fechaInicio'), '%Y-%m-%d'))
 
@@ -536,7 +545,7 @@ def guardar_educacion(request):
             puntos = 10
 
         # Obtén la instancia de Usuarios correspondiente al nombre de usuario
-        nombre_usuario = 'xd1'
+        nombre_usuario = request.session.get('nombre_usu')
         usuario = Usuarios.objects.get(nombre_usu=nombre_usuario)
 
         # Crea una instancia de Educacion y guarda los datos
@@ -549,7 +558,8 @@ def guardar_educacion(request):
             desde=fecha_inicio,
             hasta=fecha_termino,
             archivo_educacion=archivo_subido,
-            puntos=puntos
+            puntos=puntos,
+            area=area
         )
         educacion.save()
         print(f"Datos guardados correctamente: {educacion}")
@@ -566,6 +576,7 @@ def guardar_experiencia(request):
     if request.method == 'POST':
         empresa = request.POST.get('empresa')
         puesto = request.POST.get('puesto')
+        area = request.POST.get('area')
         
         # Utiliza timezone.make_aware para asegurar que la zona horaria esté presente
         fecha_inicio = timezone.make_aware(datetime.strptime(request.POST.get('fechaInicio'), '%Y-%m-%d'))
@@ -583,7 +594,7 @@ def guardar_experiencia(request):
             archivo_subido = 'no'
             puntos = 10
 
-        nombre_usuario = 'xd1'
+        nombre_usuario = request.session.get('nombre_usu')
         usuario = Usuarios.objects.get(nombre_usu=nombre_usuario)
 
         experiencia = Experiencias(
@@ -593,7 +604,8 @@ def guardar_experiencia(request):
             desde=fecha_inicio,
             hasta=fecha_termino,
             archivo_experiencia=archivo_subido,
-            puntos=puntos
+            puntos=puntos,
+            area=area
         )
         experiencia.save()
 
@@ -605,6 +617,7 @@ def guardar_habilidad(request):
     if request.method == 'POST':
         habilidad = request.POST.get('habilidad')
         nivel = request.POST.get('nivel')
+        area = request.POST.get('area')
 
         # Puedes acceder al archivo de la siguiente manera:
         archivo_habilidad = request.FILES.get('archivoHabilidad')
@@ -618,7 +631,7 @@ def guardar_habilidad(request):
             puntos = 10
 
         # Obtén la instancia de Usuarios correspondiente al nombre de usuario (ajusta según tu lógica)
-        nombre_usuario = 'xd1'
+        nombre_usuario = request.session.get('nombre_usu')
         usuario = Usuarios.objects.get(nombre_usu=nombre_usuario)
 
         # Crea una instancia de Habilidades y guarda los datos
@@ -627,7 +640,8 @@ def guardar_habilidad(request):
             habilidad=habilidad,
             nivel=nivel,
             archivo_habilidad=archivo_subido,
-            puntos=puntos
+            puntos=puntos,
+            area=area
         )
         habilidad.save()
 
@@ -642,6 +656,7 @@ def guardar_idioma(request):
     if request.method == 'POST':
         idioma = request.POST.get('idioma')
         nivel_idioma = request.POST.get('nivelIdioma')
+        area = request.POST.get('area')
 
         # Puedes acceder al archivo de la siguiente manera:
         archivo_idioma = request.FILES.get('archivoIdioma')
@@ -655,7 +670,7 @@ def guardar_idioma(request):
             puntos = 10
 
         # Obtén la instancia de Usuarios correspondiente al nombre de usuario
-        nombre_usuario = 'xd1'  # Reemplaza esto con la lógica para obtener el nombre de usuario actual
+        nombre_usuario = request.session.get('nombre_usu')  # Reemplaza esto con la lógica para obtener el nombre de usuario actual
         usuario = Usuarios.objects.get(nombre_usu=nombre_usuario)
 
         # Crea una instancia de Idiomas y guarda los datos
@@ -664,7 +679,8 @@ def guardar_idioma(request):
             idioma=idioma,
             nivel_idioma=nivel_idioma,
             archivo_idioma=archivo_subido,
-            puntos = puntos
+            puntos=puntos,
+            area=area
         )
         idioma_instancia.save()
 
@@ -690,7 +706,7 @@ def guardar_trabajo(request):
         if fecha_limite == '':
             fecha_limite = None
         
-        usuario = Usuarios.objects.get(nombre_usu='xd2')
+        usuario = request.session.get('nombre_usu')
 
         # Crear una instancia del modelo Trabajo y guardar los datos
         trabajo = Trabajos(
@@ -726,21 +742,34 @@ def detalle_trabajo(request, trabajo_id):
 
 def aplicar_trabajo(request, trabajo_id):
     trabajo = Trabajos.objects.get(id=trabajo_id)
+    area_trabajo = trabajo.area
 
     if request.method == 'POST':
-        # Acceder a la variable de sesión 'nombre_usu'
-        nombre_usu = 'xd1'
+        nombre_usu = request.session.get('nombre_usu')  # Acceder a la variable de sesión 'nombre_usu'
 
         if nombre_usu:
             usuario = Usuarios.objects.get(nombre_usu=nombre_usu)
-            curriculum = Curriculums.objects.get(nombre_usu=usuario)
-            puntos = curriculum.puntaje
+
+            # Filtrar experiencias por área y sumar los puntos
+            puntos_experiencias = Experiencias.objects.filter(nombre_usu=nombre_usu, area=area_trabajo).aggregate(Sum('puntos'))['puntos__sum'] or 0
+
+            # Filtrar idiomas por área y sumar los puntos
+            puntos_idiomas = Idiomas.objects.filter(nombre_usu=nombre_usu, area='Conocimiento idiomatico').aggregate(Sum('puntos'))['puntos__sum'] or 0
+
+            # Filtrar habilidades por área y sumar los puntos
+            puntos_habilidades = Habilidades.objects.filter(nombre_usu=nombre_usu, area=area_trabajo).aggregate(Sum('puntos'))['puntos__sum'] or 0
+
+            # Filtrar educaciones por área y sumar los puntos
+            puntos_educaciones = Educaciones.objects.filter(Q(nombre_usu=nombre_usu, area=area_trabajo) | Q(nombre_usu=nombre_usu, area='Conocimiento escolar base (general/generalista)')).aggregate(Sum('puntos'))['puntos__sum'] or 0
+
+            # Sumar los puntos totales
+            puntos_totales = puntos_experiencias + puntos_idiomas + puntos_habilidades + puntos_educaciones
 
             # Crear una instancia de Aplicaciones y guardar los datos
             aplicacion = Aplicaciones(
                 aplicante=usuario,
                 trabajo=trabajo,
-                puntos_aplicante=puntos  # Puedes ajustar esto según tus necesidades
+                puntos_aplicante=puntos_totales
             )
             aplicacion.save()
 

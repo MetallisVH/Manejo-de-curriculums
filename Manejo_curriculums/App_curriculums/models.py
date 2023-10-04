@@ -18,7 +18,7 @@ class Usuarios(models.Model):
     genero = models.CharField(max_length=54, null=True, blank=True)
     nombre_usu = models.CharField(max_length=54, null=True, blank=True, unique=True)
     razon_social = models.CharField(max_length=54,null=True,blank=True,default='N/A')
-    rut_empr = models.IntegerField(null=False,blank=False,default=0,unique=True)
+    rut_empr = models.IntegerField(null=True,blank=False,default=0,unique=True)
     dv_empr = models.CharField(max_length=1,null=False,blank=False,default=-1)
     direccion_empr = models.CharField(max_length=54,null=False,blank=False,default='N/A')
     last_login = models.DateTimeField(verbose_name='last login', blank=True, null=True,default=None)
@@ -42,6 +42,7 @@ class Experiencias(models.Model):
     puesto = models.CharField(max_length=254,null=False,blank=True)
     desde = models.DateTimeField(null=False,blank=False)
     hasta = models.DateTimeField(null=False,blank=False)
+    area = models.CharField(max_length=254,blank=True,null=False,default='Area no especificada')
     archivo_experiencia = models.CharField(max_length=2,null=False,blank=False)
     puntos = models.IntegerField(null=False,blank=False,default=10)
 
@@ -54,6 +55,7 @@ class Educaciones(models.Model):
     curso_termino = models.CharField(max_length=254,blank=True,null=False)
     desde = models.DateTimeField(null=False,blank=False)
     hasta = models.DateTimeField(null=False,blank=False)
+    area = models.CharField(max_length=254,blank=True,null=False,default='Area no especificada')
     archivo_educacion = models.CharField(max_length=2,null=True,blank=True)
     puntos = models.IntegerField(null=False,blank=False,default=10)
     
@@ -62,6 +64,7 @@ class Habilidades(models.Model):
     nombre_usu = models.ForeignKey(Usuarios, on_delete=models.CASCADE, to_field='nombre_usu')
     habilidad = models.CharField(max_length=254,null=False,blank=True)
     nivel = models.CharField(max_length=14,null=False,blank=False,default='No seleccionado')
+    area = models.CharField(max_length=254,blank=True,null=False,default='Area no especificada')
     archivo_habilidad = models.CharField(max_length=2,null=True,blank=True)
     puntos = models.IntegerField(null=False,blank=False,default=10)
     
@@ -70,6 +73,7 @@ class Idiomas(models.Model):
     nombre_usu = models.ForeignKey(Usuarios, on_delete=models.CASCADE, to_field='nombre_usu')
     idioma = models.CharField(max_length=254,blank=True,null=False)
     nivel_idioma = models.CharField(max_length=54,blank=False,null=False,default='No seleccionado')
+    area = models.CharField(max_length=254,blank=True,null=False,default='Area no especificada')
     archivo_idioma = models.CharField(max_length=2,null=True,blank=True)
     puntos = models.IntegerField(null=False,blank=False,default=10)
     
