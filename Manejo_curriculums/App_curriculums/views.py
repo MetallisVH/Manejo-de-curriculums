@@ -113,6 +113,10 @@ def listado_aplicantes(request):
     context = {'aplicantes': aplicantes, 'curriculums': curriculums,'trabajos':trabajos}
 
     return render(request, 'html/lista_candidatos_ordenados.html', context)
+
+def lista_candidatos(request):
+    curriculums = Curriculums.objects.all().order_by('-puntaje')
+    return render(request, 'html/lista_candidatos.html', {'curriculums': curriculums})
    
 def registro_empleado(request):
     if request.method == 'POST':

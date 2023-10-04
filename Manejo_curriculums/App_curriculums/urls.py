@@ -37,5 +37,6 @@ urlpatterns = [
     path('svjb',views.guardar_trabajo,name='guardar_trabajo'),
     path('jbapp/<int:trabajo_id>/',views.aplicar_trabajo,name='aplicar_trabajo'),
     path('jbdetail/<int:trabajo_id>/',views.detalle_trabajo,name='detalle_trabajo'),
+    path('/Home/emplst',views.lista_candidatos,name='Listado_empleados'),
     path('Error_403/',views.Error_403,name='Error_403'),
 ]

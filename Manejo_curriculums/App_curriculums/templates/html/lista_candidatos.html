@@ -1,20 +1,60 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Candidatos</title>
+    <title>Listado de Candidatos</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <!-- Tu archivo de estilos personalizado -->
+    <link rel="stylesheet" href="{% static 'App_curriculums/css/lista_candidatos.css' %}">
 </head>
 <body>
-    <h1>Lista de Candidatos</h1>
-    <ul>
-        {% for candidato in candidatos %}
-            <li>
-                <h2>{{ candidato.nombre }}</h2>
-                <p>Experiencia: {{ candidato.experiencia }}</p>
-                <p>Habilidades: {{ candidato.habilidades }}</p>
-            </li>
+
+<h1>Listado de Candidatos Disponibles</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Nombre Completo</th>
+            <th>Correo Electrónico</th>
+            <th>Teléfono</th>
+            <th>Área</th>
+            <th>Más Detalles</th>
+            <th>Contactar</th>
+            <!-- Agrega más columnas según sea necesario -->
+        </tr>
+    </thead>
+    <tbody>
+        {% for curriculum in curriculums %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ curriculum.nombre_completo }}</td>
+                <td>{{ curriculum.email }}</td>
+                <td>{{ curriculum.telefono }}</td>
+                <td>{{ curriculum.area }}</td>
+                <td><a href="#">Ver Detalles</a></td>
+                <td><a href="#">Contactar</a></td>
+                <!-- Agrega más celdas según sea necesario -->
+            </tr>
         {% endfor %}
-    </ul>
+    </tbody>
+</table>
+
+<!-- Bootstrap JS and Popper.js CDN -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
 </body>
 </html>
+
+
+
+
+
