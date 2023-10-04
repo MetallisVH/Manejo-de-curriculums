@@ -17,6 +17,7 @@ urlpatterns = [
     path('reget/',views.Registro_exitoso,name='Registro_exitoso'),
     path('logout/', views.user_logout, name='user_logout'),
     path('Email_confirm/',views.Email_confirm,name='Email_confirm'),
+    path('/Home/listemp',views.listado_aplicantes,name='listado_aplicantes'),
     path('confirmar_email/<str:token>/', views.confirmar_email, name='confirmar_email'),
     path('resetear_contrasena/<str:email>/<str:token>/',views.resetear_contrasena, name='resetear_contrasena'),
     path('enviar_usuario/<str:email>/<str:token>/', views.enviar_usuario, name='enviar_usuario'),

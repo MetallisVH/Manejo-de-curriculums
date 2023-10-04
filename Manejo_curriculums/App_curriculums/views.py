@@ -98,6 +98,20 @@ def listado_empleos(request):
 
     # Renderiza la plantilla
     return render(request, 'html/lista_empleos.html', context)
+
+def listado_aplicantes(request):
+    # Obtener la lista de aplicantes ordenada por puntos
+    aplicantes = Aplicaciones.objects.all().order_by('-puntos_aplicante')
+    
+    # Obtener todos los curriculums
+    curriculums = Curriculums.objects.all()
+    
+    trabajos = Trabajos.objects.all()
+
+    # Crear un diccionario que contenga la información necesaria para la plantilla
+    context = {'aplicantes': aplicantes, 'curriculums': curriculums,'trabajos':trabajos}
+
+    return render(request, 'html/lista_candidatos_ordenados.html', context)
    
 def registro_empleado(request):
     if request.method == 'POST':

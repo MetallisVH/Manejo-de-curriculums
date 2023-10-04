@@ -1,25 +1,60 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Candidatos Ordenados</title>
+    <title>Listado de Aplicantes</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'tu_ruta_css/estilos.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Lista de Candidatos Ordenados</h1>
-    <ul>
-        {% for candidato in candidatos %}
-            <li>
-                <h2>{{ candidato.nombre }}</h2>
-                <p>Experiencia: {{ candidato.experiencia }}</p>
-                <p>Habilidades: {{ candidato.habilidades }}</p>
-                <p>Puntuación: {{ calcular_puntuacion(candidato.habilidades, habilidades_requeridas) }}</p>
-            </li>
-        {% endfor %}
-    </ul>
+    <header class="bg-dark text-white text-center py-3">
+        <h1>Listado de Aplicantes</h1>
+    </header>
+    
+    <section id="aplicantes" class="container my-4">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre Completo</th>
+                    <th scope="col">Correo Electrónico</th>
+                    <th scope="col">Teléfono</th>
+                    <th scope="col">Puesto de Trabajo</th>
+                    <th scope="col">Ver Más Detalles</th>
+                    <th scope="col">Aceptar</th>
+                    <th scope="col">Rechazar</th>
+                    <!-- Agrega más columnas según sea necesario -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for aplicante in aplicantes %}
+                    {% for curriculum in curriculums %}
+                        {% for trabajo in trabajos %}
+                            {% if curriculum.nombre_usu == aplicante.aplicante and aplicante.trabajo == trabajo %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ curriculum.nombre_completo }}</td>
+                                    <td>{{ curriculum.email }}</td>
+                                    <td>{{ curriculum.telefono }}</td>
+                                    <td>{{ trabajo.puesto }}</td>
+                                    <td><a href="{% url 'ver_detalles' aplicante.id %}">Ver Detalles</a></td>
+                                    <td><a href="{% url 'aceptar_aplicacion' aplicante.id %}">Aceptar</a></td>
+                                    <td><a href="{% url 'rechazar_aplicacion' aplicante.id %}">Rechazar</a></td>
+                                    <!-- Agrega más celdas según sea necesario -->
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
-
-
-
-

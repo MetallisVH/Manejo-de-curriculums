@@ -88,7 +88,6 @@ class Trabajos(models.Model):
     remoto = models.CharField(max_length=2,blank=False,null=False,default='NA')
     sueldo = models.IntegerField(null=True,blank=True)
     
-
 class Aplicaciones(models.Model):
     id = models.AutoField(primary_key=True, null=False, unique=True)
     aplicante = models.ForeignKey(Usuarios, on_delete=models.CASCADE, to_field='nombre_usu')
