@@ -131,6 +131,21 @@ def listado_aplicantes(request):
 def lista_candidatos(request):
     curriculums = Curriculums.objects.all().order_by('-puntaje')
     return render(request, 'html/lista_candidatos.html', {'curriculums': curriculums})
+
+def mis_aplicaciones(request):
+    # Obtener el usuario actual
+    nombre_usuario = request.session.get('nombre_usu')
+    usuario_actual = Usuarios.objects.get(nombre_usu=nombre_usuario)
+
+    # Filtrar las aplicaciones realizadas por el usuario actual
+    aplicaciones_usuario = Aplicaciones.objects.filter(aplicante=usuario_actual)
+
+    # Puedes agregar más contexto según tus necesidades
+    context = {
+        'aplicaciones_usuario': aplicaciones_usuario
+    }
+
+    return render(request, 'html/mis_aplicaciones.html', context)
    
 def registro_empleado(request):
     if request.method == 'POST':

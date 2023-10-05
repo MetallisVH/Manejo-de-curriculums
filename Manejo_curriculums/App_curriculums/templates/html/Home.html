@@ -33,14 +33,14 @@
                     <ul class="navbar-nav ml-auto">
                         {%if request.session.rol_usu == 0%}
                         <li class="nav-item">
-                            <a class="nav-link" href="{%url 'Listado_trabajos'%}">Buscar empleos</a>
+                            <a class="nav-link" href="{% url 'Listado_trabajos' %}">Buscar empleos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Opcion B</a>
+                            <a class="nav-link" href="{% url 'Mis_aplicaciones' %}">Administrar solicitudes realizadas</a>
                         </li>
                         {%elif request.session.rol_usu == 1%}
                         <li class="nav-item">
-                            <a class="nav-link" href="{%url 'Listado_empleados'%}">Buscar empleados</a>
+                            <a class="nav-link" href="{% url 'Listado_empleados' %}">Buscar empleados</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Administrar solicitudes de trabajo</a>
@@ -145,6 +145,9 @@
         <h3>{{ trabajo.titulo }}</h3>
         <p>{{ trabajo.descripcion }}</p>
         <!-- Agrega más detalles del trabajo aquí -->
+
+        <!-- Botón de Más Detalles -->
+        <a href="#" class="btn btn-primary">Más Detalles</a>
     </div>
     {% endfor %}
         
