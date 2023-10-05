@@ -815,3 +815,18 @@ def aplicar_trabajo(request, trabajo_id):
             messages.error(request, 'Error al enviar la aplicación.')
 
     return render(request, 'tu_template.html', {'trabajo': trabajo})
+
+def cancelar_aplicacion(request, aplicacion_id):
+    # Obtén la aplicación a cancelar
+    aplicacion = Aplicaciones.objects.get(id=aplicacion_id)
+
+    # Asegúrate de que la aplicación pertenezca al usuario actual
+    if aplicacion.aplicante.nombre_usu != request.session.get('nombre_usu'):
+        # Si no pertenece, podrías mostrar un mensaje de error o redirigir a alguna otra parte
+        return redirect('alguna_otra_vista')
+
+    # Elimina la aplicación
+    aplicacion.delete()
+
+    # Redirige a alguna otra vista o página de éxito
+    return redirect('vista_exito')

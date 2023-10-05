@@ -34,7 +34,7 @@
             <td>{{ aplicacion.trabajo.titulo }}</td>
             <td>{{ aplicacion.fecha_aplicacion }}</td>
             <td>
-              <form method="post" action="#">
+              <form method="post" action="{% url 'cancelar_aplicacion' aplicacion.id %}">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-danger btn-sm">Cancelar</button>
               </form>
