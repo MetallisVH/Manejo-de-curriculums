@@ -220,6 +220,34 @@
                     </select>
                 </div>
 
+                <div class="mb-3">
+                    <label for="area" class="form-label">Área:</label>
+                    <select class="form-select" id="area" name="area" required>
+                        <option value="" disabled selected>Seleccionar área</option>
+                        <option value="tecnologia">Tecnología</option>
+                        <option value="salud">Salud</option>
+                        <option value="finanzas">Finanzas</option>
+                        <option value="educacion">Educación</option>
+                        <option value="ventas">Ventas</option>
+                        <option value="marketing">Marketing</option>
+                        <option value="recursoshumanos">Recursos Humanos</option>
+                        <option value="diseño">Diseño</option>
+                        <option value="medioambiente">Medio Ambiente</option>
+                        <option value="serviciosocial">Servicio Social</option>
+                        <option value="construccion">Construcción</option>
+                        <option value="consultoria">Consultoría</option>
+                        <option value="logistica">Logística</option>
+                        <option value="investigacion">Investigación</option>
+                        <option value="arte">Arte</option>
+                        <option value="derecho">Derecho</option>
+                        <option value="comunicacion">Comunicación</option>
+                        <option value="turismo">Turismo</option>
+                        <option value="manufactura">Manufactura</option>
+                        <option value="energiasrenovables">Energías Renovables</option>
+                        <option value="agricultura">Agricultura</option>
+                    </select>
+                </div>
+
                 <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                 <a href="#" class="btn btn-danger">Borrar Habilidad</a>
             </form>
@@ -277,10 +305,12 @@
                 <div class="mb-3">
                     <label for="nivel_idioma" class="form-label">Nivel:</label>
                     <select class="form-select" id="nivel_idioma" name="nivel_idioma" required>
-                        <option value="" disabled selected>Seleccionar nivel</option>
-                        <option value="basico">Básico</option>
-                        <option value="intermedio">Intermedio</option>
-                        <option value="avanzado">Avanzado</option>
+                        <option value="A1">A1: Básico</option>
+                        <option value="A2">A2: Básico Intermedio</option>
+                        <option value="B1">B1: Intermedio</option>
+                        <option value="B2">B2: Intermedio Alto</option>
+                        <option value="C1">C1: Avanzado</option>
+                        <option value="C2">C2: Maestría</option>
                     </select>
                 </div>
 
@@ -334,7 +364,13 @@
                 {% csrf_token %}
                 <div class="mb-3">
                     <label for="nivel_educacion" class="form-label">Nivel de Educación:</label>
-                    <input type="text" class="form-control" id="nivel_educacion" name="nivel_educacion" value="{{ edu.nivel_educacion }}" required>
+                    <select class="form-select" id="nivel_educacion" name="nivel_educacion" required>
+                        <option value="" disabled selected>Seleccionar nivel de educación</option>
+                        <option value="preescolar">Basica</option>
+                        <option value="primaria">Media</option>
+                        <option value="secundaria">Superior</option>
+                        <!-- Agrega más opciones según sea necesario -->
+                    </select>
                 </div>
                 <!-- Otros campos de educación si los tienes -->
 
@@ -344,6 +380,28 @@
                 </div>
 
                 <!-- Agrega los demás campos de educación -->
+                <div class="mb-3">
+                    <label for="curso_inicio" class="form-label">Curso de Inicio:</label>
+                    <input type="text" class="form-control" id="curso_inicio" name="curso_inicio" value="{{ edu.curso_inicio }}" required>
+                </div>
+                
+                <!-- Campo de Fecha de Inicio -->
+                <div class="mb-3">
+                    <label for="fecha_inicio" class="form-label">Fecha de Inicio:</label>
+                    <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" value="{{ edu.fecha_inicio }}" required>
+                </div>
+                
+                <!-- Campo de Curso de Término -->
+                <div class="mb-3">
+                    <label for="curso_termino" class="form-label">Curso de Término:</label>
+                    <input type="text" class="form-control" id="curso_termino" name="curso_termino" value="{{ edu.curso_termino }}" required>
+                </div>
+                
+                <!-- Campo de Fecha de Término -->
+                <div class="mb-3">
+                    <label for="fecha_termino" class="form-label">Fecha de Término:</label>
+                    <input type="date" class="form-control" id="fecha_termino" name="fecha_termino" value="{{ edu.fecha_termino }}" required>
+                </div>
 
                 <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                 <a href="#" class="btn btn-danger">Borrar Educación</a>
