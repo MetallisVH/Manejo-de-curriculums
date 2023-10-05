@@ -86,18 +86,20 @@
                 
                 <div class="mb-3">
                     <label for="fechaInicio" class="form-label">Fecha de Inicio:</label>
-                    <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" value="{{ experiencia.fecha_inicio }}" required>
+                    <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" value="" required>
+                    <p>Fecha de inicio actual: {{experiencia.desde}}</p>
                 </div>
                 
                 <div class="mb-3">
                     <label for="fechaTermino" class="form-label">Fecha de Término:</label>
-                    <input type="date" class="form-control" id="fechaTermino" name="fechaTermino" value="{{ experiencia.fecha_termino }}">
+                    <input type="date" class="form-control" id="fechaTermino" name="fechaTermino" value="" required>
+                    <p>Fecha de termino actual: {{experiencia.hasta}}</p>
                 </div>
                 
                 <div class="mb-3">
                     <label for="area" class="form-label">Área:</label>
                     <select class="form-select" id="area" name="area" required>
-                        <option value="" disabled selected>Seleccionar área</option>
+                        <option value="{{experiencia.area}}" disabled selected>Actual: {{ experiencia.area|capfirst }}</option>
                         <option value="tecnologia">Tecnología</option>
                         <option value="salud">Salud</option>
                         <option value="finanzas">Finanzas</option>
@@ -382,13 +384,14 @@
                 <!-- Agrega los demás campos de educación -->
                 <div class="mb-3">
                     <label for="curso_inicio" class="form-label">Curso de Inicio:</label>
-                    <input type="text" class="form-control" id="curso_inicio" name="curso_inicio" value="{{ edu.curso_inicio }}" required>
+                    <input type="text" class="form-control" id="curso_inicio" name="curso_inicio" value="{{ edu.curso }}" required>
                 </div>
                 
                 <!-- Campo de Fecha de Inicio -->
                 <div class="mb-3">
                     <label for="fecha_inicio" class="form-label">Fecha de Inicio:</label>
-                    <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" value="{{ edu.fecha_inicio }}" required>
+                    <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" value="" required>
+                    <p>Fecha de inicio actual: {{edu.desde}}</p>
                 </div>
                 
                 <!-- Campo de Curso de Término -->
@@ -400,7 +403,8 @@
                 <!-- Campo de Fecha de Término -->
                 <div class="mb-3">
                     <label for="fecha_termino" class="form-label">Fecha de Término:</label>
-                    <input type="date" class="form-control" id="fecha_termino" name="fecha_termino" value="{{ edu.fecha_termino }}" required>
+                    <input type="date" class="form-control" id="fecha_termino" name="fecha_termino" value="{{ edu.hasta }}" required>
+                    <p>fecha de termino actual: {{edu.hasta}}</p>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Guardar Cambios</button>
