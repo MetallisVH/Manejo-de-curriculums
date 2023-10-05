@@ -40,5 +40,6 @@ urlpatterns = [
     path('/Home/emplst',views.lista_candidatos,name='Listado_empleados'),
     path('/Home/applist',views.mis_aplicaciones,name='Mis_aplicaciones'),
     path('/Home/appdl/<int:aplicacion_id>/',views.cancelar_aplicacion,name='cancelar_aplicacion'),
+    path('/Home/currch',views.Editar_curriculum,name='Editar_curriculum'),
     path('Error_403/',views.Error_403,name='Error_403'),
 ]

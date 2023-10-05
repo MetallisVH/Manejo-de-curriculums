@@ -41,6 +41,19 @@ def Home_page(request):
 def Login_empleado(request):
     return render(request, 'html/inicio_empleado.html')
 
+def Editar_curriculum(request):
+    nombre_usuario = request.session.get('nombre_usu')
+    usuario=Usuarios.objects.get(nombre_usu=nombre_usuario) 
+    curriculum = Curriculums.objects.get(nombre_usu=usuario)
+    experiencias_laborales = Experiencias.objects.filter(nombre_usu=usuario)
+    habilidades = Habilidades.objects.filter(nombre_usu=usuario)
+    idiomas=Idiomas.objects.filter(nombre_usu=usuario)
+    educacion=Educaciones.objects.filter(nombre_usu=usuario)
+    
+    context = {'curriculum':curriculum, 'experiencias_laborales':experiencias_laborales,'habilidades':habilidades,'idiomas':idiomas,'educacion':educacion} 
+    
+    return render(request, 'html/editar_curriculum.html',context)
+
 def Login_empleador(request):
     return render(request, 'html/inicio_empleador.html')
 
@@ -96,7 +109,36 @@ def Info_curriculum(request):
         return render(request, 'html/info_cvp.html', {'crear_curriculum': True})
 
 def Registro_curriculum(request):
-    return render(request,'html/Registro_curriculums.html')
+    try:
+        nombre_usuario = request.session.get('nombre_usu')
+        usuario=Usuarios.objects.get(nombre_usu=nombre_usuario) 
+    except  Usuarios.DoesNotExist:
+        usuario=''
+    try:
+        curriculum = Curriculums.objects.get(nombre_usu=usuario)
+    except Curriculums.DoesNotExist:
+        curriculum=''
+    try:
+        experiencias_laborales = Experiencias.objects.filter(nombre_usu=usuario)
+    except Experiencias.DoesNotExist:
+        experiencias_laborales=''
+    try:
+        habilidades = Habilidades.objects.filter(nombre_usu=usuario)
+    except Habilidades.DoesNotExist:
+        habilidades=''
+    try:
+        idiomas=Idiomas.objects.filter(nombre_usu=usuario)
+    except Idiomas.DoesNotExist:
+        idiomas=''
+    try:
+        educacion=Educaciones.objects.filter(nombre_usu=usuario)
+    except Educaciones.DoesNotExist:
+        educacion=''        
+    
+    context = {'curriculum':curriculum, 'experiencias_laborales':experiencias_laborales,'habilidades':habilidades,'idiomas':idiomas,'educacion':educacion}
+
+    
+    return render(request,'html/Registro_curriculums.html',context)
 
 def Registro_exitoso(request):
     return render(request, 'html/Registro_exitoso.html')

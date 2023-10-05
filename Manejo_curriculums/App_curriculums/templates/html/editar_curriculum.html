@@ -1,0 +1,402 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Currículum</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'App_curriculums/css/info_cvp.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <header class="bg-dark text-white text-center py-3">
+        <h1>Editar Currículum</h1>
+    </header>
+
+    {% if curriculum %}
+    <section id="edit-resume" class="container my-4">
+        <!-- Contenido de edición del currículum aquí -->
+        <form method="post" action="#" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre completo:</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" value="{{ curriculum.nombre_completo }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="correo" class="form-label">Correo electrónico:</label>
+                <input type="email" class="form-control" id="correo" name="correo" value="{{ curriculum.email }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="telefono" class="form-label">Teléfono:</label>
+                <input type="tel" class="form-control" id="telefono" name="telefono" value="{{ curriculum.telefono }}">
+            </div>
+
+            <div class="mb-3">
+                <label for="area" class="form-label">Área principal de trabajo:</label>
+                <select class="form-select" id="area" name="area" required>
+                    <option value="" disabled selected>Seleccionar área</option>
+                    <option value="tecnologia">Tecnología</option>
+                    <option value="salud">Salud</option>
+                    <option value="finanzas">Finanzas</option>
+                    <option value="educacion">Educación</option>
+                    <option value="ventas">Ventas</option>
+                    <option value="marketing">Marketing</option>
+                    <option value="recursoshumanos">Recursos Humanos</option>
+                    <option value="diseño">Diseño</option>
+                    <option value="medioambiente">Medio Ambiente</option>
+                    <option value="serviciosocial">Servicio Social</option>
+                    <option value="construccion">Construcción</option>
+                    <option value="consultoria">Consultoría</option>
+                    <option value="logistica">Logística</option>
+                    <option value="investigacion">Investigación</option>
+                    <option value="arte">Arte</option>
+                    <option value="derecho">Derecho</option>
+                    <option value="comunicacion">Comunicación</option>
+                    <option value="turismo">Turismo</option>
+                    <option value="manufactura">Manufactura</option>
+                    <option value="energiasrenovables">Energías Renovables</option>
+                    <option value="agricultura">Agricultura</option>
+                    <option value="nueva">Elegir nueva área</option>
+                </select>
+            </div>
+
+            <!-- Añade aquí los campos adicionales según tu modelo -->
+
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        </form>
+
+        <hr>
+
+        <!-- Sección para editar/borrar experiencias -->
+        <h2>Experiencias Laborales</h2>
+        {% for experiencia in experiencias_laborales %}
+            <form method="post" action="#">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="empresa" class="form-label">Empresa:</label>
+                    <input type="text" class="form-control" id="empresa" name="empresa" value="{{ experiencia.empresa }}" required>
+                    
+                </div> 
+                <!-- Agrega los demás campos de experiencia -->
+
+                <div class="mb-3">
+                    <label for="puesto" class="form-label">Puesto:</label>
+                    <input type="text" class="form-control" id="puesto" name="puesto" value="{{ experiencia.puesto }}" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="fechaInicio" class="form-label">Fecha de Inicio:</label>
+                    <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" value="{{ experiencia.fecha_inicio }}" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="fechaTermino" class="form-label">Fecha de Término:</label>
+                    <input type="date" class="form-control" id="fechaTermino" name="fechaTermino" value="{{ experiencia.fecha_termino }}">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="area" class="form-label">Área:</label>
+                    <select class="form-select" id="area" name="area" required>
+                        <option value="" disabled selected>Seleccionar área</option>
+                        <option value="tecnologia">Tecnología</option>
+                        <option value="salud">Salud</option>
+                        <option value="finanzas">Finanzas</option>
+                        <option value="educacion">Educación</option>
+                        <option value="ventas">Ventas</option>
+                        <option value="marketing">Marketing</option>
+                        <option value="recursoshumanos">Recursos Humanos</option>
+                        <option value="diseño">Diseño</option>
+                        <option value="medioambiente">Medio Ambiente</option>
+                        <option value="serviciosocial">Servicio Social</option>
+                        <option value="construccion">Construcción</option>
+                        <option value="consultoria">Consultoría</option>
+                        <option value="logistica">Logística</option>
+                        <option value="investigacion">Investigación</option>
+                        <option value="arte">Arte</option>
+                        <option value="derecho">Derecho</option>
+                        <option value="comunicacion">Comunicación</option>
+                        <option value="turismo">Turismo</option>
+                        <option value="manufactura">Manufactura</option>
+                        <option value="energiasrenovables">Energías Renovables</option>
+                        <option value="agricultura">Agricultura</option>
+                        <option value="nueva">Elegir nueva área</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                <a href="#" class="btn btn-danger">Borrar Experiencia</a>
+            </form>
+            <hr>
+        {% endfor %}
+
+        <button type="button" class="btn btn-secondary mt-2" data-bs-toggle="modal" data-bs-target="#experienciaModal">Agregar experiencia +</button>
+
+        <!-- Modal Experiencia -->
+        <div class="modal fade" id="experienciaModal" tabindex="-1" aria-labelledby="experienciaModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="experienciaModalLabel">Agregar Experiencia Laboral</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{% url 'guardar_experiencia' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="empresa" class="form-label">Empresa:</label>
+                                <input type="text" class="form-control" id="empresa" name="empresa" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="puesto" class="form-label">Puesto:</label>
+                                <input type="text" class="form-control" id="puesto" name="puesto" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="fechaInicio" class="form-label">Fecha de Inicio:</label>
+                                <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="fechaTermino" class="form-label">Fecha de Término:</label>
+                                <input type="date" class="form-control" id="fechaTermino" name="fechaTermino">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="area" class="form-label">Área:</label>
+                                <select class="form-select" id="area" name="area" required>
+                                    <option value="tecnologia">Tecnología</option>
+                                    <option value="salud">Salud</option>
+                                    <option value="finanzas">Finanzas</option>
+                                    <option value="educacion">Educación</option>
+                                    <option value="ventas">Ventas</option>
+                                    <option value="marketing">Marketing</option>
+                                    <option value="recursoshumanos">Recursos Humanos</option>
+                                    <option value="diseño">Diseño</option>
+                                    <option value="medioambiente">Medio Ambiente</option>
+                                    <option value="serviciosocial">Servicio Social</option>
+                                    <option value="construccion">Construcción</option>
+                                    <option value="consultoria">Consultoría</option>
+                                    <option value="logistica">Logística</option>
+                                    <option value="investigacion">Investigación</option>
+                                    <option value="arte">Arte</option>
+                                    <option value="derecho">Derecho</option>
+                                    <option value="comunicacion">Comunicación</option>
+                                    <option value="turismo">Turismo</option>
+                                    <option value="manufactura">Manufactura</option>
+                                    <option value="energiasrenovables">Energías Renovables</option>
+                                    <option value="agricultura">Agricultura</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="archivoExperiencia" class="form-label">Subir certificado:</label>
+                                <input type="file" class="form-control" id="archivoExperiencia" name="archivoExperiencia">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>Habilidades</h2>
+        {% for habilidad in habilidades %}
+            <form method="post" action="#">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="habilidad" class="form-label">Habilidad:</label>
+                    <input type="text" class="form-control" id="habilidad" name="habilidad" value="{{ habilidad.habilidad }}" required>
+                </div>
+                <!-- Otros campos de habilidades si los tienes -->
+
+                <div class="mb-3">
+                    <label for="nivel" class="form-label">Nivel:</label>
+                    <select class="form-select" id="nivel" name="nivel" required>
+                        <option value="" disabled selected>Seleccionar nivel</option>
+                        <option value="basico">Básico</option>
+                        <option value="intermedio">Intermedio</option>
+                        <option value="avanzado">Avanzado</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                <a href="#" class="btn btn-danger">Borrar Habilidad</a>
+            </form>
+            <hr>
+        {% endfor %}
+
+        <button type="button" class="btn btn-secondary mt-2" data-bs-toggle="modal" data-bs-target="#habilidadModal">Agregar habilidad +</button>
+
+        <!-- Modal Habilidad -->
+        <div class="modal fade" id="habilidadModal" tabindex="-1" aria-labelledby="habilidadModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="habilidadModalLabel">Agregar Habilidad</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{% url 'guardar_habilidad' %}" method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="habilidad" class="form-label">Habilidad:</label>
+                                <input type="text" class="form-control" id="habilidad" name="habilidad" required>
+                            </div>
+                            <!-- Otros campos de habilidades si los tienes -->
+
+                            <div class="mb-3">
+                                <label for="nivel" class="form-label">Nivel:</label>
+                                <select class="form-select" id="nivel" name="nivel" required>
+                                    <option value="basico">Básico</option>
+                                    <option value="intermedio">Intermedio</option>
+                                    <option value="avanzado">Avanzado</option>
+                                </select>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>Idiomas</h2>
+        {% for idioma in idiomas %}
+            <form method="post" action="#">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="idioma" class="form-label">Idioma:</label>
+                    <input type="text" class="form-control" id="idioma" name="idioma" value="{{ idioma.idioma }}" required>
+                </div>
+                <!-- Otros campos de idiomas si los tienes -->
+
+                <div class="mb-3">
+                    <label for="nivel_idioma" class="form-label">Nivel:</label>
+                    <select class="form-select" id="nivel_idioma" name="nivel_idioma" required>
+                        <option value="" disabled selected>Seleccionar nivel</option>
+                        <option value="basico">Básico</option>
+                        <option value="intermedio">Intermedio</option>
+                        <option value="avanzado">Avanzado</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                <a href="#" class="btn btn-danger">Borrar Idioma</a>
+            </form>
+            <hr>
+        {% endfor %}
+
+        <button type="button" class="btn btn-secondary mt-2" data-bs-toggle="modal" data-bs-target="#idiomaModal">Agregar idioma +</button>
+
+        <!-- Modal Idioma -->
+        <div class="modal fade" id="idiomaModal" tabindex="-1" aria-labelledby="idiomaModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="idiomaModalLabel">Agregar Idioma</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{% url 'guardar_idioma' %}" method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="idioma" class="form-label">Idioma:</label>
+                                <input type="text" class="form-control" id="idioma" name="idioma" required>
+                            </div>
+                            <!-- Otros campos de idiomas si los tienes -->
+
+                            <div class="mb-3">
+                                <label for="nivel_idioma" class="form-label">Nivel:</label>
+                                <select class="form-select" id="nivel_idioma" name="nivel_idioma" required>
+                                    <option value="basico">Básico</option>
+                                    <option value="intermedio">Intermedio</option>
+                                    <option value="avanzado">Avanzado</option>
+                                </select>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>Educación</h2>
+        {% for edu in educacion %}
+            <form method="post" action="#">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="nivel_educacion" class="form-label">Nivel de Educación:</label>
+                    <input type="text" class="form-control" id="nivel_educacion" name="nivel_educacion" value="{{ edu.nivel_educacion }}" required>
+                </div>
+                <!-- Otros campos de educación si los tienes -->
+
+                <div class="mb-3">
+                    <label for="nombre_instituto" class="form-label">Nombre del Instituto:</label>
+                    <input type="text" class="form-control" id="nombre_instituto" name="nombre_instituto" value="{{ edu.nombre_instituto }}" required>
+                </div>
+
+                <!-- Agrega los demás campos de educación -->
+
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                <a href="#" class="btn btn-danger">Borrar Educación</a>
+            </form>
+            <hr>
+        {% endfor %}
+
+        <button type="button" class="btn btn-secondary mt-2" data-bs-toggle="modal" data-bs-target="#educacionModal">Agregar educación +</button>
+
+        <!-- Modal Educación -->
+        <div class="modal fade" id="educacionModal" tabindex="-1" aria-labelledby="educacionModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="educacionModalLabel">Agregar Educación</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{% url 'guardar_educacion' %}" method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="nivel_educacion" class="form-label">Nivel de Educación:</label>
+                                <input type="text" class="form-control" id="nivel_educacion" name="nivel_educacion" required>
+                            </div>
+                            <!-- Otros campos de educación si los tienes -->
+
+                            <div class="mb-3">
+                                <label for="nombre_instituto" class="form-label">Nombre del Instituto:</label>
+                                <input type="text" class="form-control" id="nombre_instituto" name="nombre_instituto" required>
+                            </div>
+
+                            <!-- Agrega los demás campos de educación -->
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Repite un bloque similar para las secciones de habilidades, idiomas y educación -->
+
+    </section>
+    {% endif %}
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
