@@ -891,3 +891,20 @@ def actualizar_curriculum(request):
         curriculum.save()
 
     return redirect('Registro_curriculum')
+
+def actualizar_experiencia(request,experiencia_id):
+    experiencia = Experiencias.objects.get(id=experiencia_id)
+
+    if request.method == 'POST':
+        new_empresa = request.POST['empresa']
+        new_puesto = request.POST['puesto']
+        new_fecha_inicio = request.POST['fechaInicio']
+        new_fecha_termino = request.POST['fechaTermino']
+        
+        experiencia.empresa = new_empresa
+        experiencia.puesto = new_puesto
+        experiencia.desde = new_fecha_inicio
+        experiencia.hasta = new_fecha_termino
+        experiencia.save()
+
+    return redirect('Registro_curriculum')

@@ -65,12 +65,17 @@
             <button type="submit" class="btn btn-primary">Guardar Cambios</button>
         </form>
 
+        <form method="post" action="#" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Eliminar Curriculum</button>
+        </form>
+
         <hr>
 
         <!-- Sección para editar/borrar experiencias -->
         <h2>Experiencias Laborales</h2>
         {% for experiencia in experiencias_laborales %}
-            <form method="post" action="#">
+            <form method="post" action="{% url 'actualizar_experiencias' experiencia_id=experiencia.id%}">
                 {% csrf_token %}
                 <div class="mb-3">
                     <label for="empresa" class="form-label">Empresa:</label>
