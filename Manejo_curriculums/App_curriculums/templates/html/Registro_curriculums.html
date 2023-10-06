@@ -367,15 +367,15 @@
 
         <h2>Educación</h2>
         {% for edu in educacion %}
-            <form method="post" action="#">
+            <form method="post" action="{% url 'actualizar_educacion' educacion_id=edu.id %}">
                 {% csrf_token %}
                 <div class="mb-3">
                     <label for="nivel_educacion" class="form-label">Nivel de Educación:</label>
                     <select class="form-select" id="nivel_educacion" name="nivel_educacion" required>
                         <option value="{{edu.nivel_educacion}}" disabled selected>Actual: {{ edu.nivel_educacion|capfirst }}</option>
-                        <option value="preescolar">Basica</option>
-                        <option value="primaria">Media</option>
-                        <option value="secundaria">Superior</option>
+                        <option value="basica">Basica</option>
+                        <option value="media">Media</option>
+                        <option value="superior">Superior</option>
                         <!-- Agrega más opciones según sea necesario -->
                     </select>
                 </div>

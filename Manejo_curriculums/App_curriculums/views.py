@@ -941,3 +941,24 @@ def actualizar_idioma(request,idioma_id):
         idioma.save()
         
     return redirect('Registro_curriculum')
+
+def actualizar_educacion(request,educacion_id):
+    educacion = Educaciones.objects.get(id=educacion_id)
+    
+    if request.method == 'POST':
+        new_nivel_edu = request.POST['nivel_educacion']
+        new_nombre_i = request.POST['nombre_instituto']
+        new_curso_i = request.POST['curso_inicio']
+        new_fecha_i = request.POST['fecha_inicio']
+        new_curso_t = request.POST['curso_termino']
+        new_fecha_t = request.POST['fecha_termino']
+        
+        educacion.nivel_educacion = new_nivel_edu
+        educacion.nombre_instituto = new_nombre_i
+        educacion.curso = new_curso_i
+        educacion.desde = new_fecha_i
+        educacion.curso_termino = new_curso_t
+        educacion.hasta = new_fecha_t
+        educacion.save()
+        
+    return redirect('Registro_curriculum')
