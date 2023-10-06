@@ -275,23 +275,52 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="{% url 'guardar_habilidad' %}" method="post">
+                        <form action="{% url 'guardar_habilidad' %}" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="mb-3">
                                 <label for="habilidad" class="form-label">Habilidad:</label>
                                 <input type="text" class="form-control" id="habilidad" name="habilidad" required>
                             </div>
-                            <!-- Otros campos de habilidades si los tienes -->
-
                             <div class="mb-3">
                                 <label for="nivel" class="form-label">Nivel:</label>
-                                <select class="form-select" id="nivel" name="nivel" required>
+                                <select class="form-control" id="nivel" name="nivel" required>
                                     <option value="basico">Básico</option>
                                     <option value="intermedio">Intermedio</option>
                                     <option value="avanzado">Avanzado</option>
                                 </select>
                             </div>
-
+    
+                            <div class="mb-3">
+                                <label for="area" class="form-label">Área:</label>
+                                <select class="form-select" id="area" name="area" required>
+                                    <option value="tecnologia">Tecnología</option>
+                                    <option value="salud">Salud</option>
+                                    <option value="finanzas">Finanzas</option>
+                                    <option value="educacion">Educación</option>
+                                    <option value="ventas">Ventas</option>
+                                    <option value="marketing">Marketing</option>
+                                    <option value="recursoshumanos">Recursos Humanos</option>
+                                    <option value="diseño">Diseño</option>
+                                    <option value="medioambiente">Medio Ambiente</option>
+                                    <option value="serviciosocial">Servicio Social</option>
+                                    <option value="construccion">Construcción</option>
+                                    <option value="consultoria">Consultoría</option>
+                                    <option value="logistica">Logística</option>
+                                    <option value="investigacion">Investigación</option>
+                                    <option value="arte">Arte</option>
+                                    <option value="derecho">Derecho</option>
+                                    <option value="comunicacion">Comunicación</option>
+                                    <option value="turismo">Turismo</option>
+                                    <option value="manufactura">Manufactura</option>
+                                    <option value="energiasrenovables">Energías Renovables</option>
+                                    <option value="agricultura">Agricultura</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="archivoHabilidad" class="form-label">Subir certificado:</label>
+                                <input type="file" class="form-control" id="archivoHabilidad" name="archivoHabilidad">
+                            </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                 <button type="submit" class="btn btn-primary">Guardar</button>
@@ -343,29 +372,39 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="{% url 'guardar_idioma' %}" method="post">
+                        <form action="{% url 'guardar_idioma' %}" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="mb-3">
                                 <label for="idioma" class="form-label">Idioma:</label>
                                 <input type="text" class="form-control" id="idioma" name="idioma" required>
                             </div>
-                            <!-- Otros campos de idiomas si los tienes -->
-
                             <div class="mb-3">
-                                <label for="nivel_idioma" class="form-label">Nivel:</label>
-                                <select class="form-select" id="nivel_idioma" name="nivel_idioma" required>
-                                    <option value="basico">Básico</option>
-                                    <option value="intermedio">Intermedio</option>
-                                    <option value="avanzado">Avanzado</option>
+                                <label for="nivelIdioma" class="form-label">Nivel de Idioma:</label>
+                                <select class="form-control" id="nivelIdioma" name="nivelIdioma" required>
+                                    <option value="A1">A1: Básico</option>
+                                    <option value="A2">A2: Básico Intermedio</option>
+                                    <option value="B1">B1: Intermedio</option>
+                                    <option value="B2">B2: Intermedio Alto</option>
+                                    <option value="C1">C1: Avanzado</option>
+                                    <option value="C2">C2: Maestría</option>
                                 </select>
                             </div>
-
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                <button type="submit" class="btn btn-primary">Guardar</button>
+    
+                            <div class="mb-3">
+                                <label for="area" class="form-label" style="display: none;">Área:</label>
+                                <input type="hidden" class="form-control" id="area" name="area" value="Conocimiento idiomatico" required>
                             </div>
-                        </form>
+    
+                            <div class="mb-3">
+                                <label for="archivoIdioma" class="form-label">Subir certificado:</label>
+                                <input type="file" class="form-control" id="archivoIdioma" name="archivoIdioma">
+                            </div>
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -435,21 +474,69 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="{% url 'guardar_educacion' %}" method="post">
+                        <form action="{% url 'guardar_educacion' %}" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="mb-3">
-                                <label for="nivel_educacion" class="form-label">Nivel de Educación:</label>
-                                <input type="text" class="form-control" id="nivel_educacion" name="nivel_educacion" required>
+                                <label for="nivelEducacion" class="form-label">Nivel de Educación:</label>
+                                <select class="form-control" id="nivelEducacion" name="nivelEducacion">
+                                    <option value="basica">Básica</option>
+                                    <option value="media">Media</option>
+                                    <option value="superior">Superior</option>
+                                </select>
                             </div>
-                            <!-- Otros campos de educación si los tienes -->
-
                             <div class="mb-3">
-                                <label for="nombre_instituto" class="form-label">Nombre del Instituto:</label>
-                                <input type="text" class="form-control" id="nombre_instituto" name="nombre_instituto" required>
+                                <label for="instituto" class="form-label">Nombre del Instituto:</label>
+                                <input type="text" class="form-control" id="instituto" name="instituto" required>
                             </div>
-
-                            <!-- Agrega los demás campos de educación -->
-
+                            <div class="mb-3">
+                                <label for="cursos" class="form-label">Curso de inicio:</label>
+                                <input type="text" class="form-control" id="cursos" name="cursos" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="fechaInicio" class="form-label">Fecha de Inicio:</label>
+                                <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cursoTermino" class="form-label">Curso de Término:</label>
+                                <input type="text" class="form-control" id="cursoTermino" name="cursoTermino" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="fechaTermino" class="form-label">Fecha de Término:</label>
+                                <input type="date" class="form-control" id="fechaTermino" name="fechaTermino" required>
+                            </div>
+    
+                            <div class="mb-3">
+                                <label for="area_educacion" class="form-label">Área:</label>
+                                <select class="form-select" id="area_educacion" name="area">
+                                    <option value="" disabled selected>No seleccionada</option>
+                                    <option value="tecnologia">Tecnología</option>
+                                    <option value="salud">Salud</option>
+                                    <option value="finanzas">Finanzas</option>
+                                    <option value="educacion">Educación</option>
+                                    <option value="ventas">Ventas</option>
+                                    <option value="marketing">Marketing</option>
+                                    <option value="recursoshumanos">Recursos Humanos</option>
+                                    <option value="diseño">Diseño</option>
+                                    <option value="medioambiente">Medio Ambiente</option>
+                                    <option value="serviciosocial">Servicio Social</option>
+                                    <option value="construccion">Construcción</option>
+                                    <option value="consultoria">Consultoría</option>
+                                    <option value="logistica">Logística</option>
+                                    <option value="investigacion">Investigación</option>
+                                    <option value="arte">Arte</option>
+                                    <option value="derecho">Derecho</option>
+                                    <option value="comunicacion">Comunicación</option>
+                                    <option value="turismo">Turismo</option>
+                                    <option value="manufactura">Manufactura</option>
+                                    <option value="energiasrenovables">Energías Renovables</option>
+                                    <option value="agricultura">Agricultura</option>
+                                </select>
+                            </div>
+    
+                            <div class="mb-3">
+                                <label for="archivoEducacion" class="form-label">Subir certificado:</label>
+                                <input type="file" class="form-control" id="archivoEducacion" name="archivoEducacion">
+                            </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                 <button type="submit" class="btn btn-primary">Guardar</button>
@@ -459,6 +546,7 @@
                 </div>
             </div>
         </div>
+    
 
         <!-- Repite un bloque similar para las secciones de habilidades, idiomas y educación -->
 

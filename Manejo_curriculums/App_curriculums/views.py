@@ -649,9 +649,12 @@ def guardar_educacion(request):
         educacion.save()
         print(f"Datos guardados correctamente: {educacion}")
 
-        # Aquí puedes hacer algo con los puntos, como almacenarlos en otro modelo o realizar alguna lógica adicional
-
         # Redirige o responde según tu lógica
+        curriculum=Curriculums.objects.get(nombre_usu=usuario)
+        new_puntaje_curriculum = calcular_puntaje(usuario)
+        curriculum.puntaje = new_puntaje_curriculum
+        curriculum.save()
+        
         return redirect('Registro_curriculum')
     else:
         return redirect('Registro_curriculum')
