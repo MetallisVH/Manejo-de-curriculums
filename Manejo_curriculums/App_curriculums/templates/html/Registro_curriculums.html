@@ -300,7 +300,7 @@
 
         <h2>Idiomas</h2>
         {% for idioma in idiomas %}
-            <form method="post" action="#">
+            <form method="post" action="{% url 'actualizar_idioma' idioma_id=idioma.id%}">
                 {% csrf_token %}
                 <div class="mb-3">
                     <label for="idioma" class="form-label">Idioma:</label>

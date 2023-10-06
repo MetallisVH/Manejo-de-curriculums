@@ -44,5 +44,6 @@ urlpatterns = [
     path('upcur/',views.actualizar_curriculum,name='actualizar_curriculum'),
     path('upxp/<int:experiencia_id>/',views.actualizar_experiencia,name='actualizar_experiencias'),
     path('upap/<int:habilidad_id>/',views.actualizar_habilidad,name='actualizar_habilidad'),
+    path('uplg/<int:idioma_id>/',views.actualizar_idioma,name='actualizar_idioma'),
     path('Error_403/',views.Error_403,name='Error_403'),
 ]

@@ -928,3 +928,16 @@ def actualizar_habilidad(request, habilidad_id):
         habilidad.save()
 
     return redirect('Registro_curriculum')
+
+def actualizar_idioma(request,idioma_id):
+    idioma = Idiomas.objects.get(id=idioma_id)
+    
+    if request.method == 'POST':
+        new_idioma = request.POST['idioma']
+        new_nivel = request.POST['nivel_idioma']
+        
+        idioma.idioma = new_idioma
+        idioma.nivel_idioma = new_nivel
+        idioma.save()
+        
+    return redirect('Registro_curriculum')
