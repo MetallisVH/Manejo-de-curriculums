@@ -42,6 +42,7 @@ urlpatterns = [
     path('/Home/appdl/<int:aplicacion_id>/',views.cancelar_aplicacion,name='cancelar_aplicacion'),
     path('/Home/currch',views.Editar_curriculum,name='Editar_curriculum'),
     path('upcur/',views.actualizar_curriculum,name='actualizar_curriculum'),
-    path('puxp/<int:experiencia_id>/',views.actualizar_experiencia,name='actualizar_experiencias'),
+    path('upxp/<int:experiencia_id>/',views.actualizar_experiencia,name='actualizar_experiencias'),
+    path('upap/<int:habilidad_id>/',views.actualizar_habilidad,name='actualizar_habilidad'),
     path('Error_403/',views.Error_403,name='Error_403'),
 ]

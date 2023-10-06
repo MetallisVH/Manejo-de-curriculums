@@ -901,10 +901,30 @@ def actualizar_experiencia(request,experiencia_id):
         new_fecha_inicio = request.POST['fechaInicio']
         new_fecha_termino = request.POST['fechaTermino']
         
+        if new_fecha_inicio == '':
+            new_fecha_inicio = experiencia.desde
+        elif new_fecha_termino == '':
+            new_fecha_termino = experiencia.hasta
+        
         experiencia.empresa = new_empresa
         experiencia.puesto = new_puesto
         experiencia.desde = new_fecha_inicio
         experiencia.hasta = new_fecha_termino
         experiencia.save()
+
+    return redirect('Registro_curriculum')
+
+def actualizar_habilidad(request, habilidad_id):
+    habilidad = Habilidades.objects.get(id=habilidad_id)
+    
+    if request.method == 'POST':
+        new_habilidad = request.POST['habilidad']
+        new_nivel = request.POST['nivel']
+        new_area = request.POST['area']
+
+        habilidad.habilidad = new_habilidad
+        habilidad.nivel = new_nivel
+        habilidad.area = new_area
+        habilidad.save()
 
     return redirect('Registro_curriculum')

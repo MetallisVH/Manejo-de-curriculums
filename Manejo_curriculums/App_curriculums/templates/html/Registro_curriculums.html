@@ -208,7 +208,7 @@
 
         <h2>Habilidades</h2>
         {% for habilidad in habilidades %}
-            <form method="post" action="#">
+            <form method="post" action="{% url 'actualizar_habilidad' habilidad_id=habilidad.id %}">
                 {% csrf_token %}
                 <div class="mb-3">
                     <label for="habilidad" class="form-label">Habilidad:</label>
