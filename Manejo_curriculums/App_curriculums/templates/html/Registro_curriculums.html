@@ -14,7 +14,7 @@
     {% if curriculum %}
     <section id="edit-resume" class="container my-4">
         <!-- Contenido de edición del currículum aquí -->
-        <form method="post" action="#" enctype="multipart/form-data">
+        <form method="post" action="{% url 'actualizar_curriculum'%}" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre completo:</label>
@@ -32,9 +32,9 @@
             </div>
 
             <div class="mb-3">
-                <label for="area" class="form-label">Área principal de trabajo:</label>
-                <select class="form-select" id="area" name="area" required>
-                    <option value="{{curriculum.area}}" disabled selected>Actual: {{ curriculum.area|capfirst }}</option>
+                <label for="areaCurr" class="form-label">Área principal de trabajo:</label>
+                <select class="form-select" id="areaCurr" name="areaCurr" required>
+                    <option value="" disabled selected required>Seleccione una nueva area</option>
                     <option value="tecnologia">Tecnología</option>
                     <option value="salud">Salud</option>
                     <option value="finanzas">Finanzas</option>

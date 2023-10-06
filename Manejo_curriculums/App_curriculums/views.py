@@ -872,3 +872,22 @@ def cancelar_aplicacion(request, aplicacion_id):
 
     # Redirige a alguna otra vista o página de éxito
     return redirect('vista_exito')
+
+def actualizar_curriculum(request):
+    nom_usu = request.session.get('nombre_usu')
+    usuario = Usuarios.objects.get(nombre_usu=nom_usu)
+    curriculum = Curriculums.objects.get(nombre_usu=usuario)
+
+    if request.method == 'POST':
+        new_nombre_completo = request.POST['nombre']
+        new_correo = request.POST['correo']
+        new_telefono = request.POST['telefono']
+        new_area = request.POST['areaCurr']
+        
+        curriculum.nombre_completo = new_nombre_completo
+        curriculum.email = new_correo
+        curriculum.telefono = new_telefono
+        curriculum.area = new_area
+        curriculum.save()
+
+    return redirect('Registro_curriculum')
