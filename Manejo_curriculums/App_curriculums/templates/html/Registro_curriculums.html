@@ -509,6 +509,7 @@
                     <div>
                         {% for experiencia in experiencias_laborales %}
                             {{ experiencia.empresa }} - {{ experiencia.puesto }}<br>
+                            <button type="button" class="btn btn-danger mt-2" id="quitarIdiomaBtn" onclick="#">Quitar</button>
                             <!-- Mostrar otros datos de experiencia laboral si los tienes -->
                             <hr>
                         {% endfor %}
@@ -526,6 +527,7 @@
                     <div>
                         {% for edu in educacion %}
                             {{ edu.nivel_educacion }} - {{ edu.nombre_instituto }}<br>
+                            <button type="button" class="btn btn-danger mt-2" id="quitarIdiomaBtn" onclick="#">Quitar</button>
                             <!-- Mostrar otros datos de educación si los tienes -->
                             <hr>
                         {% endfor %}
@@ -543,6 +545,7 @@
                     <div>
                         {% for habilidad in habilidades %}
                             {{ habilidad.habilidad }} - Nivel: {{ habilidad.nivel }}<br>
+                            <button type="button" class="btn btn-danger mt-2" id="quitarIdiomaBtn" onclick="#">Quitar</button>
                             <!-- Mostrar otros datos de habilidades si los tienes -->
                             <hr>
                         {% endfor %}
@@ -560,6 +563,7 @@
                     <div>
                         {% for idioma in idiomas %}
                             {{ idioma.idioma }} - Nivel: {{ idioma.nivel_idioma }}<br>
+                            <button type="button" class="btn btn-danger mt-2" id="quitarIdiomaBtn" onclick="#">Quitar</button>
                             <!-- Mostrar otros datos de idiomas si los tienes -->
                             <hr>
                         {% endfor %}
