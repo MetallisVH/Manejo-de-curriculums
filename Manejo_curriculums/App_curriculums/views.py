@@ -882,7 +882,10 @@ def actualizar_curriculum(request):
         new_nombre_completo = request.POST['nombre']
         new_correo = request.POST['correo']
         new_telefono = request.POST['telefono']
-        new_area = request.POST['areaCurr']
+        new_area = request.POST.get('areaCurr', None)
+        
+        if new_area == None:
+            new_area = curriculum.area
         
         curriculum.nombre_completo = new_nombre_completo
         curriculum.email = new_correo
@@ -900,16 +903,20 @@ def actualizar_experiencia(request,experiencia_id):
         new_puesto = request.POST['puesto']
         new_fecha_inicio = request.POST['fechaInicio']
         new_fecha_termino = request.POST['fechaTermino']
+        new_area = request.POST.get('area', None)
         
         if new_fecha_inicio == '':
             new_fecha_inicio = experiencia.desde
-        elif new_fecha_termino == '':
+        if new_fecha_termino == '':
             new_fecha_termino = experiencia.hasta
+        if new_area == None:
+            new_area = experiencia.area
         
         experiencia.empresa = new_empresa
         experiencia.puesto = new_puesto
         experiencia.desde = new_fecha_inicio
         experiencia.hasta = new_fecha_termino
+        experiencia.area = new_area
         experiencia.save()
 
     return redirect('Registro_curriculum')
@@ -919,8 +926,13 @@ def actualizar_habilidad(request, habilidad_id):
     
     if request.method == 'POST':
         new_habilidad = request.POST['habilidad']
-        new_nivel = request.POST['nivel']
-        new_area = request.POST['area']
+        new_nivel = request.POST.get('nivel', None)
+        new_area = request.POST.get('area', None)
+        
+        if new_nivel == None:
+            new_nivel = habilidad.nivel
+        if new_area == None:
+            new_area = habilidad.area
 
         habilidad.habilidad = new_habilidad
         habilidad.nivel = new_nivel
@@ -934,7 +946,10 @@ def actualizar_idioma(request,idioma_id):
     
     if request.method == 'POST':
         new_idioma = request.POST['idioma']
-        new_nivel = request.POST['nivel_idioma']
+        new_nivel = request.POST.get('nivel_idioma',None)
+        
+        if new_nivel == None:
+            new_nivel = idioma.nivel_idioma
         
         idioma.idioma = new_idioma
         idioma.nivel_idioma = new_nivel
@@ -946,12 +961,19 @@ def actualizar_educacion(request,educacion_id):
     educacion = Educaciones.objects.get(id=educacion_id)
     
     if request.method == 'POST':
-        new_nivel_edu = request.POST['nivel_educacion']
+        new_nivel_edu = request.POST.get('nivel_educacion', None)
         new_nombre_i = request.POST['nombre_instituto']
         new_curso_i = request.POST['curso_inicio']
-        new_fecha_i = request.POST['fecha_inicio']
+        new_fecha_i = request.POST.get('fecha_inicio', None)
         new_curso_t = request.POST['curso_termino']
-        new_fecha_t = request.POST['fecha_termino']
+        new_fecha_t = request.POST.get('fecha_termino', None)
+        
+        if new_fecha_i == None or new_fecha_i == '2001-01-01':
+            new_fecha_i = educacion.desde
+        if new_fecha_t == None or new_fecha_t == '2001-01-01':
+            new_fecha_t = educacion.hasta
+        if new_nivel_edu == None:
+            new_nivel_edu = educacion.nivel_educacion
         
         educacion.nivel_educacion = new_nivel_edu
         educacion.nombre_instituto = new_nombre_i
