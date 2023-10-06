@@ -39,6 +39,7 @@ urlpatterns = [
     path('jbdetail/<int:trabajo_id>/',views.detalle_trabajo,name='detalle_trabajo'),
     path('/Home/emplst',views.lista_candidatos,name='Listado_empleados'),
     path('/Home/applist',views.mis_aplicaciones,name='Mis_aplicaciones'),
+    path('/Home/trlst',views.lista_trabajos,name='listado_trabajos'),
     path('/Home/appdl/<int:aplicacion_id>/',views.cancelar_aplicacion,name='cancelar_aplicacion'),
     path('/Home/currch',views.Editar_curriculum,name='Editar_curriculum'),
     path('upcur/',views.actualizar_curriculum,name='actualizar_curriculum'),

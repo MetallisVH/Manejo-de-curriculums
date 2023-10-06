@@ -1,0 +1,48 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Trabajos</title>
+    <!-- Agrega tus estilos CSS si es necesario -->
+    <link rel="stylesheet" href="{% static 'App_curriculums/css/lista_trabajos.css' %}">
+    
+</head>
+<body>
+    <h1>Lista de Trabajos</h1>
+
+    {% if trabajos %}
+        <ul>
+            {% for trabajo in trabajos %}
+                <li>
+                    <h2>{{ trabajo.titulo }}</h2>
+                    <p><strong>Área:</strong> {{ trabajo.area }}</p>
+                    <p><strong>Tipo de Trabajo:</strong> {{ trabajo.tipo_trabajo }}</p>
+                    <p><strong>Tipo de Contrato:</strong> {{ trabajo.tipo_contrato }}</p>
+                    <p><strong>Descripción:</strong> {{ trabajo.descripcion }}</p>
+                    <p><strong>Requisitos:</strong> {{ trabajo.requisitos }}</p>
+                    <p><strong>Ubicación:</strong> {{ trabajo.ubicacion }}</p>
+                    <p><strong>Fecha de Publicación:</strong> {{ trabajo.fecha_publicacion }}</p>
+                    <p><strong>Fecha Límite:</strong> {{ trabajo.fecha_limite }}</p>
+                    <p><strong>Remoto:</strong> {{ trabajo.remoto }}</p>
+                    {% if trabajo.sueldo %}
+                        <p><strong>Sueldo:</strong> ${{ trabajo.sueldo }}</p>
+                    {% endif %}
+                    <!-- Agrega el botón para eliminar -->
+                    <form action="#" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit">Eliminar</button>
+                    </form>
+                    <!-- Puedes agregar más detalles según sea necesario -->
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No hay trabajos disponibles.</p>
+    {% endif %}
+
+    <!-- Agrega más contenido o funcionalidad según sea necesario -->
+</body>
+</html>

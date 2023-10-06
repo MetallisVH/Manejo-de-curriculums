@@ -83,6 +83,16 @@ def Recuperar_nombre_usuario(request):
 def Recuperar_contrasena(request):
     return render(request, 'html/Rec_contrasena.html')
 
+def lista_trabajos(request):
+    nom_usu = request.session.get('nombre_usu')
+    usuario = Usuarios.objects.get(nombre_usu=nom_usu)
+    trabajos = Trabajos.objects.filter(publicador=usuario)
+    
+    context = {'trabajos':trabajos}
+    
+    
+    return render(request,'html/listado_trabajos.html',context)
+
 def Info_curriculum(request):
     try:
         # Recuperar datos del usuario desde la tabla Curriculums
