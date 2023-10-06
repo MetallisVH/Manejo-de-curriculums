@@ -696,6 +696,11 @@ def guardar_experiencia(request):
             area=area
         )
         experiencia.save()
+        
+        curriculum=Curriculums.objects.get(nombre_usu=usuario)
+        new_puntaje_curriculum = calcular_puntaje(usuario)
+        curriculum.puntaje = new_puntaje_curriculum
+        curriculum.save()
 
         return redirect('Registro_curriculum')
     else:
@@ -734,6 +739,11 @@ def guardar_habilidad(request):
         habilidad.save()
 
         # Aquí puedes hacer algo con los puntos, como almacenarlos en otro modelo o realizar alguna lógica adicional
+        
+        curriculum=Curriculums.objects.get(nombre_usu=usuario)
+        new_puntaje_curriculum = calcular_puntaje(usuario)
+        curriculum.puntaje = new_puntaje_curriculum
+        curriculum.save()
 
         # Redirige o responde según tu lógica
         return redirect('Registro_curriculum')
@@ -771,6 +781,11 @@ def guardar_idioma(request):
             area=area
         )
         idioma_instancia.save()
+        
+        curriculum=Curriculums.objects.get(nombre_usu=usuario)
+        new_puntaje_curriculum = calcular_puntaje(usuario)
+        curriculum.puntaje = new_puntaje_curriculum
+        curriculum.save()
 
         # Redirige o responde según tu lógica
         return redirect('Registro_curriculum')  # Reemplaza con la URL correcta
