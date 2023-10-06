@@ -34,7 +34,7 @@
             <div class="mb-3">
                 <label for="area" class="form-label">Área principal de trabajo:</label>
                 <select class="form-select" id="area" name="area" required>
-                    <option value="" disabled selected>Seleccionar área</option>
+                    <option value="{{curriculum.area}}" disabled selected>Actual: {{ curriculum.area|capfirst }}</option>
                     <option value="tecnologia">Tecnología</option>
                     <option value="salud">Salud</option>
                     <option value="finanzas">Finanzas</option>
@@ -121,7 +121,6 @@
                         <option value="manufactura">Manufactura</option>
                         <option value="energiasrenovables">Energías Renovables</option>
                         <option value="agricultura">Agricultura</option>
-                        <option value="nueva">Elegir nueva área</option>
                     </select>
                 </div>
 
@@ -215,7 +214,7 @@
                 <div class="mb-3">
                     <label for="nivel" class="form-label">Nivel:</label>
                     <select class="form-select" id="nivel" name="nivel" required>
-                        <option value="" disabled selected>Seleccionar nivel</option>
+                        <option value="{{habilidad.nivel}}" disabled selected>Actual: {{ habilidad.nivel|capfirst }}</option>
                         <option value="basico">Básico</option>
                         <option value="intermedio">Intermedio</option>
                         <option value="avanzado">Avanzado</option>
@@ -225,7 +224,7 @@
                 <div class="mb-3">
                     <label for="area" class="form-label">Área:</label>
                     <select class="form-select" id="area" name="area" required>
-                        <option value="" disabled selected>Seleccionar área</option>
+                        <option value="{{habilidad.area}}" disabled selected>Actual: {{ habilidad.area|capfirst }}</option>
                         <option value="tecnologia">Tecnología</option>
                         <option value="salud">Salud</option>
                         <option value="finanzas">Finanzas</option>
@@ -307,6 +306,7 @@
                 <div class="mb-3">
                     <label for="nivel_idioma" class="form-label">Nivel:</label>
                     <select class="form-select" id="nivel_idioma" name="nivel_idioma" required>
+                        <option value="{{idioma.nivel_idioma}}" disabled selected>Actual: {{ idioma.nivel_idioma|capfirst }}</option>
                         <option value="A1">A1: Básico</option>
                         <option value="A2">A2: Básico Intermedio</option>
                         <option value="B1">B1: Intermedio</option>
@@ -367,7 +367,7 @@
                 <div class="mb-3">
                     <label for="nivel_educacion" class="form-label">Nivel de Educación:</label>
                     <select class="form-select" id="nivel_educacion" name="nivel_educacion" required>
-                        <option value="" disabled selected>Seleccionar nivel de educación</option>
+                        <option value="{{edu.nivel_educacion}}" disabled selected>Actual: {{ edu.nivel_educacion|capfirst }}</option>
                         <option value="preescolar">Basica</option>
                         <option value="primaria">Media</option>
                         <option value="secundaria">Superior</option>
