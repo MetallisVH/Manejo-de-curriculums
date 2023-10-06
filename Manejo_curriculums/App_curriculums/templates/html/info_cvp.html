@@ -56,6 +56,9 @@
         <button class="btn btn-warning">
             <a href="{% url 'Registro_curriculum' %}" class="text-white">Editar Currículum</a>
         </button>
+        <button class="btn btn-warning">
+            <a href="#" class="text-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar tu currículum?')">Eliminar Currículum</a>
+        </button>
     </section>
     {% endif %}
 

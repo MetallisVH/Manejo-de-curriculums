@@ -147,7 +147,7 @@
         <!-- Agrega más detalles del trabajo aquí -->
 
         <!-- Botón de Más Detalles -->
-        <a href="#" class="btn btn-primary">Más Detalles</a>
+        <a href="{% url 'detalle_trabajo' trabajo_id=trabajo.id%}" class="btn btn-primary">Más Detalles</a>
     </div>
     {% endfor %}
         
