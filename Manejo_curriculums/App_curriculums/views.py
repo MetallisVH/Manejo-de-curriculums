@@ -1012,3 +1012,117 @@ def actualizar_educacion(request,educacion_id):
         educacion.save()
         
     return redirect('Registro_curriculum')
+
+def mostrar_perfil(request, id_empleado):
+    # Obtener el usuario desde la base de datos 
+    usuario = Usuarios.objects.get(nombre_usu=id_empleado)
+    curriculum = Curriculums.objects.get(nombre_usu=usuario)
+    experiencias = Experiencias.objects.filter(nombre_usu=usuario)
+    habilidades = Habilidades.objects.filter(nombre_usu=usuario)
+    idiomas = Idiomas.objects.filter(nombre_usu=usuario)
+    educacion = Educaciones.objects.filter(nombre_usu=usuario)
+
+    # Extraer los campos que quieres mostrar
+    nombre_completo = f"{usuario.nombre} {usuario.apellido_p} {usuario.apellido_m}"
+    genero = usuario.genero
+    direccion = usuario.direccion
+    rut = f"{usuario.rut}-{usuario.dv}"
+
+    # Crear un diccionario con la información a pasar al template
+    contexto = {
+        'nombre_completo': nombre_completo,
+        'genero': genero,
+        'direccion': direccion,
+        'rut': rut,
+        'curriculum':curriculum,
+        'experiencias':experiencias,
+        'habilidades':habilidades,
+        'idiomas':idiomas,
+        'educaciones': educacion
+    }
+
+    # Renderizar el template con el contexto
+    return render(request, 'html/perfil_empleado.html', contexto)
+
+def ver_perfil(request):
+    
+    nombre_usuario = request.session.get('nombre_usu')
+    # Obtener el usuario desde la base de datos
+    usuario = Usuarios.objects.get(nombre_usu=nombre_usuario)
+
+    # Calcular la edad (esto es un ejemplo, asegúrate de ajustar la lógica según tus necesidades)
+    edad = usuario.edad
+
+    # Crear un diccionario con la información a pasar al template
+    contexto = {
+        'nombre_completo': f"{usuario.nombre} {usuario.apellido_p} {usuario.apellido_m}",
+        'nombre_usu': usuario.nombre_usu,
+        'genero': usuario.genero,
+        'edad': edad,
+        'email': usuario.email,
+        'telefono': usuario.telefono,
+    }
+
+    # Renderizar el template con el contexto
+    return render(request, 'html/Mi_perfil.html', contexto)
+
+def editar_perfil(request):
+    nombre_usuario =request.session.get('nombre_usu')
+    # Obtener el usuario desde la base de datos
+    usuario = Usuarios.objects.get(nombre_usu=nombre_usuario)
+
+    if request.method == 'POST':
+        # Actualizar los datos del usuario con los datos del formulario
+        usuario.nombre = request.POST.get('nombre_completo', '')
+        usuario.nombre_usu = request.POST.get('nombre_usu', '')
+        usuario.genero = request.POST.get('genero', '')
+        usuario.edad = request.POST.get('edad', '')
+        usuario.email = request.POST.get('email', '')
+        usuario.telefono = request.POST.get('telefono', '')
+        
+        # Guardar los cambios en la base de datos
+        usuario.save()
+
+        # Redireccionar a la página de perfil después de editar
+        return redirect('ver_perfil', nombre_usuario=nombre_usuario)
+
+    # Renderizar el formulario para editar el perfil
+    contexto = {
+        'nombre_completo': f"{usuario.nombre} {usuario.apellido_p} {usuario.apellido_m}",
+        'nombre_usu': usuario.nombre_usu,
+        'genero': usuario.genero,
+        'edad': usuario.edad,
+        'email': usuario.email,
+        'telefono': usuario.telefono,
+    }
+
+    return render(request, 'html/editar_perfil.html', contexto)
+
+def guardar_perfil(request):
+    nombre_usuario = request.session.get('nombre_usu')
+    # Obtener el usuario desde la base de datos
+    usuario = Usuarios.objects.get(nombre_usu=nombre_usuario)
+
+    if request.method == 'POST':
+        # Actualizar los datos del usuario con los datos del formulario
+        usuario.nombre = request.POST.get('nombre_completo', '')
+        usuario.nombre_usu = request.POST.get('nombre_usu', '')
+        usuario.edad = request.POST.get('edad', '')
+        usuario.email = request.POST.get('email', '')
+        usuario.telefono = request.POST.get('telefono', '')
+        
+        genero = request.POST.get('genero', '')
+        if genero == 'Otro':
+            usuario.genero = request.POST.get('otro_genero', '')
+        else:
+            usuario.genero = genero
+        
+        # Guardar los cambios en la base de datos
+        usuario.save()
+
+        # Redireccionar a la página de perfil después de editar
+        return redirect('ver_perfil')
+
+    # Si no es una solicitud POST, redireccionar a algún lugar adecuado
+    # Puedes ajustar esto según tu lógica, por ejemplo, redirigir a la página de edición nuevamente.
+    return redirect('ver_perfil')

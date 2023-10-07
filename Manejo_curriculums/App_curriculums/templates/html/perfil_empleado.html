@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Perfil de Usuario</title>
+</head>
+<body>
+    <h1>Perfil de Usuario</h1>
+    <p><strong>Nombre:</strong> {{ nombre_completo }}</p>
+    <p><strong>Género:</strong> {{ genero }}</p>
+    <p><strong>Dirección:</strong> {{ direccion }}</p>
+    <p><strong>RUT:</strong> {{ rut }}</p>
+
+    <h2>Currículum</h2>
+    
+    <h3>Experiencias Laborales</h3>
+    <ul>
+        {% for experiencia in experiencias %}
+            <li>{{ experiencia.empresa }} - {{ experiencia.puesto }} ({{ experiencia.desde|date:"Y" }} - {{ experiencia.hasta|date:"Y" }})</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Educación</h3>
+    <ul>
+        {% for educacion in educaciones %}
+            <li>{{ educacion.nivel_educacion }} en {{ educacion.nombre_instituto }} ({{ educacion.desde|date:"Y" }} - {{ educacion.hasta|date:"Y" }})</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Habilidades</h3>
+    <ul>
+        {% for habilidad in habilidades %}
+            <li>{{ habilidad.habilidad }} (Nivel: {{ habilidad.nivel }})</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Idiomas</h3>
+    <ul>
+        {% for idioma in idiomas %}
+            <li>{{ idioma.idioma }} (Nivel: {{ idioma.nivel_idioma }})</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

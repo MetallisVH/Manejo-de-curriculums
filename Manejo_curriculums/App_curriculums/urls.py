@@ -47,5 +47,9 @@ urlpatterns = [
     path('upap/<int:habilidad_id>/',views.actualizar_habilidad,name='actualizar_habilidad'),
     path('uplg/<int:idioma_id>/',views.actualizar_idioma,name='actualizar_idioma'),
     path('upes/<int:educacion_id>/',views.actualizar_educacion,name='actualizar_educacion'),
+    path('showp/<str:id_empleado>/',views.mostrar_perfil,name='Ver_detalles_empleado'),
+    path('showus/',views.ver_perfil,name='ver_perfil'),
+    path('edpro/',views.editar_perfil,name='Editar_perfil'),
+    path('svpro/',views.guardar_perfil,name='guardar_perfil'),
     path('Error_403/',views.Error_403,name='Error_403'),
 ]

@@ -41,7 +41,7 @@
                                         <td>{{ curriculum.email }}</td>
                                         <td>{{ curriculum.telefono }}</td>
                                         <td>{{ trabajo.titulo }}</td>
-                                        <td><a href="#">Ver Detalles</a></td>
+                                        <td><a href="{% url 'Ver_detalles_empleado' id_empleado=curriculum.nombre_usu.nombre_usu%}">Ver Detalles</a></td>
                                         <td><a href="#">Aceptar</a></td>
                                         <td><a href="#">Rechazar</a></td>
                                         <!-- Agrega más celdas según sea necesario -->
