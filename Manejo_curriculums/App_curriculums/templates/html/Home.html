@@ -108,8 +108,8 @@
                                 Mi Perfil
                             </a>
                             <div class="dropdown-menu" id="perfilDropdownMenu" aria-labelledby="perfilDropdown">
-                                <a class="dropdown-item" href="#">Ver Perfil</a>
-                                <a class="dropdown-item" href="#">Editar Perfil</a>
+                                <a class="dropdown-item" href="{% url 'ver_perfil' %}">Ver Perfil</a>
+                                <a class="dropdown-item" href="{% url 'Editar_perfil' %}">Editar Perfil</a>
                                 <form method="post" action="{% url 'user_logout' %}">
                                     {% csrf_token %}
                                     <button type="submit" class="btn btn-link">Cerrar Sesión</button>
