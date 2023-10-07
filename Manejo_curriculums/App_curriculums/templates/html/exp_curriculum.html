@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ver Currículum</title>
+</head>
+<body>
+    <h1>Currículum</h1>
+    
+    <p><strong>Nombre Completo:</strong> {{ curriculum.nombre_completo }}</p>
+    <p><strong>Email:</strong> {{ curriculum.email }}</p>
+    <p><strong>Teléfono:</strong> {{ curriculum.telefono }}</p>
+    <p><strong>Área:</strong> {{ curriculum.area }}</p>
+    <p><strong>Puntaje:</strong> {{ curriculum.puntaje }}</p>
+
+    <h2>Experiencias Laborales</h2>
+    {% for experiencia in experiencias %}
+        <p><strong>Empresa:</strong> {{ experiencia.empresa }}</p>
+        <p><strong>Puesto:</strong> {{ experiencia.puesto }}</p>
+        <p><strong>Desde:</strong> {{ experiencia.desde }}</p>
+        <p><strong>Hasta:</strong> {{ experiencia.hasta }}</p>
+        <!-- Agrega más campos según sea necesario -->
+    {% endfor %}
+
+    <h2>Educación</h2>
+    {% for educacion in educaciones %}
+        <p><strong>Nivel de Educación:</strong> {{ educacion.nivel_educacion }}</p>
+        <p><strong>Instituto:</strong> {{ educacion.nombre_instituto }}</p>
+        <p><strong>Curso:</strong> {{ educacion.curso }}</p>
+        <p><strong>Fecha de Inicio:</strong> {{ educacion.desde }}</p>
+        <p><strong>Fecha de Finalización:</strong> {{ educacion.hasta }}</p>
+        <!-- Agrega más campos según sea necesario -->
+    {% endfor %}
+
+    <h2>Habilidades</h2>
+    {% for habilidad in habilidades %}
+        <p><strong>Habilidad:</strong> {{ habilidad.habilidad }}</p>
+        <p><strong>Nivel:</strong> {{ habilidad.nivel }}</p>
+        <p><strong>Área:</strong> {{ habilidad.area }}</p>
+        <!-- Agrega más campos según sea necesario -->
+    {% endfor %}
+
+    <h2>Idiomas</h2>
+    {% for idioma in idiomas %}
+        <p><strong>Idioma:</strong> {{ idioma.idioma }}</p>
+        <p><strong>Nivel de Idioma:</strong> {{ idioma.nivel_idioma }}</p>
+        <p><strong>Área:</strong> {{ idioma.area }}</p>
+        <!-- Agrega más campos según sea necesario -->
+    {% endfor %}
+
+    <!-- Repite el mismo patrón para las secciones de educación, habilidades e idiomas -->
+
+    <!-- Botones para exportar a PDF u otros formatos -->
+    <form method="post" action="{% url 'to_pdf' %}">
+        {% csrf_token %}
+        <input type="hidden" name="nombre_usuario" value="{{ nombre_usu }}">
+        <button type="submit" name="formato" value="pdf">Exportar a PDF</button>
+        <!-- Agrega botones para otros formatos si es necesario -->
+    </form>
+</body>
+</html>

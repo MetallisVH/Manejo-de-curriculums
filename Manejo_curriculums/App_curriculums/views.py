@@ -4,15 +4,19 @@ from .forms import *
 from django.utils import timezone
 from django.shortcuts import render, redirect
 from .models import models ,Usuarios, Curriculums, Experiencias, Educaciones, Habilidades, Idiomas, Trabajos, Aplicaciones
+from django.template.loader import get_template
+from reportlab.pdfgen import canvas
+from io import BytesIO
 from django.db.models import Sum
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 from datetime import date
 from django.contrib.auth import logout
 from django.contrib.auth.hashers import check_password
+from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from django.urls import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from .config import EMAIL_HOST_Usuario #Direccion de correo de config.py
 from datetime import datetime
 import uuid
@@ -62,6 +66,26 @@ def Register_empelado(request):
 
 def Register_empleador(request):
     return render(request, 'html/Registro_empleador.html')
+
+def exp_opciones(request):
+    nombre_usuario = request.session.get('nombre_usu')
+    usuario = Usuarios.objects.get(nombre_usu=nombre_usuario)
+    curriculum = Curriculums.objects.get(nombre_usu=usuario)
+    experiencias = Experiencias.objects.filter(nombre_usu=usuario)
+    habilidades = Habilidades.objects.filter(nombre_usu=usuario)
+    idiomas = Idiomas.objects.filter(nombre_usu=usuario)
+    educacion = Educaciones.objects.filter(nombre_usu=usuario)
+    
+    contexto = {
+        'usuario': usuario,
+        'curriculum': curriculum,
+        'experiencias': experiencias,
+        'habilidades': habilidades,
+        'idiomas': idiomas,
+        'educaciones': educacion,
+    }
+    
+    return render(request, 'html/exp_curriculum.html', contexto)
 
 def user_logout(request):
     logout(request)
@@ -1126,3 +1150,74 @@ def guardar_perfil(request):
     # Si no es una solicitud POST, redireccionar a algún lugar adecuado
     # Puedes ajustar esto según tu lógica, por ejemplo, redirigir a la página de edición nuevamente.
     return redirect('ver_perfil')
+
+def to_pdf(request):
+    # Obtener datos del formulario POST
+    nombre_usuario = request.session.get('nombre_usu')
+    usuario = Usuarios.objects.get(nombre_usu=nombre_usuario)
+    curriculum = Curriculums.objects.get(nombre_usu=usuario)
+    experiencias = Experiencias.objects.filter(nombre_usu=usuario)
+    habilidades = Habilidades.objects.filter(nombre_usu=usuario)
+    idiomas = Idiomas.objects.filter(nombre_usu=usuario)
+    educaciones = Educaciones.objects.filter(nombre_usu=usuario)
+
+    # Crear un objeto BytesIO para almacenar el PDF
+    buffer = BytesIO()
+
+    # Crear el objeto PDF usando reportlab
+    p = canvas.Canvas(buffer)
+
+    # Agregar contenido al PDF con la información de tu modelo
+    p.drawString(100, 800, f"Nombre Completo: {curriculum.nombre_completo}")
+    p.drawString(100, 780, f"Email: {curriculum.email}")
+    # Agrega más líneas según sea necesario para otros campos
+
+    # Ejemplo de cómo agregar información de experiencias
+    y_position = 750
+    for experiencia in experiencias:
+        p.drawString(100, y_position, f"Empresa: {experiencia.empresa}")
+        p.drawString(100, y_position - 20, f"Puesto: {experiencia.puesto}")
+        # Agrega más líneas según sea necesario para otros campos de experiencia
+        y_position -= 40
+
+    # Agregar sección de habilidades
+    y_position -= 20  # Espacio entre secciones
+    p.drawString(100, y_position, "Habilidades:")
+    for habilidad in habilidades:
+        p.drawString(120, y_position - 20, f"Habilidad: {habilidad.habilidad}")
+        p.drawString(120, y_position - 40, f"Nivel: {habilidad.nivel}")
+        p.drawString(120, y_position - 60, f"Área: {habilidad.area}")
+        y_position -= 80
+
+    # Agregar sección de idiomas
+    y_position -= 20  # Espacio entre secciones
+    p.drawString(100, y_position, "Idiomas:")
+    for idioma in idiomas:
+        p.drawString(120, y_position - 20, f"Idioma: {idioma.idioma}")
+        p.drawString(120, y_position - 40, f"Nivel de Idioma: {idioma.nivel_idioma}")
+        p.drawString(120, y_position - 60, f"Área: {idioma.area}")
+        y_position -= 80
+
+    # Agregar sección de educaciones
+    y_position -= 20  # Espacio entre secciones
+    p.drawString(100, y_position, "Educación:")
+    for educacion in educaciones:
+        p.drawString(120, y_position - 20, f"Nivel de Educación: {educacion.nivel_educacion}")
+        p.drawString(120, y_position - 40, f"Instituto: {educacion.nombre_instituto}")
+        p.drawString(120, y_position - 60, f"Curso: {educacion.curso}")
+        p.drawString(120, y_position - 80, f"Fecha de Inicio: {educacion.desde}")
+        p.drawString(120, y_position - 100, f"Fecha de Finalización: {educacion.hasta}")
+        y_position -= 120
+
+    # Guardar el objeto PDF
+    p.showPage()
+    p.save()
+
+    # Mover el puntero del buffer al principio
+    buffer.seek(0)
+
+    # Crear una respuesta HTTP con el contenido del PDF
+    response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
+    response['Content-Disposition'] = 'inline; filename=curriculum.pdf'
+
+    return response

@@ -51,5 +51,7 @@ urlpatterns = [
     path('showus/',views.ver_perfil,name='ver_perfil'),
     path('edpro/',views.editar_perfil,name='Editar_perfil'),
     path('svpro/',views.guardar_perfil,name='guardar_perfil'),
+    path('expc/',views.exp_opciones,name='opciones_exportar'),
+    path('expdf/',views.to_pdf,name='to_pdf'),
     path('Error_403/',views.Error_403,name='Error_403'),
 ]
