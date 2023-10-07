@@ -34,6 +34,7 @@ class Curriculums(models.Model):
     telefono = models.IntegerField(null=True,blank=True,unique=True)
     area = models.CharField(max_length=254,blank=True,null=False,default='Area no especificada')
     puntaje = models.IntegerField(null=True, blank=True)
+    deleted_at = models.DateTimeField(null=True, blank=True)
     
 class Experiencias(models.Model):
     id = models.AutoField(primary_key= True, null=False, unique=True)
@@ -45,6 +46,7 @@ class Experiencias(models.Model):
     area = models.CharField(max_length=254,blank=True,null=False,default='Area no especificada')
     archivo_experiencia = models.CharField(max_length=2,null=False,blank=False)
     puntos = models.IntegerField(null=False,blank=False,default=10)
+    deleted_at = models.DateTimeField(null=True, blank=True)
 
 class Educaciones(models.Model):
     id = models.AutoField(primary_key=True, null=False, unique=True)
@@ -58,6 +60,7 @@ class Educaciones(models.Model):
     area = models.CharField(max_length=254,blank=True,null=False,default='Area no especificada')
     archivo_educacion = models.CharField(max_length=2,null=True,blank=True)
     puntos = models.IntegerField(null=False,blank=False,default=10)
+    deleted_at = models.DateTimeField(null=True, blank=True)
     
 class Habilidades(models.Model):
     id = models.AutoField(primary_key=True, null=False, unique=True)
@@ -67,6 +70,7 @@ class Habilidades(models.Model):
     area = models.CharField(max_length=254,blank=True,null=False,default='Area no especificada')
     archivo_habilidad = models.CharField(max_length=2,null=True,blank=True)
     puntos = models.IntegerField(null=False,blank=False,default=10)
+    deleted_at = models.DateTimeField(null=True, blank=True)
     
 class Idiomas(models.Model):
     id = models.AutoField(primary_key=True, null=False, unique=True)
@@ -76,6 +80,7 @@ class Idiomas(models.Model):
     area = models.CharField(max_length=254,blank=True,null=False,default='Area no especificada')
     archivo_idioma = models.CharField(max_length=2,null=True,blank=True)
     puntos = models.IntegerField(null=False,blank=False,default=10)
+    deleted_at = models.DateTimeField(null=True, blank=True)
     
 class Trabajos(models.Model):
     id = models.AutoField(primary_key=True, null=False, unique=True)
@@ -91,6 +96,7 @@ class Trabajos(models.Model):
     fecha_limite = models.DateTimeField(null=True,blank=True)
     remoto = models.CharField(max_length=2,blank=False,null=False,default='NA')
     sueldo = models.IntegerField(null=True,blank=True)
+    deleted_at = models.DateTimeField(null=True, blank=True)
     
 class Aplicaciones(models.Model):
     id = models.AutoField(primary_key=True, null=False, unique=True)
@@ -98,3 +104,4 @@ class Aplicaciones(models.Model):
     trabajo = models.ForeignKey(Trabajos, on_delete=models.CASCADE, to_field='id')
     fecha_aplicacion = models.DateTimeField(null=False,blank=False,default=timezone.now)
     puntos_aplicante = models.IntegerField(null=True,blank=True,default=None)
+    deleted_at = models.DateTimeField(null=True, blank=True)
