@@ -1,5 +1,6 @@
 {% load static %}
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,20 +21,20 @@
                 {% for trabajo in trabajos %}
                     <li class="list-group-item">
                         <h2>{{ trabajo.titulo }}</h2>
-                        <p><strong>Área:</strong> {{ trabajo.area }}</p>
-                        <p><strong>Tipo de Trabajo:</strong> {{ trabajo.tipo_trabajo }}</p>
-                        <p><strong>Tipo de Contrato:</strong> {{ trabajo.tipo_contrato }}</p>
+                        <p><strong>Área:</strong> {{ trabajo.area|capfirst }}</p>
+                        <p><strong>Tipo de Trabajo:</strong> {{ trabajo.tipo_trabajo|capfirst }}</p>
+                        <p><strong>Tipo de Contrato:</strong> {{ trabajo.tipo_contrato|capfirst }}</p>
                         <p><strong>Descripción:</strong> {{ trabajo.descripcion }}</p>
                         <p><strong>Requisitos:</strong> {{ trabajo.requisitos }}</p>
                         <p><strong>Ubicación:</strong> {{ trabajo.ubicacion }}</p>
                         <p><strong>Fecha de Publicación:</strong> {{ trabajo.fecha_publicacion }}</p>
                         <p><strong>Fecha Límite:</strong> {{ trabajo.fecha_limite }}</p>
-                        <p><strong>Remoto:</strong> {{ trabajo.remoto }}</p>
+                        <p><strong>Remoto:</strong> {{ trabajo.remoto|capfirst }}</p>
                         {% if trabajo.sueldo %}
-                            <p><strong>Sueldo:</strong> ${{ trabajo.sueldo }}</p>
+                            <p><strong>Sueldo:</strong> ${{ trabajo.sueldo }} CLP</p>
                         {% endif %}
                         <!-- Agrega el botón para eliminar con estilos de Bootstrap -->
-                        <form action="#" method="post" class="d-inline">
+                        <form action="{% url 'eliminar_trabajo' trabajo_id=trabajo.id %}" method="post" class="d-inline">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-danger">Eliminar</button>
                         </form>

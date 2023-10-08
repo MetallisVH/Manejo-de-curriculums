@@ -109,8 +109,8 @@ def Recuperar_contrasena(request):
 
 def lista_trabajos(request):
     nom_usu = request.session.get('nombre_usu')
-    usuario = Usuarios.objects.get(nombre_usu=nom_usu)
-    trabajos = Trabajos.objects.filter(publicador=usuario)
+    usuario = Usuarios.objects.get(nombre_usu=nom_usu,deleted_at=None)
+    trabajos = Trabajos.objects.filter(publicador=usuario,deleted_at=None)
     
     context = {'trabajos':trabajos}
     
@@ -124,12 +124,15 @@ def Info_curriculum(request):
         usuario = Curriculums.objects.get(nombre_usu=nombre_usu)
 
         # Recuperar experiencias laborales, educación, habilidades e idiomas asociadas al usuario
-        experiencias_laborales = Experiencias.objects.filter(nombre_usu=nombre_usu)
-        educacion = Educaciones.objects.filter(nombre_usu=nombre_usu)
-        habilidades = Habilidades.objects.filter(nombre_usu=nombre_usu)
-        idiomas = Idiomas.objects.filter(nombre_usu=nombre_usu)
+        experiencias_laborales = Experiencias.objects.filter(nombre_usu=nombre_usu, deleted_at=None)
+        educacion = Educaciones.objects.filter(nombre_usu=nombre_usu, deleted_at=None)
+        habilidades = Habilidades.objects.filter(nombre_usu=nombre_usu, deleted_at=None)
+        idiomas = Idiomas.objects.filter(nombre_usu=nombre_usu, deleted_at=None)
         curriculum = Curriculums.objects.get(nombre_usu=nombre_usu)
         curr_area = curriculum.area
+
+        if curriculum.deleted_at is not None:
+            raise Curriculums.DoesNotExist
 
         return render(request, 'html/info_cvp.html', {
             'usuario': usuario,
@@ -145,34 +148,39 @@ def Info_curriculum(request):
 def Registro_curriculum(request):
     try:
         nombre_usuario = request.session.get('nombre_usu')
-        usuario=Usuarios.objects.get(nombre_usu=nombre_usuario) 
-    except  Usuarios.DoesNotExist:
-        usuario=''
-    try:
-        curriculum = Curriculums.objects.get(nombre_usu=usuario)
-    except Curriculums.DoesNotExist:
-        curriculum=''
-    try:
-        experiencias_laborales = Experiencias.objects.filter(nombre_usu=usuario)
-    except Experiencias.DoesNotExist:
-        experiencias_laborales=''
-    try:
-        habilidades = Habilidades.objects.filter(nombre_usu=usuario)
-    except Habilidades.DoesNotExist:
-        habilidades=''
-    try:
-        idiomas=Idiomas.objects.filter(nombre_usu=usuario)
-    except Idiomas.DoesNotExist:
-        idiomas=''
-    try:
-        educacion=Educaciones.objects.filter(nombre_usu=usuario)
-    except Educaciones.DoesNotExist:
-        educacion=''        
-    
-    context = {'curriculum':curriculum, 'experiencias_laborales':experiencias_laborales,'habilidades':habilidades,'idiomas':idiomas,'educacion':educacion}
+        usuario = Usuarios.objects.get(nombre_usu=nombre_usuario, deleted_at=None)
+    except Usuarios.DoesNotExist:
+        usuario = ''
 
-    
-    return render(request,'html/Registro_curriculums.html',context)
+    try:
+        curriculum = Curriculums.objects.get(nombre_usu=usuario, deleted_at=None)
+    except Curriculums.DoesNotExist:
+        curriculum = ''
+
+    try:
+        experiencias_laborales = Experiencias.objects.filter(nombre_usu=usuario, deleted_at=None)
+    except Experiencias.DoesNotExist:
+        experiencias_laborales = ''
+
+    try:
+        habilidades = Habilidades.objects.filter(nombre_usu=usuario, deleted_at=None)
+    except Habilidades.DoesNotExist:
+        habilidades = ''
+
+    try:
+        idiomas = Idiomas.objects.filter(nombre_usu=usuario, deleted_at=None)
+    except Idiomas.DoesNotExist:
+        idiomas = ''
+
+    try:
+        educacion = Educaciones.objects.filter(nombre_usu=usuario, deleted_at=None)
+    except Educaciones.DoesNotExist:
+        educacion = ''
+
+    context = {'curriculum': curriculum, 'experiencias_laborales': experiencias_laborales,
+            'habilidades': habilidades, 'idiomas': idiomas, 'educacion': educacion}
+
+    return render(request, 'html/Registro_curriculums.html', context)
 
 def Registro_exitoso(request):
     return render(request, 'html/Registro_exitoso.html')
@@ -211,10 +219,10 @@ def lista_candidatos(request):
 def mis_aplicaciones(request):
     # Obtener el usuario actual
     nombre_usuario = request.session.get('nombre_usu')
-    usuario_actual = Usuarios.objects.get(nombre_usu=nombre_usuario)
+    usuario_actual = Usuarios.objects.get(nombre_usu=nombre_usuario,deleted_at=None)
 
     # Filtrar las aplicaciones realizadas por el usuario actual
-    aplicaciones_usuario = Aplicaciones.objects.filter(aplicante=usuario_actual)
+    aplicaciones_usuario = Aplicaciones.objects.filter(aplicante=usuario_actual,deleted_at=None)
 
     # Puedes agregar más contexto según tus necesidades
     context = {
@@ -878,16 +886,16 @@ def aplicar_trabajo(request, trabajo_id):
             usuario = Usuarios.objects.get(nombre_usu=nombre_usu)
 
             # Filtrar experiencias por área y sumar los puntos
-            puntos_experiencias = Experiencias.objects.filter(nombre_usu=nombre_usu, area=area_trabajo).aggregate(Sum('puntos'))['puntos__sum'] or 0
+            puntos_experiencias = Experiencias.objects.filter(nombre_usu=nombre_usu, area=area_trabajo, deleted_at=None).aggregate(Sum('puntos'))['puntos__sum'] or 0
 
             # Filtrar idiomas por área y sumar los puntos
-            puntos_idiomas = Idiomas.objects.filter(nombre_usu=nombre_usu, area='Conocimiento idiomatico').aggregate(Sum('puntos'))['puntos__sum'] or 0
+            puntos_idiomas = Idiomas.objects.filter(nombre_usu=nombre_usu, area='Conocimiento idiomatico',deleted_at=None).aggregate(Sum('puntos'))['puntos__sum'] or 0
 
             # Filtrar habilidades por área y sumar los puntos
-            puntos_habilidades = Habilidades.objects.filter(nombre_usu=nombre_usu, area=area_trabajo).aggregate(Sum('puntos'))['puntos__sum'] or 0
+            puntos_habilidades = Habilidades.objects.filter(nombre_usu=nombre_usu, area=area_trabajo,deleted_at=None).aggregate(Sum('puntos'))['puntos__sum'] or 0
 
             # Filtrar educaciones por área y sumar los puntos
-            puntos_educaciones = Educaciones.objects.filter(Q(nombre_usu=nombre_usu, area=area_trabajo) | Q(nombre_usu=nombre_usu, area='Conocimiento escolar base (general/generalista)')).aggregate(Sum('puntos'))['puntos__sum'] or 0
+            puntos_educaciones = Educaciones.objects.filter(Q(nombre_usu=nombre_usu, area=area_trabajo,deleted_at=None) | Q(nombre_usu=nombre_usu, area='Conocimiento escolar base (general/generalista)'),deleted_at=None).aggregate(Sum('puntos'))['puntos__sum'] or 0
 
             # Sumar los puntos totales
             puntos_totales = puntos_experiencias + puntos_idiomas + puntos_habilidades + puntos_educaciones
@@ -920,10 +928,11 @@ def cancelar_aplicacion(request, aplicacion_id):
         return redirect('alguna_otra_vista')
 
     # Elimina la aplicación
-    aplicacion.delete()
+    aplicacion.deleted_at = timezone.now()
+    aplicacion.save()
 
     # Redirige a alguna otra vista o página de éxito
-    return redirect('vista_exito')
+    return redirect('Mis_aplicaciones')
 
 def actualizar_curriculum(request):
     nom_usu = request.session.get('nombre_usu')
@@ -1039,12 +1048,12 @@ def actualizar_educacion(request,educacion_id):
 
 def mostrar_perfil(request, id_empleado):
     # Obtener el usuario desde la base de datos 
-    usuario = Usuarios.objects.get(nombre_usu=id_empleado)
-    curriculum = Curriculums.objects.get(nombre_usu=usuario)
-    experiencias = Experiencias.objects.filter(nombre_usu=usuario)
-    habilidades = Habilidades.objects.filter(nombre_usu=usuario)
-    idiomas = Idiomas.objects.filter(nombre_usu=usuario)
-    educacion = Educaciones.objects.filter(nombre_usu=usuario)
+    usuario = Usuarios.objects.get(nombre_usu=id_empleado,deleted_at=None)
+    curriculum = Curriculums.objects.get(nombre_usu=usuario,deleted_at=None)
+    experiencias = Experiencias.objects.filter(nombre_usu=usuario,deleted_at=None)
+    habilidades = Habilidades.objects.filter(nombre_usu=usuario,deleted_at=None)
+    idiomas = Idiomas.objects.filter(nombre_usu=usuario,deleted_at=None)
+    educacion = Educaciones.objects.filter(nombre_usu=usuario,deleted_at=None)
 
     # Extraer los campos que quieres mostrar
     nombre_completo = f"{usuario.nombre} {usuario.apellido_p} {usuario.apellido_m}"
@@ -1221,3 +1230,106 @@ def to_pdf(request):
     response['Content-Disposition'] = 'inline; filename=curriculum.pdf'
 
     return response
+
+def eliminar_curriculum(request):
+    nombre_usuario = request.session.get('nombre_usu')
+    usuario = Usuarios.objects.get(nombre_usu=nombre_usuario)
+
+    # Obtén el currículum del usuario actual
+    curriculum = Curriculums.objects.get(nombre_usu=usuario)
+
+    # Marca el currículum como eliminado
+    curriculum.deleted_at = timezone.now()
+    curriculum.save()
+    Experiencias.objects.filter(nombre_usu=usuario).update(deleted_at=timezone.now())
+    Habilidades.objects.filter(nombre_usu=usuario).update(deleted_at=timezone.now())
+    Idiomas.objects.filter(nombre_usu=usuario).update(deleted_at=timezone.now())
+    Educaciones.objects.filter(nombre_usu=usuario).update(deleted_at=timezone.now())
+
+    return redirect('Info_curriculum')
+
+def eliminar_experiencia(request, experiencia_id):
+    try:
+        # Obtener la experiencia laboral a eliminar
+        experiencia = Experiencias.objects.get(id=experiencia_id)
+
+        # Verificar que la experiencia laboral pertenezca al usuario actual (si es necesario)
+        # Puedes comparar la experiencia con el usuario actual o aplicar tus propias reglas de verificación
+
+        # Eliminar la experiencia (marcar como eliminada si estás utilizando "soft delete")
+        experiencia.deleted_at = timezone.now()
+        experiencia.save()
+
+        # Redirigir a alguna vista de éxito
+        return redirect('Registro_curriculum')
+    except Experiencias.DoesNotExist:
+        # Manejar la situación donde la experiencia no existe
+        return redirect('nombre_de_tu_vista_error')
+    
+def eliminar_educacion(request, educacion_id):
+    try:
+        # Obtener la educación a eliminar
+        educacion = Educaciones.objects.get(id=educacion_id)
+
+        # Verificar que la educación pertenezca al usuario actual (si es necesario)
+        # Puedes comparar la educación con el usuario actual o aplicar tus propias reglas de verificación
+
+        # Eliminar la educación (marcar como eliminada si estás utilizando "soft delete")
+        educacion.deleted_at = timezone.now()
+        educacion.save()
+
+        # Redirigir a alguna vista de éxito
+        return redirect('Registro_curriculum')
+    except Educaciones.DoesNotExist:
+        # Manejar la situación donde la educación no existe
+        return redirect('nombre_de_tu_vista_error')
+    
+def eliminar_habilidad(request, habilidad_id):
+    try:
+        # Obtener la habilidad a eliminar
+        habilidad = Habilidades.objects.get(id=habilidad_id)
+
+        # Verificar que la habilidad pertenezca al usuario actual (si es necesario)
+        # Puedes comparar la habilidad con el usuario actual o aplicar tus propias reglas de verificación
+
+        # Eliminar la habilidad (marcar como eliminada si estás utilizando "soft delete")
+        habilidad.deleted_at = timezone.now()
+        habilidad.save()
+
+        # Redirigir a alguna vista de éxito
+        return redirect('Registro_curriculum')
+    except Habilidades.DoesNotExist:
+        # Manejar la situación donde la habilidad no existe
+        return redirect('nombre_de_tu_vista_error')
+    
+def eliminar_idioma(request, idioma_id):
+    try:
+        # Obtener el idioma a eliminar
+        idioma = Idiomas.objects.get(id=idioma_id)
+
+        # Verificar que el idioma pertenezca al usuario actual (si es necesario)
+        # Puedes comparar el idioma con el usuario actual o aplicar tus propias reglas de verificación
+
+        # Eliminar el idioma (marcar como eliminado si estás utilizando "soft delete")
+        idioma.deleted_at = timezone.now()
+        idioma.save()
+
+        # Redirigir a alguna vista de éxito
+        return redirect('Registro_curriculum')
+    except Idiomas.DoesNotExist:
+        # Manejar la situación donde el idioma no existe
+        return redirect('nombre_de_tu_vista_error')
+    
+def eliminar_trabajo(request, trabajo_id):
+    try:
+        # Obtener el trabajo a eliminar
+        trabajo = Trabajos.objects.get(id=trabajo_id,deleted_at=None)
+
+        trabajo.deleted_at=timezone.now()
+        trabajo.save()
+
+        # Redirigir a alguna vista de éxito o a donde desees después de eliminar
+        return redirect('listado_trabajos')
+    except Trabajos.DoesNotExist:
+        # Manejar la situación donde el trabajo no existe
+        return redirect('nombre_de_tu_vista_error')

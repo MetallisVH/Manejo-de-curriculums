@@ -29,18 +29,18 @@
       </thead>
       <tbody>
         {% for aplicacion in aplicaciones_usuario %}
-          <tr>
-            <td>{{ forloop.counter }}</td>
-            <td>{{ aplicacion.trabajo.titulo }}</td>
-            <td>{{ aplicacion.fecha_aplicacion }}</td>
-            <td>
-              <form method="post" action="{% url 'cancelar_aplicacion' aplicacion.id %}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-danger btn-sm">Cancelar</button>
-              </form>
-            </td>
-            <!-- Agrega más celdas según tu modelo de Aplicaciones -->
-          </tr>
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ aplicacion.trabajo.titulo }}</td>
+              <td>{{ aplicacion.fecha_aplicacion }}</td>
+              <td>
+                <form method="post" action="{% url 'cancelar_aplicacion' aplicacion.id %}">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger btn-sm">Cancelar</button>
+                </form>
+              </td>
+              <!-- Agrega más celdas según tu modelo de Aplicaciones -->
+            </tr>
         {% endfor %}
       </tbody>
     </table>

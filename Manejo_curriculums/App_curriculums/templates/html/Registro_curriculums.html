@@ -126,7 +126,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                <a href="#" class="btn btn-danger">Borrar Experiencia</a>
+                <a href="{% url 'eliminar_experiencia' experiencia_id=experiencia.id %}" class="btn btn-danger">Borrar Experiencia</a>
             </form>
             <hr>
         {% endfor %}
@@ -253,7 +253,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                <a href="#" class="btn btn-danger">Borrar Habilidad</a>
+                <a href="{% url 'eliminar_habilidad' habilidad_id=habilidad.id %}" class="btn btn-danger">Borrar Habilidad</a>
             </form>
             <hr>
         {% endfor %}
@@ -350,7 +350,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                <a href="#" class="btn btn-danger">Borrar Idioma</a>
+                <a href="{% url 'eliminar_idioma' idioma_id=idioma.id %}" class="btn btn-danger">Borrar Idioma</a>
             </form>
             <hr>
         {% endfor %}
@@ -452,7 +452,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                <a href="#" class="btn btn-danger">Borrar Educación</a>
+                <a href="{% url 'eliminar_educacion' educacion_id=edu.id %}" class="btn btn-danger">Borrar Educación</a>
             </form>
             <hr>
         {% endfor %}
@@ -570,6 +570,7 @@
             <div class="mb-3">
                 <label for="area" class="form-label">Área principal de trabajo:</label>
                 <select class="form-select" id="area" name="area">
+                    <option value="" disabled selected>No seleccionada</option>
                     <option value="tecnologia">Tecnología</option>
                     <option value="salud">Salud</option>
                     <option value="finanzas">Finanzas</option>
@@ -602,9 +603,8 @@
                     <div>
                         {% for experiencia in experiencias_laborales %}
                             {{ experiencia.empresa }} - {{ experiencia.puesto }}<br>
-                            <button type="button" class="btn btn-danger mt-2" id="quitarIdiomaBtn" onclick="#">Quitar</button>
-                            <!-- Mostrar otros datos de experiencia laboral si los tienes -->
-                            <hr>
+                                <a href="{% url 'eliminar_experiencia' experiencia_id=experiencia.id %}" class="btn btn-danger mt-2">Quitar</a>
+                                <hr>
                         {% endfor %}
                     </div>
                 {% else %}
@@ -620,8 +620,7 @@
                     <div>
                         {% for edu in educacion %}
                             {{ edu.nivel_educacion }} - {{ edu.nombre_instituto }}<br>
-                            <button type="button" class="btn btn-danger mt-2" id="quitarIdiomaBtn" onclick="#">Quitar</button>
-                            <!-- Mostrar otros datos de educación si los tienes -->
+                            <a href="{% url 'eliminar_educacion' educacion_id=edu.id %}" class="btn btn-danger mt-2">Quitar</a>
                             <hr>
                         {% endfor %}
                     </div>
@@ -638,8 +637,8 @@
                     <div>
                         {% for habilidad in habilidades %}
                             {{ habilidad.habilidad }} - Nivel: {{ habilidad.nivel }}<br>
-                            <button type="button" class="btn btn-danger mt-2" id="quitarIdiomaBtn" onclick="#">Quitar</button>
-                            <!-- Mostrar otros datos de habilidades si los tienes -->
+                            <a href="{% url 'eliminar_habilidad' habilidad_id=habilidad.id %}" class="btn btn-danger mt-2">Quitar</a>
+
                             <hr>
                         {% endfor %}
                     </div>
@@ -656,8 +655,7 @@
                     <div>
                         {% for idioma in idiomas %}
                             {{ idioma.idioma }} - Nivel: {{ idioma.nivel_idioma }}<br>
-                            <button type="button" class="btn btn-danger mt-2" id="quitarIdiomaBtn" onclick="#">Quitar</button>
-                            <!-- Mostrar otros datos de idiomas si los tienes -->
+                            <a href="{% url 'eliminar_idioma' idioma_id=idioma.id %}" class="btn btn-danger mt-2">Quitar</a>
                             <hr>
                         {% endfor %}
                     </div>
@@ -701,6 +699,7 @@
                         <div class="mb-3">
                             <label for="area" class="form-label">Área:</label>
                             <select class="form-select" id="area" name="area" required>
+                                <option value="" disabled selected>No seleccionada</option>
                                 <option value="tecnologia">Tecnología</option>
                                 <option value="salud">Salud</option>
                                 <option value="finanzas">Finanzas</option>
@@ -848,6 +847,7 @@
                         <div class="mb-3">
                             <label for="area" class="form-label">Área:</label>
                             <select class="form-select" id="area" name="area" required>
+                                <option value="" disabled selected>No seleccionada</option>
                                 <option value="tecnologia">Tecnología</option>
                                 <option value="salud">Salud</option>
                                 <option value="finanzas">Finanzas</option>
@@ -904,6 +904,7 @@
                         <div class="mb-3">
                             <label for="nivelIdioma" class="form-label">Nivel de Idioma:</label>
                             <select class="form-control" id="nivelIdioma" name="nivelIdioma" required>
+                                <option value="" disabled selected>No seleccionado</option>
                                 <option value="A1">A1: Básico</option>
                                 <option value="A2">A2: Básico Intermedio</option>
                                 <option value="B1">B1: Intermedio</option>
