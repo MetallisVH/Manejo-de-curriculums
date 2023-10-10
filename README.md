@@ -87,8 +87,11 @@ Autores
 Nombres: Joel Reyes y Jorge Vera
 
 
-
-
+Licencia
+Este proyecto está bajo la Licencia [Nombre de la Licencia] - Consulta el archivo LICENSE para obtener más detalles.
+```bash
+Asegúrate de personalizar este README.md con la información específica de tu proyecto, incluyendo su nombre, descripción y cualquier detalle adicional que consideres relevante. Además, puedes agregar tu información como autor y la licencia aplicable a tu proyecto.
+```
 
 
 
