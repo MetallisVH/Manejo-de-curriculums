@@ -21,13 +21,22 @@ pip install Django
 
 Configuración del Entorno
 
+
 Clona este repositorio:
 
 ```bash
 git clone https://github.com/tuusuario/turepositorio.git
 ```
 
+Ve al directorio del proyecto:
+
 ```bash
 cd turepositorio
+```
+
+Configura y activa tu entorno virtual (se recomienda el uso de virtualenv):
+```bash
+python -m venv venv
+source venv/bin/activate
 ```
 
