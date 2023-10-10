@@ -58,7 +58,7 @@ Inicia el servidor de desarrollo:
 python manage.py runserver
 ```
 
-
+Abre tu navegador web y accede a http://localhost:8000 para ver la aplicación en funcionamiento.
 
 
 
