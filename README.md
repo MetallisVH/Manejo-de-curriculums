@@ -45,4 +45,22 @@ Instala las dependencias del proyecto:
 pip install -r requirements.txt
 ```
 
+Ejecución
+
+Aplica las migraciones de la base de datos:
+```bash
+python manage.py migrate
+```
+
+
+
+
+
+
+
+
+
+
+
+
 
