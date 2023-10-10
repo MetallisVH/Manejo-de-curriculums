@@ -38,7 +38,7 @@ def Home_page(request):
         # Filtra los trabajos basados en el área del empleado
         trabajos_recomendados = Trabajos.objects.filter(area=empleado_area)
     except:
-        trabajos_recomendados = 0
+        trabajos_recomendados = ''
 
     return render(request, 'html/Home.html', {'trabajos_recomendados': trabajos_recomendados})
 
