@@ -10,6 +10,7 @@
 - Django
 - HTML
 - CSS
+- Visual Studio Code
 
 ## Requisitos Previos
 
@@ -79,8 +80,18 @@ Confirma tus cambios y envía tus cambios a tu repositorio fork en GitHub:
 ```bash
 git commit -m "Descripción de tu contribución"
 git push origin mi-contribucion
-
 ```
+
+Abre una solicitud de extracción (Pull Request) en el repositorio original.
+Autores
+Nombres: Joel Reyes y Jorge Vera
+
+
+
+
+
+
+
 
 
 
