@@ -69,6 +69,10 @@ Crea un fork del repositorio en GitHub.
 Clona tu repositorio fork en tu máquina local.
 
 Crea una nueva rama para tu contribución:
+```bash
+git checkout -b mi-contribucion
+```
+
 
 
 
