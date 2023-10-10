@@ -40,3 +40,9 @@ python -m venv venv
 source venv/bin/activate
 ```
 
+Instala las dependencias del proyecto:
+```bash
+pip install -r requirements.txt
+```
+
+
