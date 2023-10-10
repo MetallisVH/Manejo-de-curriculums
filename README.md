@@ -53,7 +53,10 @@ python manage.py migrate
 ```
 
 
-
+Inicia el servidor de desarrollo:
+```bash
+python manage.py runserver
+```
 
 
 
