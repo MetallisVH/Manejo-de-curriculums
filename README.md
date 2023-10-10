@@ -17,7 +17,7 @@ Asegúrate de tener Python y Django instalados en tu sistema antes de continuar.
 
 ```bash
 pip install Django
-
+```
 
 Configuración del Entorno
 
@@ -25,8 +25,9 @@ Clona este repositorio:
 
 ```bash
 git clone https://github.com/tuusuario/turepositorio.git
+```
 
 ```bash
-
-
+cd turepositorio
+```
 
