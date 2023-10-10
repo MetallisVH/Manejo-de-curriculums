@@ -73,8 +73,14 @@ Crea una nueva rama para tu contribución:
 git checkout -b mi-contribucion
 ```
 
+Realiza tus cambios y asegúrate de que funcionen correctamente.
 
+Confirma tus cambios y envía tus cambios a tu repositorio fork en GitHub:
+```bash
+git commit -m "Descripción de tu contribución"
+git push origin mi-contribucion
 
+```
 
 
 
