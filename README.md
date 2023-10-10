@@ -61,7 +61,14 @@ python manage.py runserver
 Abre tu navegador web y accede a http://localhost:8000 para ver la aplicación en funcionamiento.
 
 
+Contribuciones
+¡Estamos abiertos a contribuciones! Si deseas contribuir a este proyecto, sigue estos pasos:
 
+Crea un fork del repositorio en GitHub.
+
+Clona tu repositorio fork en tu máquina local.
+
+Crea una nueva rama para tu contribución:
 
 
 
