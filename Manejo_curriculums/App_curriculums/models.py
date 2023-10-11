@@ -23,7 +23,7 @@ class Usuarios(models.Model):
     direccion_empr = models.CharField(max_length=54,null=False,blank=False,default='N/A')
     last_login = models.DateTimeField(verbose_name='last login', blank=True, null=True,default=None)
     oauth = models.IntegerField(null=True,blank=True)
-    auth_token = models.TextField(null=True,blank=True,unique=True)
+    auth_token = models.TextField(null=True,blank=True)
     deleted_at = models.DateTimeField(null=True, blank=True)
     
 class Curriculums(models.Model):
@@ -55,6 +55,7 @@ class Educaciones(models.Model):
     nombre_instituto = models.CharField(max_length=254,blank=True,null=False)
     curso = models.CharField(max_length=254,blank=True,null=False)
     curso_termino = models.CharField(max_length=254,blank=True,null=False)
+    especialidad = models.CharField(max_length=254,blank=True,null=False)
     desde = models.DateTimeField(null=False,blank=False)
     hasta = models.DateTimeField(null=False,blank=False)
     area = models.CharField(max_length=254,blank=True,null=False,default='Area no especificada')
@@ -105,3 +106,10 @@ class Aplicaciones(models.Model):
     fecha_aplicacion = models.DateTimeField(null=False,blank=False,default=timezone.now)
     puntos_aplicante = models.IntegerField(null=True,blank=True,default=None)
     deleted_at = models.DateTimeField(null=True, blank=True)
+    
+class Candidatos(models.Model):
+    id = models.AutoField(primary_key=True, null=False, unique=True)
+    candidato = models.ForeignKey(Usuarios, on_delete=models.CASCADE, to_field='nombre_usu')
+    trabajo = models.ForeignKey(Trabajos, on_delete=models.CASCADE, to_field='id')
+    area = models.CharField(max_length=254,blank=True,null=False,default='Area no especificada')
+    puntos_candidato = models.IntegerField(null=True,blank=True,default=None)

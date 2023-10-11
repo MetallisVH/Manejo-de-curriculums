@@ -426,22 +426,32 @@
                 </div>
 
                 <!-- Agrega los demás campos de educación -->
-                <div class="mb-3">
+
+                {%if edu.especialidad != edu.curso%}
+
+                <div class="mb-3 curso-inicio">
                     <label for="curso_inicio" class="form-label">Curso de Inicio:</label>
-                    <input type="text" class="form-control" id="curso_inicio" name="curso_inicio" value="{{ edu.curso }}" required>
+                    <input type="text" class="form-control" id="curso_inicio" name="curso_inicio" value="{{ edu.curso }}">
                 </div>
                 
+                <div class="mb-3 curso-termino">
+                    <label for="curso_termino" class="form-label">Curso de Término:</label>
+                    <input type="text" class="form-control" id="curso_termino" name="curso_termino" value="{{ edu.curso_termino }}">
+                </div>
+
+                {%else%}
+                
+                <div class="mb-3 titulo-carrera">
+                    <label for="titulo_carrera" class="form-label">Título o Carrera:</label>
+                    <input type="text" class="form-control" id="titulo_carrera" name="titulo_carrera" value="{{ edu.especialidad }}">
+                </div>
+
+                {%endif%}
                 <!-- Campo de Fecha de Inicio -->
                 <div class="mb-3">
                     <label for="fecha_inicio" class="form-label">Fecha de Inicio:</label>
                     <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" value="{{ edu.desde|date:'Y-m-d' }}">
                     <p>Fecha de inicio actual: {{edu.desde}}</p>
-                </div>
-                
-                <!-- Campo de Curso de Término -->
-                <div class="mb-3">
-                    <label for="curso_termino" class="form-label">Curso de Término:</label>
-                    <input type="text" class="form-control" id="curso_termino" name="curso_termino" value="{{ edu.curso_termino }}" required>
                 </div>
                 
                 <!-- Campo de Fecha de Término -->
@@ -482,17 +492,23 @@
                                 <label for="instituto" class="form-label">Nombre del Instituto:</label>
                                 <input type="text" class="form-control" id="instituto" name="instituto" required>
                             </div>
-                            <div class="mb-3">
-                                <label for="cursos" class="form-label">Curso de inicio:</label>
-                                <input type="text" class="form-control" id="cursos" name="cursos" required>
+                            <div class="mb-3 curso-inicio-modal">
+                                <label for="curso_inicio" class="form-label">Curso de Inicio:</label>
+                                <input type="text" class="form-control" id="curso_inicio" name="curso_inicio" value="{{ edu.curso }}">
+                            </div>
+                            
+                            <div class="mb-3 curso-termino-modal">
+                                <label for="curso_termino" class="form-label">Curso de Término:</label>
+                                <input type="text" class="form-control" id="curso_termino" name="curso_termino" value="{{ edu.curso_termino }}">
+                            </div>
+                            
+                            <div class="mb-3 titulo-carrera-modal" style="display:none;">
+                                <label for="titulo_carrera" class="form-label">Título o Carrera:</label>
+                                <input type="text" class="form-control" id="titulo_carrera" name="titulo_carrera" value="{{ edu.curso }}">
                             </div>
                             <div class="mb-3">
                                 <label for="fechaInicio" class="form-label">Fecha de Inicio:</label>
                                 <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="cursoTermino" class="form-label">Curso de Término:</label>
-                                <input type="text" class="form-control" id="cursoTermino" name="cursoTermino" required>
                             </div>
                             <div class="mb-3">
                                 <label for="fechaTermino" class="form-label">Fecha de Término:</label>
@@ -761,17 +777,23 @@
                             <label for="instituto" class="form-label">Nombre del Instituto:</label>
                             <input type="text" class="form-control" id="instituto" name="instituto" required>
                         </div>
-                        <div class="mb-3">
-                            <label for="cursos" class="form-label">Curso de inicio:</label>
-                            <input type="text" class="form-control" id="cursos" name="cursos" required>
+                        <div class="mb-3 curso-inicio">
+                            <label for="curso_inicio" class="form-label">Curso de Inicio:</label>
+                            <input type="text" class="form-control" id="curso_inicio" name="curso_inicio" value="{{ edu.curso }}">
+                        </div>
+                        
+                        <div class="mb-3 curso-termino">
+                            <label for="curso_termino" class="form-label">Curso de Término:</label>
+                            <input type="text" class="form-control" id="curso_termino" name="curso_termino" value="{{ edu.curso_termino }}">
+                        </div>
+                        
+                        <div class="mb-3 titulo-carrera" style="display:none;">
+                            <label for="titulo_carrera" class="form-label">Título o Carrera:</label>
+                            <input type="text" class="form-control" id="titulo_carrera" name="titulo_carrera" value="{{ edu.curso }}">
                         </div>
                         <div class="mb-3">
                             <label for="fechaInicio" class="form-label">Fecha de Inicio:</label>
                             <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="cursoTermino" class="form-label">Curso de Término:</label>
-                            <input type="text" class="form-control" id="cursoTermino" name="cursoTermino" required>
                         </div>
                         <div class="mb-3">
                             <label for="fechaTermino" class="form-label">Fecha de Término:</label>
@@ -936,23 +958,39 @@
     {%endif%}
 
     <script>
-        function toggleAreaVisibility() {
+        function toggleFieldsVisibility() {
             var nivelEducacion = document.getElementById('nivelEducacion');
+            var cursoInicio = document.querySelector('.curso-inicio-modal');
+            var cursoTermino = document.querySelector('.curso-termino-modal');
+            var tituloCarrera = document.querySelector('.titulo-carrera-modal');
             var areaField = document.getElementById('area_educacion');
             var areaLabel = document.querySelector('label[for=area_educacion]');
     
+            // Oculta todos los campos
+            cursoInicio.style.display = 'none';
+            cursoTermino.style.display = 'none';
+            tituloCarrera.style.display = 'none';
+            areaField.style.display = 'none';
+            areaLabel.style.display = 'none';
+    
+            // Muestra los campos específicos según la opción seleccionada
             if (nivelEducacion.value === 'superior') {
+                tituloCarrera.style.display = 'block';
                 areaField.style.display = 'block';
                 areaLabel.style.display = 'block';
             } else {
-                areaField.style.display = 'none';
-                areaLabel.style.display = 'none';
+                cursoInicio.style.display = 'block';
+                cursoTermino.style.display = 'block';
             }
         }
     
-        document.getElementById('nivelEducacion').addEventListener('change', toggleAreaVisibility);
+        document.addEventListener('DOMContentLoaded', function() {
+            // Asigna el evento de cambio a nivelEducacion
+            document.getElementById('nivelEducacion').addEventListener('change', toggleFieldsVisibility);
     
-        toggleAreaVisibility();
+            // Llama a la función inicialmente para establecer la visibilidad correcta
+            toggleFieldsVisibility();
+        });
     </script>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>

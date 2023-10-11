@@ -37,6 +37,7 @@
                         <form action="{% url 'eliminar_trabajo' trabajo_id=trabajo.id %}" method="post" class="d-inline">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-danger">Eliminar</button>
+                            <a href="{% url 'lista_candidatos' trabajo_id=trabajo.id %}" class="btn btn-primary mb-4">Buscar Candidatos</a>
                         </form>
                         <!-- Puedes agregar más detalles según sea necesario -->
                     </li>

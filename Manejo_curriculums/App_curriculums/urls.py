@@ -60,4 +60,5 @@ urlpatterns = [
     path('expdf/',views.to_pdf,name='to_pdf'),
     path('dltcrr/',views.eliminar_curriculum,name='eliminar_curriculum'),
     path('Error_403/',views.Error_403,name='Error_403'),
+    path('candlst/<int:trabajo_id>/',views.lista_candidatos,name='lista_candidatos'),
 ]

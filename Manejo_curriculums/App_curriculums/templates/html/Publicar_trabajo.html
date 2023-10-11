@@ -101,6 +101,20 @@
             </div>
 
             <div class="mb-3">
+                <label for="especialidades">Especialidades buscadas:</label><br>
+                
+                <!-- Lista de checkboxes para cada especialidad -->
+                {% for especialidad in especialidades %}
+                    <div class="form-check">
+                        <input type="checkbox" id="especialidad_{{ especialidad }}" name="especialidades" value="{{ especialidad }}" class="form-check-input">
+                        <label class="form-check-label" for="especialidad_{{ especialidad }}">{{ especialidad }}</label><br>
+                    </div>
+                {% endfor %}
+                
+                <small id="especialidadesHelp" class="form-text text-muted">Selecciona una o varias especialidades</small>
+            </div>            
+
+            <div class="mb-3">
                 <label for="trabajo_remoto" class="form-label">Trabajo Remoto:</label>
                 <select class="form-select" id="trabajo_remoto" name="trabajo_remoto" required>
                     <option value="" disabled selected>Selecciona una opción</option>

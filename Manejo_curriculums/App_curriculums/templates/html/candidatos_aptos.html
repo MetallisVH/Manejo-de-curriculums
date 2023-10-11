@@ -1,0 +1,46 @@
+<!-- templates/candidatos_lista.html -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Candidatos</title>
+    <!-- Agrega aquí tus enlaces a hojas de estilo o scripts adicionales si es necesario -->
+</head>
+<body>
+    <header>
+        <h1>Lista de Candidatos</h1>
+    </header>
+
+    <section>
+        <h2>Candidatos Ordenados por Puntos</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Candidato</th>
+                    <th>Trabajo</th>
+                    <th>Puntos</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for candidato in candidatos %}
+                    {%if candidato.area == area %}
+                        <tr>
+                            <td>{{ candidato.candidato.nombre_usu }}</td>
+                            <td>{{ candidato.trabajo.titulo }}</td>
+                            <td>{{ candidato.puntos_candidato }}</td>
+                        </tr>
+                    {%endif%}
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Agrega aquí cualquier otra sección o elemento necesario -->
+
+    <footer>
+        <!-- Agrega aquí el contenido del pie de página si es necesario -->
+    </footer>
+</body>
+</html>

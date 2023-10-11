@@ -3,10 +3,11 @@ from django.contrib.auth.decorators import login_required
 from .forms import *
 from django.utils import timezone
 from django.shortcuts import render, redirect
-from .models import models ,Usuarios, Curriculums, Experiencias, Educaciones, Habilidades, Idiomas, Trabajos, Aplicaciones
+from .models import models ,Usuarios, Curriculums, Experiencias, Educaciones, Habilidades, Idiomas, Trabajos, Aplicaciones, Candidatos
 from django.template.loader import get_template
 from reportlab.pdfgen import canvas
 from io import BytesIO
+from collections import defaultdict
 from django.db.models import Sum
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
@@ -186,7 +187,13 @@ def Registro_exitoso(request):
     return render(request, 'html/Registro_exitoso.html')
 
 def publicar_trabajo(request):
-    return render(request,'html/Publicar_trabajo.html')
+    educaciones_superior = Educaciones.objects.filter(nivel_educacion='superior')
+    
+    areas_unicas = educaciones_superior.values_list('especialidad', flat=True).distinct()
+    
+    context = {'especialidades': areas_unicas}
+    
+    return render(request,'html/Publicar_trabajo.html',context)
 
 def listado_empleos(request):
     # Obtener todos los trabajos disponibles
@@ -638,8 +645,13 @@ def guardar_educacion(request):
         nivel_educacion = request.POST.get('nivelEducacion')
         nombre_instituto = request.POST.get('instituto')
         cursos = request.POST.get('cursos')
+        carrera = request.POST.get('titulo_carrera')
         curso_termino = request.POST.get('cursoTermino') # Nuevo campo
         area = request.POST.get('area')
+        
+        if carrera != '':
+            cursos = carrera
+            curso_termino = carrera
         
         if area == None or area == '' or area == 'No seleccionada':
             area = 'Conocimiento escolar base (general/generalista)'
@@ -676,7 +688,8 @@ def guardar_educacion(request):
             hasta=fecha_termino,
             archivo_educacion=archivo_subido,
             puntos=puntos,
-            area=area
+            area=area,
+            especialidad=carrera
         )
         educacion.save()
         print(f"Datos guardados correctamente: {educacion}")
@@ -837,11 +850,29 @@ def guardar_trabajo(request):
         fecha_limite = request.POST['fecha_limite']
         tipo_trabajo = request.POST['tipo_trabajo']
         tipo_contrato = request.POST['tipo_contrato']
+        especialidades_buscadas = request.POST.getlist('especialidades')
+        especialidades_usuarios = Educaciones.objects.filter(Q(nivel_educacion='superior') & ~Q(especialidad=''))
+        cuenta_especialidades_por_usuario = defaultdict(int)
+        puntos_candidato = 0
+
+        for especialidad in especialidades_buscadas:
+            aplicantes_aptos = especialidades_usuarios.filter(especialidad=especialidad)
+            
+            for aplicante in aplicantes_aptos:
+                # Aquí puedes diferenciar por el atributo 'especialidad' de cada aplicante
+                print(f"Usuario {aplicante.nombre_usu} tiene la especialidad {aplicante.especialidad}")
+                
+                # Sumar 10 puntos por cada especialidad encontrada
+                cuenta_especialidades_por_usuario[aplicante.nombre_usu] = cuenta_especialidades_por_usuario.get(aplicante.nombre_usu, 0) + 1
+
+        # Calcular los puntos totales para cada usuario
+            
         
         if fecha_limite == '':
             fecha_limite = None
         
-        usuario = request.session.get('nombre_usu')
+        nombre_usuario = request.session.get('nombre_usu')
+        usuario = Usuarios.objects.get(nombre_usu=nombre_usuario)
 
         # Crear una instancia del modelo Trabajo y guardar los datos
         trabajo = Trabajos(
@@ -859,6 +890,19 @@ def guardar_trabajo(request):
             tipo_contrato=tipo_contrato,
         )
         trabajo.save()
+        
+        for usuarios, cuenta_especialidades in cuenta_especialidades_por_usuario.items():
+            puntos_candidato = cuenta_especialidades * 10  # Calcular los puntos
+            usuario_objeto = Usuarios.objects.get(nombre_usu=usuarios.nombre_usu)  # Obtener el objeto de usuario
+            trabajo_objeto = trabajo  # Obtener el objeto del trabajo, completa esta línea con los detalles adecuados
+            
+            # Crear un nuevo Candidato y guardar los valores
+            Candidatos.objects.create(
+                candidato=usuario_objeto,
+                trabajo=trabajo_objeto,
+                puntos_candidato=puntos_candidato,
+                area=area
+            )
 
         # Puedes redirigir a una página de confirmación o a donde desees
         return redirect('Registro_exitoso')
@@ -1245,6 +1289,8 @@ def eliminar_curriculum(request):
     Habilidades.objects.filter(nombre_usu=usuario).update(deleted_at=timezone.now())
     Idiomas.objects.filter(nombre_usu=usuario).update(deleted_at=timezone.now())
     Educaciones.objects.filter(nombre_usu=usuario).update(deleted_at=timezone.now())
+    
+    calcular_puntaje(usuario)
 
     return redirect('Info_curriculum')
 
@@ -1252,13 +1298,16 @@ def eliminar_experiencia(request, experiencia_id):
     try:
         # Obtener la experiencia laboral a eliminar
         experiencia = Experiencias.objects.get(id=experiencia_id)
-
-        # Verificar que la experiencia laboral pertenezca al usuario actual (si es necesario)
+        
+        nombre_usuario = request.session.get('nombre_usu')
+        usuario = Usuarios.objects.get(nombre_usu=nombre_usuario)
         # Puedes comparar la experiencia con el usuario actual o aplicar tus propias reglas de verificación
 
         # Eliminar la experiencia (marcar como eliminada si estás utilizando "soft delete")
         experiencia.deleted_at = timezone.now()
         experiencia.save()
+        
+        calcular_puntaje(usuario)
 
         # Redirigir a alguna vista de éxito
         return redirect('Registro_curriculum')
@@ -1273,10 +1322,15 @@ def eliminar_educacion(request, educacion_id):
 
         # Verificar que la educación pertenezca al usuario actual (si es necesario)
         # Puedes comparar la educación con el usuario actual o aplicar tus propias reglas de verificación
+        
+        nombre_usuario = request.session.get('nombre_usu')
+        usuario = Usuarios.objects.get(nombre_usu=nombre_usuario)
 
         # Eliminar la educación (marcar como eliminada si estás utilizando "soft delete")
         educacion.deleted_at = timezone.now()
         educacion.save()
+        
+        calcular_puntaje(usuario)
 
         # Redirigir a alguna vista de éxito
         return redirect('Registro_curriculum')
@@ -1291,10 +1345,15 @@ def eliminar_habilidad(request, habilidad_id):
 
         # Verificar que la habilidad pertenezca al usuario actual (si es necesario)
         # Puedes comparar la habilidad con el usuario actual o aplicar tus propias reglas de verificación
+        
+        nombre_usuario = request.session.get('nombre_usu')
+        usuario = Usuarios.objects.get(nombre_usu=nombre_usuario)
 
         # Eliminar la habilidad (marcar como eliminada si estás utilizando "soft delete")
         habilidad.deleted_at = timezone.now()
         habilidad.save()
+        
+        calcular_puntaje(usuario)
 
         # Redirigir a alguna vista de éxito
         return redirect('Registro_curriculum')
@@ -1309,10 +1368,15 @@ def eliminar_idioma(request, idioma_id):
 
         # Verificar que el idioma pertenezca al usuario actual (si es necesario)
         # Puedes comparar el idioma con el usuario actual o aplicar tus propias reglas de verificación
+        
+        nombre_usuario = request.session.get('nombre_usu')
+        usuario = Usuarios.objects.get(nombre_usu=nombre_usuario)
 
         # Eliminar el idioma (marcar como eliminado si estás utilizando "soft delete")
         idioma.deleted_at = timezone.now()
         idioma.save()
+        
+        calcular_puntaje(usuario)
 
         # Redirigir a alguna vista de éxito
         return redirect('Registro_curriculum')
@@ -1333,3 +1397,12 @@ def eliminar_trabajo(request, trabajo_id):
     except Trabajos.DoesNotExist:
         # Manejar la situación donde el trabajo no existe
         return redirect('nombre_de_tu_vista_error')
+
+def lista_candidatos(request,trabajo_id):
+    candidatos = Candidatos.objects.all().order_by('-puntos_candidato')
+    trabajo = Trabajos.objects.get(id=trabajo_id)
+    area = trabajo.area
+        
+    context = {'candidatos': candidatos, 'area': area}
+    
+    return render(request, 'html/candidatos_aptos.html', context)
