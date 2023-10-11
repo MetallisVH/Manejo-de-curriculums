@@ -108,7 +108,7 @@ class Aplicaciones(models.Model):
     deleted_at = models.DateTimeField(null=True, blank=True)
     
 class Candidatos(models.Model):
-    id = models.AutoField(primary_key=True, null=True, unique=True)
+    id = models.AutoField(primary_key=True, null=False, unique=True)
     candidato = models.ForeignKey(Usuarios, on_delete=models.CASCADE, to_field='nombre_usu')
     trabajo = models.ForeignKey(Trabajos, on_delete=models.CASCADE, to_field='id')
     area = models.CharField(max_length=254,blank=True,null=False,default='Area no especificada')
