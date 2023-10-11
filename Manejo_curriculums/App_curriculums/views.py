@@ -122,14 +122,14 @@ def Info_curriculum(request):
     try:
         # Recuperar datos del usuario desde la tabla Curriculums
         nombre_usu = request.session.get('nombre_usu')
-        usuario = Curriculums.objects.get(nombre_usu=nombre_usu)
+        usuario = Curriculums.objects.get(nombre_usu=nombre_usu,deleted_at=None)
 
         # Recuperar experiencias laborales, educación, habilidades e idiomas asociadas al usuario
         experiencias_laborales = Experiencias.objects.filter(nombre_usu=nombre_usu, deleted_at=None)
         educacion = Educaciones.objects.filter(nombre_usu=nombre_usu, deleted_at=None)
         habilidades = Habilidades.objects.filter(nombre_usu=nombre_usu, deleted_at=None)
         idiomas = Idiomas.objects.filter(nombre_usu=nombre_usu, deleted_at=None)
-        curriculum = Curriculums.objects.get(nombre_usu=nombre_usu)
+        curriculum = Curriculums.objects.get(nombre_usu=nombre_usu,deleted_at=None)
         curr_area = curriculum.area
 
         if curriculum.deleted_at is not None:
@@ -632,10 +632,10 @@ def registrar_curriculum(request):
 
 def calcular_puntaje(usuario):
     # Calcula el puntaje total para un usuario sumando los puntos de experiencias, educaciones, habilidades e idiomas
-    puntaje_experiencias = Experiencias.objects.filter(nombre_usu=usuario).aggregate(Sum('puntos'))['puntos__sum'] or 0
-    puntaje_educaciones = Educaciones.objects.filter(nombre_usu=usuario).aggregate(Sum('puntos'))['puntos__sum'] or 0
-    puntaje_habilidades = Habilidades.objects.filter(nombre_usu=usuario).aggregate(Sum('puntos'))['puntos__sum'] or 0
-    puntaje_idiomas = Idiomas.objects.filter(nombre_usu=usuario).aggregate(Sum('puntos'))['puntos__sum'] or 0
+    puntaje_experiencias = Experiencias.objects.filter(nombre_usu=usuario,deleted_at=None).aggregate(Sum('puntos'))['puntos__sum'] or 0
+    puntaje_educaciones = Educaciones.objects.filter(nombre_usu=usuario,deleted_at=None).aggregate(Sum('puntos'))['puntos__sum'] or 0
+    puntaje_habilidades = Habilidades.objects.filter(nombre_usu=usuario,deleted_at=None).aggregate(Sum('puntos'))['puntos__sum'] or 0
+    puntaje_idiomas = Idiomas.objects.filter(nombre_usu=usuario,deleted_at=None).aggregate(Sum('puntos'))['puntos__sum'] or 0
 
     puntaje_total = puntaje_experiencias + puntaje_educaciones + puntaje_habilidades + puntaje_idiomas
     return puntaje_total
@@ -695,7 +695,7 @@ def guardar_educacion(request):
         print(f"Datos guardados correctamente: {educacion}")
 
         # Redirige o responde según tu lógica
-        curriculum=Curriculums.objects.get(nombre_usu=usuario)
+        curriculum=Curriculums.objects.get(nombre_usu=usuario,deleted_at=None)
         new_puntaje_curriculum = calcular_puntaje(usuario)
         curriculum.puntaje = new_puntaje_curriculum
         curriculum.save()
@@ -850,8 +850,8 @@ def guardar_trabajo(request):
         fecha_limite = request.POST['fecha_limite']
         tipo_trabajo = request.POST['tipo_trabajo']
         tipo_contrato = request.POST['tipo_contrato']
-        especialidades_buscadas = request.POST.getlist('especialidades')
-        especialidades_usuarios = Educaciones.objects.filter(Q(nivel_educacion='superior') & ~Q(especialidad=''))
+        especialidades_buscadas = request.POST.getlist('especialidades[]')
+        especialidades_usuarios = Educaciones.objects.filter(Q(nivel_educacion='superior') & ~Q(especialidad='') & Q(deleted_at=None))
         cuenta_especialidades_por_usuario = defaultdict(int)
         puntos_candidato = 0
 
@@ -893,18 +893,21 @@ def guardar_trabajo(request):
         
         for usuarios, cuenta_especialidades in cuenta_especialidades_por_usuario.items():
             puntos_candidato = cuenta_especialidades * 10  # Calcular los puntos
-            usuario_objeto = Usuarios.objects.get(nombre_usu=usuarios.nombre_usu)  # Obtener el objeto de usuario
+            usuario_objeto = Usuarios.objects.get(nombre_usu=usuarios.nombre_usu,deleted_at=None)  # Obtener el objeto de usuario
             trabajo_objeto = trabajo  # Obtener el objeto del trabajo, completa esta línea con los detalles adecuados
             
-            curriculum = Curriculums.objects.get(nombre_usu=usuarios.nombre_usu)
+            curriculum = Curriculums.objects.get(nombre_usu=usuarios.nombre_usu,deleted_at=None)
             puntos_totales = puntos_candidato + curriculum.puntaje
             
+            area_candidato = curriculum.area
+            
+            print(usuarios)
             # Crear un nuevo Candidato y guardar los valores
             candidato = Candidatos(
                 candidato=usuario_objeto,
                 trabajo=trabajo_objeto,
                 puntos_candidato=puntos_totales,
-                area=area
+                area=area_candidato
             )
             
             candidato.save()
@@ -1282,10 +1285,10 @@ def to_pdf(request):
 
 def eliminar_curriculum(request):
     nombre_usuario = request.session.get('nombre_usu')
-    usuario = Usuarios.objects.get(nombre_usu=nombre_usuario)
+    usuario = Usuarios.objects.get(nombre_usu=nombre_usuario,deleted_at=None)
 
     # Obtén el currículum del usuario actual
-    curriculum = Curriculums.objects.get(nombre_usu=usuario)
+    curriculum = Curriculums.objects.get(nombre_usu=usuario,deleted_at=None)
 
     # Marca el currículum como eliminado
     curriculum.deleted_at = timezone.now()
@@ -1405,9 +1408,9 @@ def eliminar_trabajo(request, trabajo_id):
 
 def lista_candidatos(request,trabajo_id):
     candidatos = Candidatos.objects.all().order_by('-puntos_candidato')
-    trabajo = Trabajos.objects.get(id=trabajo_id)
+    trabajo = Trabajos.objects.get(id=trabajo_id,deleted_at=None)
     print(trabajo.titulo)
-    curriculums = Curriculums.objects.all()
+    curriculums = Curriculums.objects.filter(deleted_at=None)
     area = trabajo.area
         
     context = {'candidatos': candidatos, 'area': area, 'curriculums': curriculums, 'trabajo': trabajo}

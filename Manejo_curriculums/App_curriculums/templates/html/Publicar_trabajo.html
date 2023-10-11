@@ -97,19 +97,114 @@
 
             <div class="mb-3">
                 <label for="fecha_publicacion">Fecha de Publicación:</label>
-                <input type="datetime-local" id="fecha_publicacion" name="fecha_publicacion" value="{% now 'Y-m-d\TH:i:s' %}" required readonly>
+                <input type="datetime-local" id="fecha_publicacion" name="fecha_publicacion" value="{% now 'Y-m-d\TH:i:s' %}" required>
             </div>
-
-            <div class="mb-3">
-                <label for="especialidades">Especialidades buscadas:</label><br>
                 
                 <!-- Lista de checkboxes para cada especialidad -->
-                {% for especialidad in especialidades %}
-                    <div class="form-check">
-                        <input type="checkbox" id="especialidad_{{ especialidad }}" name="especialidades" value="{{ especialidad }}" class="form-check-input">
-                        <label class="form-check-label" for="especialidad_{{ especialidad }}">{{ especialidad }}</label><br>
-                    </div>
-                {% endfor %}
+            <div class="mb-3 titulo-carrera">
+                <label class="form-label">Especialidades buscadas:</label>
+                
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="desarrollo_web" id="especialidad_desarrollo_web" name="especialidades[]">
+                    <label class="form-check-label" for="especialidad_desarrollo_web">Desarrollo Web</label>
+                </div>
+                
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="psicologia_clinica" id="especialidad_psicologia_clinica" name="especialidades[]">
+                    <label class="form-check-label" for="especialidad_psicologia_clinica">Psicología Clínica</label>
+                </div>
+                
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="finanzas_corporativas" id="especialidad_finanzas_corporativas" name="especialidades[]">
+                    <label class="form-check-label" for="especialidad_finanzas_corporativas">Finanzas Corporativas</label>
+                </div>
+                
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="medicina_interna" id="especialidad_medicina_interna" name="especialidades[]">
+                    <label class="form-check-label" for="especialidad_medicina_interna">Medicina Interna</label>
+                </div>
+                
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="diseno_arquitectonico" id="especialidad_diseno_arquitectonico" name="especialidades[]">
+                    <label class="form-check-label" for="especialidad_diseno_arquitectonico">Diseño Arquitectónico</label>
+                </div>
+                
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="derecho_ambiental" id="especialidad_derecho_ambiental" name="especialidades[]">
+                    <label class="form-check-label" for="especialidad_derecho_ambiental">Derecho Ambiental</label>
+                </div>
+                
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="marketing_digital" id="especialidad_marketing_digital" name="especialidades[]">
+                    <label class="form-check-label" for="especialidad_marketing_digital">Marketing Digital</label>
+                </div>
+                
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="biologia_marina" id="especialidad_biologia_marina" name="especialidades[]">
+                    <label class="form-check-label" for="especialidad_biologia_marina">Biología Marina</label>
+                </div>
+                
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="historia_del_arte" id="especialidad_historia_del_arte" name="especialidades[]">
+                    <label class="form-check-label" for="especialidad_historia_del_arte">Historia del Arte</label>
+                </div>
+                
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="economia_global" id="especialidad_economia_global" name="especialidades[]">
+                    <label class="form-check-label" for="especialidad_economia_global">Economía Global</label>
+                </div>
+                
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="enfermeria_pediatrica" id="especialidad_enfermeria_pediatrica" name="especialidades[]">
+                    <label class="form-check-label" for="especialidad_enfermeria_pediatrica">Enfermería Pediátrica</label>
+                </div>
+                
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="diseno_grafico_publicitario" id="especialidad_diseno_grafico_publicitario" name="especialidades[]">
+                    <label class="form-check-label" for="especialidad_diseno_grafico_publicitario">Diseño Gráfico Publicitario</label>
+                </div>
+                
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="politicas_publicas" id="especialidad_politicas_publicas" name="especialidades[]">
+                    <label class="form-check-label" for="especialidad_politicas_publicas">Políticas Públicas</label>
+                </div>
+                
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="ingenieria_estructural" id="especialidad_ingenieria_estructural" name="especialidades[]">
+                    <label class="form-check-label" for="especialidad_ingenieria_estructural">Ingeniería Estructural</label>
+                </div>
+                
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="psiquiatria_infantil" id="especialidad_psiquiatria_infantil" name="especialidades[]">
+                    <label class="form-check-label" for="especialidad_psiquiatria_infantil">Psiquiatría Infantil</label>
+                </div>
+                
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="educacion_fisica_adaptada" id="especialidad_educacion_fisica_adaptada" name="especialidades[]">
+                    <label class="form-check-label" for="especialidad_educacion_fisica_adaptada">Educación Física Adaptada</label>
+                </div>
+                
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="quimica_organica" id="especialidad_quimica_organica" name="especialidades[]">
+                    <label class="form-check-label" for="especialidad_quimica_organica">Química Orgánica</label>
+                </div>
+                
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="composicion_musical" id="especialidad_composicion_musical" name="especialidades[]">
+                    <label class="form-check-label" for="especialidad_composicion_musical">Composición Musical</label>
+                </div>
+                
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="literatura_contemporanea" id="especialidad_literatura_contemporanea" name="especialidades[]">
+                    <label class="form-check-label" for="especialidad_literatura_contemporanea">Literatura Contemporánea</label>
+                </div>
+                
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="analisis_matematico" id="especialidad_analisis_matematico" name="especialidades[]">
+                    <label class="form-check-label" for="especialidad_analisis_matematico">Análisis Matemático</label>
+                </div>
+
+            </div>
                 
                 <small id="especialidadesHelp" class="form-text text-muted">Selecciona una o varias especialidades</small>
             </div>            

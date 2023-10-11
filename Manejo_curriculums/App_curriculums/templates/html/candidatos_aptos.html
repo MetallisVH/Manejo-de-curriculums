@@ -26,7 +26,7 @@
                 </thead>
                 <tbody>
                     {% for candidato in candidatos %}
-                        {% if candidato.area == area %}
+                        {% if candidato.area == area and candidato.trabajo.titulo == trabajo.titulo%}
                             <tr>
                                 <td>{{ candidato.candidato.nombre_usu }}</td>
                                 <td>{{ candidato.trabajo.titulo }}</td>
