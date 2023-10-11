@@ -74,7 +74,7 @@ class Habilidades(models.Model):
     deleted_at = models.DateTimeField(null=True, blank=True)
     
 class Idiomas(models.Model):
-    id = models.AutoField(primary_key=True, null=False, unique=True)
+    id = models.AutoField(primary_key=True, null=True, unique=True)
     nombre_usu = models.ForeignKey(Usuarios, on_delete=models.CASCADE, to_field='nombre_usu')
     idioma = models.CharField(max_length=254,blank=True,null=False)
     nivel_idioma = models.CharField(max_length=54,blank=False,null=False,default='No seleccionado')
