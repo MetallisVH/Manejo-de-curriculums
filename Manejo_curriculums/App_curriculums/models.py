@@ -100,7 +100,7 @@ class Trabajos(models.Model):
     deleted_at = models.DateTimeField(null=True, blank=True)
     
 class Aplicaciones(models.Model):
-    id = models.AutoField(primary_key=True, null=False, unique=True)
+    id = models.AutoField(primary_key=True, null=True, unique=True)
     aplicante = models.ForeignKey(Usuarios, on_delete=models.CASCADE, to_field='nombre_usu')
     trabajo = models.ForeignKey(Trabajos, on_delete=models.CASCADE, to_field='id')
     fecha_aplicacion = models.DateTimeField(null=False,blank=False,default=timezone.now)
