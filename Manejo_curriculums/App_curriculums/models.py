@@ -80,7 +80,7 @@ class Idiomas(models.Model):
     nivel_idioma = models.CharField(max_length=54,blank=False,null=False,default='No seleccionado')
     area = models.CharField(max_length=254,blank=True,null=False,default='Area no especificada')
     archivo_idioma = models.CharField(max_length=2,null=True,blank=True)
-    puntos = models.IntegerField(null=False,blank=True,default=10)
+    puntos = models.IntegerField(null=False,blank=False,default=10)
     deleted_at = models.DateTimeField(null=True, blank=True)
     
 class Trabajos(models.Model):
