@@ -4,7 +4,7 @@ from django.utils import timezone
 class Usuarios(models.Model):
     id = models.AutoField(primary_key=True, null=False,unique=True)
     rut = models.IntegerField(null=True, blank=True,unique=True)
-    dv = models.CharField(max_length=1, null=False, blank=True)
+    dv = models.CharField(max_length=1, null=True, blank=True)
     direccion = models.CharField(max_length=54,null=True, blank=True)
     contrasena = models.TextField(null=False, blank=False)
     email = models.EmailField(max_length=254, null=False, blank=False, unique=True)
