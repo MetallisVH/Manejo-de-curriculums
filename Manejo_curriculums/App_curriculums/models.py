@@ -96,7 +96,7 @@ class Trabajos(models.Model):
     fecha_publicacion = models.DateTimeField(null=False,blank=False,default=timezone.now)
     fecha_limite = models.DateTimeField(null=True,blank=True)
     remoto = models.CharField(max_length=2,blank=False,null=False,default='NA')
-    sueldo = models.IntegerField(null=True,blank=True)
+    sueldo = models.IntegerField(null=True,blank=False)
     deleted_at = models.DateTimeField(null=True, blank=True)
     
 class Aplicaciones(models.Model):
