@@ -41,7 +41,7 @@ class Experiencias(models.Model):
     nombre_usu = models.ForeignKey(Usuarios, on_delete=models.CASCADE, to_field='nombre_usu')
     empresa = models.CharField(max_length=254,null=False,blank=True)
     puesto = models.CharField(max_length=254,null=False,blank=True)
-    desde = models.DateTimeField(null=False,blank=False)
+    desde = models.DateTimeField(null=True,blank=False)
     hasta = models.DateTimeField(null=False,blank=False)
     area = models.CharField(max_length=254,blank=True,null=False,default='Area no especificada')
     archivo_experiencia = models.CharField(max_length=2,null=False,blank=False)
