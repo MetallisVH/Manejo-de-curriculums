@@ -112,4 +112,4 @@ class Candidatos(models.Model):
     candidato = models.ForeignKey(Usuarios, on_delete=models.CASCADE, to_field='nombre_usu')
     trabajo = models.ForeignKey(Trabajos, on_delete=models.CASCADE, to_field='id')
     area = models.CharField(max_length=254,blank=True,null=False,default='Area no especificada')
-    puntos_candidato = models.IntegerField(null=True,blank=False,default=None)
+    puntos_candidato = models.IntegerField(null=True,blank=True,default=None)
