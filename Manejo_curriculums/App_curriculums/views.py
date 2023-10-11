@@ -896,13 +896,18 @@ def guardar_trabajo(request):
             usuario_objeto = Usuarios.objects.get(nombre_usu=usuarios.nombre_usu)  # Obtener el objeto de usuario
             trabajo_objeto = trabajo  # Obtener el objeto del trabajo, completa esta línea con los detalles adecuados
             
+            curriculum = Curriculums.objects.get(nombre_usu=usuarios.nombre_usu)
+            puntos_totales = puntos_candidato + curriculum.puntaje
+            
             # Crear un nuevo Candidato y guardar los valores
-            Candidatos.objects.create(
+            candidato = Candidatos(
                 candidato=usuario_objeto,
                 trabajo=trabajo_objeto,
-                puntos_candidato=puntos_candidato,
+                puntos_candidato=puntos_totales,
                 area=area
             )
+            
+            candidato.save()
 
         # Puedes redirigir a una página de confirmación o a donde desees
         return redirect('Registro_exitoso')
@@ -1401,8 +1406,10 @@ def eliminar_trabajo(request, trabajo_id):
 def lista_candidatos(request,trabajo_id):
     candidatos = Candidatos.objects.all().order_by('-puntos_candidato')
     trabajo = Trabajos.objects.get(id=trabajo_id)
+    print(trabajo.titulo)
+    curriculums = Curriculums.objects.all()
     area = trabajo.area
         
-    context = {'candidatos': candidatos, 'area': area}
+    context = {'candidatos': candidatos, 'area': area, 'curriculums': curriculums, 'trabajo': trabajo}
     
     return render(request, 'html/candidatos_aptos.html', context)
