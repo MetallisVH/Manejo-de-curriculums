@@ -60,7 +60,7 @@ class Educaciones(models.Model):
     hasta = models.DateTimeField(null=False,blank=False)
     area = models.CharField(max_length=254,blank=True,null=False,default='Area no especificada')
     archivo_educacion = models.CharField(max_length=2,null=True,blank=True)
-    puntos = models.IntegerField(null=False,blank=True,default=10)
+    puntos = models.IntegerField(null=False,blank=False,default=10)
     deleted_at = models.DateTimeField(null=True, blank=True)
     
 class Habilidades(models.Model):
