@@ -37,7 +37,7 @@ class Curriculums(models.Model):
     deleted_at = models.DateTimeField(null=True, blank=True)
     
 class Experiencias(models.Model):
-    id = models.AutoField(primary_key= True, null=True, unique=True)
+    id = models.AutoField(primary_key= True, null=False, unique=True)
     nombre_usu = models.ForeignKey(Usuarios, on_delete=models.CASCADE, to_field='nombre_usu')
     empresa = models.CharField(max_length=254,null=False,blank=True)
     puesto = models.CharField(max_length=254,null=False,blank=True)
