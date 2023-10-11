@@ -104,7 +104,7 @@ class Aplicaciones(models.Model):
     aplicante = models.ForeignKey(Usuarios, on_delete=models.CASCADE, to_field='nombre_usu')
     trabajo = models.ForeignKey(Trabajos, on_delete=models.CASCADE, to_field='id')
     fecha_aplicacion = models.DateTimeField(null=False,blank=False,default=timezone.now)
-    puntos_aplicante = models.IntegerField(null=True,blank=True,default=None)
+    puntos_aplicante = models.IntegerField(null=True,blank=False,default=None)
     deleted_at = models.DateTimeField(null=True, blank=True)
     
 class Candidatos(models.Model):
