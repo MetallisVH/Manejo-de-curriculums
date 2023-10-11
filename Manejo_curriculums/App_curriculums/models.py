@@ -34,7 +34,7 @@ class Curriculums(models.Model):
     telefono = models.IntegerField(null=True,blank=True,unique=True)
     area = models.CharField(max_length=254,blank=True,null=False,default='Area no especificada')
     puntaje = models.IntegerField(null=True, blank=True)
-    deleted_at = models.DateTimeField(null=False, blank=True)
+    deleted_at = models.DateTimeField(null=True, blank=True)
     
 class Experiencias(models.Model):
     id = models.AutoField(primary_key= True, null=False, unique=True)
