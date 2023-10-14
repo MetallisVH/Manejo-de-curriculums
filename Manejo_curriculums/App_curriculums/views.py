@@ -1111,6 +1111,8 @@ def mostrar_perfil(request, id_empleado):
     nombre_completo = f"{usuario.nombre} {usuario.apellido_p} {usuario.apellido_m}"
     genero = usuario.genero
     direccion = usuario.direccion
+    telefono = curriculum.telefono
+    email = curriculum.email
     rut = f"{usuario.rut}-{usuario.dv}"
 
     # Crear un diccionario con la información a pasar al template
@@ -1123,7 +1125,9 @@ def mostrar_perfil(request, id_empleado):
         'experiencias':experiencias,
         'habilidades':habilidades,
         'idiomas':idiomas,
-        'educaciones': educacion
+        'educaciones': educacion,
+        'telefono': telefono,
+        'email': email
     }
 
     # Renderizar el template con el contexto
@@ -1291,8 +1295,7 @@ def eliminar_curriculum(request):
     curriculum = Curriculums.objects.get(nombre_usu=usuario,deleted_at=None)
 
     # Marca el currículum como eliminado
-    curriculum.deleted_at = timezone.now()
-    curriculum.save()
+    curriculum.delete()
     Experiencias.objects.filter(nombre_usu=usuario).update(deleted_at=timezone.now())
     Habilidades.objects.filter(nombre_usu=usuario).update(deleted_at=timezone.now())
     Idiomas.objects.filter(nombre_usu=usuario).update(deleted_at=timezone.now())

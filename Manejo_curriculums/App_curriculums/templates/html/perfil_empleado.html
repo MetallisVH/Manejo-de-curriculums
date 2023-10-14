@@ -1,43 +1,57 @@
+{% load static %}
+
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
     <title>Perfil de Usuario</title>
+    <link rel="stylesheet" href="{% static 'App_curriculums/css/perfil_empleado.css' %}">
+    <!-- Agrega los estilos de Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Perfil de Usuario</h1>
-    <p><strong>Nombre:</strong> {{ nombre_completo }}</p>
-    <p><strong>Género:</strong> {{ genero }}</p>
-    <p><strong>Dirección:</strong> {{ direccion }}</p>
-    <p><strong>RUT:</strong> {{ rut }}</p>
+    <div class="container">
+        <h1>Perfil de Usuario</h1>
+        <p><strong>Nombre:</strong> {{ nombre_completo }}</p>
+        <p><strong>Género:</strong> {{ genero }}</p>
+        <p><strong>Dirección:</strong> {{ direccion }}</p>
+        <p><strong>RUT:</strong> {{ rut }}</p>
+        <p><strong>Correo electrónico:</strong> {{ email }}</p>
+        <p><strong>Teléfono de contacto:</strong> {{ telefono }}</p>
 
-    <h2>Currículum</h2>
-    
-    <h3>Experiencias Laborales</h3>
-    <ul>
-        {% for experiencia in experiencias %}
-            <li>{{ experiencia.empresa }} - {{ experiencia.puesto }} ({{ experiencia.desde|date:"Y" }} - {{ experiencia.hasta|date:"Y" }})</li>
-        {% endfor %}
-    </ul>
+        <h2>Currículum</h2>
+        
+        <h3>Experiencias Laborales</h3>
+        <ul>
+            {% for experiencia in experiencias %}
+                <li>{{ experiencia.empresa }} - {{ experiencia.puesto }} ({{ experiencia.desde|date:"Y" }} - {{ experiencia.hasta|date:"Y" }})</li>
+            {% endfor %}
+        </ul>
 
-    <h3>Educación</h3>
-    <ul>
-        {% for educacion in educaciones %}
-            <li>{{ educacion.nivel_educacion }} en {{ educacion.nombre_instituto }} ({{ educacion.desde|date:"Y" }} - {{ educacion.hasta|date:"Y" }})</li>
-        {% endfor %}
-    </ul>
+        <h3>Educación</h3>
+        <ul>
+            {% for educacion in educaciones %}
+                <li>{{ educacion.nivel_educacion }} en {{ educacion.nombre_instituto }} ({{ educacion.desde|date:"Y" }} - {{ educacion.hasta|date:"Y" }})</li>
+            {% endfor %}
+        </ul>
 
-    <h3>Habilidades</h3>
-    <ul>
-        {% for habilidad in habilidades %}
-            <li>{{ habilidad.habilidad }} (Nivel: {{ habilidad.nivel }})</li>
-        {% endfor %}
-    </ul>
+        <h3>Habilidades</h3>
+        <ul>
+            {% for habilidad in habilidades %}
+                <li>{{ habilidad.habilidad }} (Nivel: {{ habilidad.nivel }})</li>
+            {% endfor %}
+        </ul>
 
-    <h3>Idiomas</h3>
-    <ul>
-        {% for idioma in idiomas %}
-            <li>{{ idioma.idioma }} (Nivel: {{ idioma.nivel_idioma }})</li>
-        {% endfor %}
-    </ul>
+        <h3>Idiomas</h3>
+        <ul>
+            {% for idioma in idiomas %}
+                <li>{{ idioma.idioma }} (Nivel: {{ idioma.nivel_idioma }})</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Agrega los scripts de Bootstrap al final del cuerpo del documento para mejorar el rendimiento -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>

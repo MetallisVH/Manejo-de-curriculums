@@ -1,4 +1,4 @@
-<!-- templates/candidatos_lista.html -->
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="es">
@@ -6,7 +6,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Candidatos</title>
-    <!-- Agrega aquí tus enlaces a hojas de estilo o scripts adicionales si es necesario -->
+    <!-- Añadiendo Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyEh2J2C4qDf8sfE4W0Uq1igM2PxWxgiuS" crossorigin="anonymous">
+    <!-- Añadiendo tu hoja de estilo personalizada -->
+    <link rel="stylesheet" href="{% static 'App_curriculums/css/candidatos_aptos.css' %}">
 </head>
 <body>
     <header>
@@ -16,21 +19,24 @@
     {% if candidatos %}
         <section>
             <h2>Candidatos Ordenados por Puntos</h2>
-            <table>
-                <thead>
+            <table class="table">
+                <thead class="thead-dark">
                     <tr>
                         <th>Candidato</th>
                         <th>Trabajo</th>
-                        <th>Puntos</th>
+                        <th>Mas detalles</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for candidato in candidatos %}
-                        {% if candidato.area == area and candidato.trabajo.titulo == trabajo.titulo%}
+                        {% if candidato.area == area and candidato.trabajo.titulo == trabajo.titulo%}  
                             <tr>
                                 <td>{{ candidato.candidato.nombre_usu }}</td>
                                 <td>{{ candidato.trabajo.titulo }}</td>
-                                <td>{{ candidato.puntos_candidato }}</td>
+                                <td>
+                                    <!-- Agregar el botón "Ver detalles" con el enlace a la función -->
+                                    <a href="{% url 'Ver_detalles_empleado' candidato.candidato.nombre_usu %}" class="btn btn-primary">Ver detalles</a>
+                                </td>
                             </tr>
                         {% endif %}
                     {% endfor %}
@@ -38,34 +44,40 @@
             </table>
         </section>
     {% else %}
-    <section>
-        <h2>Candidatos Ordenados por Puntos</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Candidato</th>
-                    <th>Trabajo</th>
-                    <th>Puntos</th>
-                </tr>
-            </thead>
-            <tbody>
-        {%for curriculum in curriculums%}
-            {%if curriculum.area == area%}
-                <tr>
-                    <td>{{ curriculum.nombre_usu.nombre_usu }}</td>
-                    <td>{{ trabajo.titulo }}</td>
-                    <td>{{ curriculum.puntaje }}</td> 
-                </tr>
-            {% endif %}
-        {% endfor %}
-            </tbody>
-        </table>
-    </section>
+        <section>
+            <h2>Candidatos Ordenados por Puntos</h2>
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Candidato</th>
+                        <th>Trabajo</th>
+                        <th>Mas detalles</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for curriculum in curriculums %}
+                        {% if curriculum.area == area %}
+                            <tr>
+                                <td>{{ curriculum.nombre_usu.nombre_usu }}</td>
+                                <td>{{ trabajo.titulo }}</td>
+                                <td>
+                                    <!-- Agregar el botón "Ver detalles" con el enlace a la función -->
+                                    <a href="{% url 'Ver_detalles_empleado' candidato.candidato.nombre_usu %}" class="btn btn-primary">Ver detalles</a>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
     {% endif %}
 
- 
+    <!-- Añadiendo Bootstrap JS y jQuery (necesarios para algunas funcionalidades de Bootstrap) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3DB5F86w2Kq0Pz0gWBGT/qzEFE5z9xjIaAz/RM47DxRZZA/JaYRT5TL5" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyEh2J2C4qDf8sfE4W0Uq1igM2PxWxgiuS" crossorigin="anonymous"></script>
+
     <footer>
-        <!-- Agrega aquí el contenido del pie de página si es necesario -->
     </footer>
 </body>
 </html>
