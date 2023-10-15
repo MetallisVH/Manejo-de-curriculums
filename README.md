@@ -26,18 +26,18 @@ Configuración del Entorno
 Clona este repositorio:
 
 ```bash
-git clone https://github.com/tuusuario/turepositorio.git
+git clone https://github.com/tuusuario/Manejo-de-curriculums.git
 ```
 
 Ve al directorio del proyecto:
 
 ```bash
-cd turepositorio
+cd tu/ruta/al/proyecto
 ```
 
 Configura y activa tu entorno virtual (se recomienda el uso de virtualenv):
 ```bash
-python -m venv venv
+python -m venv nombredetuentorno
 source venv/bin/activate
 ```
 
@@ -50,6 +50,7 @@ Ejecución
 
 Aplica las migraciones de la base de datos:
 ```bash
+python manage.py makemigrations
 python manage.py migrate
 ```
 
