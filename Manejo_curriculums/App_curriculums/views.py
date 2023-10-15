@@ -695,10 +695,13 @@ def guardar_educacion(request):
         print(f"Datos guardados correctamente: {educacion}")
 
         # Redirige o responde según tu lógica
-        curriculum=Curriculums.objects.get(nombre_usu=usuario,deleted_at=None)
-        new_puntaje_curriculum = calcular_puntaje(usuario)
-        curriculum.puntaje = new_puntaje_curriculum
-        curriculum.save()
+        try:
+            curriculum=Curriculums.objects.get(nombre_usu=usuario,deleted_at=None)
+            new_puntaje_curriculum = calcular_puntaje(usuario)
+            curriculum.puntaje = new_puntaje_curriculum
+            curriculum.save()
+        except:
+            return redirect('Registro_curriculum')
         
         return redirect('Registro_curriculum')
     else:
@@ -742,10 +745,13 @@ def guardar_experiencia(request):
         )
         experiencia.save()
         
-        curriculum=Curriculums.objects.get(nombre_usu=usuario)
-        new_puntaje_curriculum = calcular_puntaje(usuario)
-        curriculum.puntaje = new_puntaje_curriculum
-        curriculum.save()
+        try:
+            curriculum=Curriculums.objects.get(nombre_usu=usuario,deleted_at=None)
+            new_puntaje_curriculum = calcular_puntaje(usuario)
+            curriculum.puntaje = new_puntaje_curriculum
+            curriculum.save()
+        except:
+            return redirect('Registro_curriculum')
 
         return redirect('Registro_curriculum')
     else:
@@ -785,10 +791,13 @@ def guardar_habilidad(request):
 
         # Aquí puedes hacer algo con los puntos, como almacenarlos en otro modelo o realizar alguna lógica adicional
         
-        curriculum=Curriculums.objects.get(nombre_usu=usuario)
-        new_puntaje_curriculum = calcular_puntaje(usuario)
-        curriculum.puntaje = new_puntaje_curriculum
-        curriculum.save()
+        try:
+            curriculum=Curriculums.objects.get(nombre_usu=usuario,deleted_at=None)
+            new_puntaje_curriculum = calcular_puntaje(usuario)
+            curriculum.puntaje = new_puntaje_curriculum
+            curriculum.save()
+        except:
+            return redirect('Registro_curriculum')
 
         # Redirige o responde según tu lógica
         return redirect('Registro_curriculum')
@@ -827,10 +836,13 @@ def guardar_idioma(request):
         )
         idioma_instancia.save()
         
-        curriculum=Curriculums.objects.get(nombre_usu=usuario)
-        new_puntaje_curriculum = calcular_puntaje(usuario)
-        curriculum.puntaje = new_puntaje_curriculum
-        curriculum.save()
+        try:
+            curriculum=Curriculums.objects.get(nombre_usu=usuario,deleted_at=None)
+            new_puntaje_curriculum = calcular_puntaje(usuario)
+            curriculum.puntaje = new_puntaje_curriculum
+            curriculum.save()
+        except:
+            return redirect('Registro_curriculum')
 
         # Redirige o responde según tu lógica
         return redirect('Registro_curriculum')  # Reemplaza con la URL correcta
