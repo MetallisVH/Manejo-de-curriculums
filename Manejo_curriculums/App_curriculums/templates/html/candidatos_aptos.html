@@ -62,7 +62,7 @@
                                 <td>{{ trabajo.titulo }}</td>
                                 <td>
                                     <!-- Agregar el botón "Ver detalles" con el enlace a la función -->
-                                    <a href="{% url 'Ver_detalles_empleado' candidato.candidato.nombre_usu %}" class="btn btn-primary">Ver detalles</a>
+                                    <a href="{% url 'Ver_detalles_empleado' curriculum.nombre_usu.nombre_usu %}" class="btn btn-primary">Ver detalles</a>
                                 </td>
                             </tr>
                         {% endif %}
