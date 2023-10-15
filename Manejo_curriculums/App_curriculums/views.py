@@ -219,7 +219,7 @@ def listado_aplicantes(request):
 
     return render(request, 'html/lista_candidatos_ordenados.html', context)
 
-def lista_candidatos(request):
+def lista_empleados(request):
     curriculums = Curriculums.objects.all().order_by('-puntaje')
     return render(request, 'html/lista_candidatos.html', {'curriculums': curriculums})
 
