@@ -904,7 +904,7 @@ def guardar_trabajo(request):
         trabajo.save()
         
         for usuarios, cuenta_especialidades in cuenta_especialidades_por_usuario.items():
-            puntos_candidato = cuenta_especialidades * 10  # Calcular los puntos
+            puntos_candidato = cuenta_especialidades * 20  # Calcular los puntos
             usuario_objeto = Usuarios.objects.get(nombre_usu=usuarios.nombre_usu,deleted_at=None)  # Obtener el objeto de usuario
             trabajo_objeto = trabajo  # Obtener el objeto del trabajo, completa esta línea con los detalles adecuados
             
